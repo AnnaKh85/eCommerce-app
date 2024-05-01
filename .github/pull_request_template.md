@@ -1,8 +1,8 @@
 ## Describe your changes
 <!--- Describe your changes in detail -->
 
-## Jira task number and link
-<!--- Example: [MMG-10](https://annakh-prod.atlassian.net/browse/MMG-10) -->
+## GitHub task number and link
+<!--- Example: [RSS-ECOMM-1_12](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint1/RSS-ECOMM-1_12.md) -->
 
 ## Related issues (optional)
 
