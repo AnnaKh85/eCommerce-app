@@ -1,3 +1,9 @@
+# E-commerce Application
+
+## Overview
+
+An e-commerce application designed for selling bicycles online. It provides a platform for users to browse a wide range of bicycles and manage their orders.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -22,12 +28,24 @@ export default {
     project: ['./tsconfig.json', './tsconfig.node.json'],
     tsconfigRootDir: __dirname,
   },
-}
+};
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+# Technology Stack
+
+## Frontend:
+
+- **Framework:** React
+- **Language:** TypeScript
+- **Build Tool:** Vite
+
+## Deployment:
+
+- **Hosting:** Netlify
 
 # Getting Started with eCommerce-app
 
@@ -35,10 +53,10 @@ export default {
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
@@ -47,6 +65,14 @@ You may also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run lint`
+
+Runs a code linting tool in project, which will analyze the source code and output a report of any issues found.
+
+### `npm run format`
+
+Format all files in the current directory and its subdirectories using Prettier, overwriting the existing files with the formatted code.
 
 ### `npm run build`
 
@@ -57,6 +83,11 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run netlify:prod`
+
+Sends the current version of project to Netlify and deploy it in the production environment,
+where it will be available at Netlify domain for use.
 
 ### `npm run eject`
 
