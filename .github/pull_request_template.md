@@ -1,7 +1,9 @@
 ## Describe your changes
+
 <!--- Describe your changes in detail -->
 
 ## GitHub task number and link
+
 <!--- Example: [RSS-ECOMM-1_12](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint1/RSS-ECOMM-1_12.md) -->
 
 ## Related issues (optional)
