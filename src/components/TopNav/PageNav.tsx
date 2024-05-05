@@ -5,7 +5,7 @@ import styles from './TopNav.module.css';
 function PageNav() {
   return (
     <nav className={styles.nav}>
-      <ul>
+      <ul className={styles.mainMenuLink}>
         <li>
           <Link to="/">Home page</Link>
         </li>
