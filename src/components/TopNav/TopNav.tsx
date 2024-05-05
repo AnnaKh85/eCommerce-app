@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+import Button from '../button/Button.tsx';
 import styles from './TopNav.module.css';
 
 function TopNav() {
@@ -15,10 +16,27 @@ function TopNav() {
         <img className={styles.mainLogo} src="../icons/Main-logo.png" alt="main logo" />
       </div>
       <div className={styles.icons}>
-        <Link to="/registration">
-          <i className="fa-regular fa-user"></i>
+        <Link to="/login">
+          <Button
+            label="Log in"
+            classname="button-light"
+            type="button"
+            disable={false}
+            onClick={() => console.log('Login')}
+          />
         </Link>
-        <i className="fa-solid fa-cart-shopping"></i>
+        <Link to="/registration">
+          <Button
+            label="Sign up"
+            classname="button-dark"
+            type="button"
+            disable={false}
+            onClick={() => console.log('registration')}
+          />
+        </Link>
+        <Link to="/cart">
+          <i className="fa-solid fa-cart-shopping fa-xl"></i>
+        </Link>
       </div>
     </div>
   );

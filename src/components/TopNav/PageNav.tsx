@@ -10,10 +10,10 @@ function PageNav() {
           <Link to="/">Home page</Link>
         </li>
         <li>
-          <Link to="/registration">Registration page</Link>
+          <Link to="/catalog">Catalog page</Link>
         </li>
         <li>
-          <Link to="/login">Login page</Link>
+          <Link to="/aboutUs">About us</Link>
         </li>
       </ul>
     </nav>
