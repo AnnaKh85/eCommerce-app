@@ -2,12 +2,12 @@ import './App.css';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import NotFoundPage from './pages/404/NotFoundPage.tsx';
 import AboutUsPage from './pages/AboutUsPage.tsx';
 import BasketPage from './pages/BasketPage.tsx';
 import CatalogPage from './pages/CatalogPage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import MainPage from './pages/MainPage.tsx';
-import NotFoundPage from './pages/NotFoundPage.tsx';
 import RegistrationPage from './pages/RegistrationPage.tsx';
 
 function App() {

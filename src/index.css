@@ -13,7 +13,7 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: rgba(255, 255, 255, 0.87);
+  color: var(--color-white);
   background-color: var(--color-white);
 
   font-synthesis: none;
@@ -37,5 +37,5 @@ body {
   place-items: center;
   min-width: 320px;
   font-family: var(--font-family-clash);
-  color: #26ef02;
+  color: var(--color-dark-primary);
 }
