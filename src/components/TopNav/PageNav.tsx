@@ -8,7 +8,7 @@ function PageNav() {
     <nav className={styles.nav}>
       <ul className={styles.mainMenuLink}>
         <li>
-          <Link to={`/${HOME_ROUTE}`}>Home page</Link>
+          <Link to={`${HOME_ROUTE}`}>Home page</Link>
         </li>
         <li>
           <Link to={`/${CATALOG_ROUTE}`}>Catalog page</Link>

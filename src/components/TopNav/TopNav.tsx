@@ -1,3 +1,4 @@
+import mainLogo from '@assets/Main-logo.png';
 import { Link } from 'react-router-dom';
 
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/constants.ts';
@@ -14,7 +15,7 @@ function TopNav() {
         </button>
       </div>
       <div>
-        <img className={styles.mainLogo} src="../icons/Main-logo.png" alt="main logo" />
+        <img className={styles.mainLogo} src={mainLogo} alt="main logo" />
       </div>
       <div className={styles.icons}>
         <Link to={`/${LOGIN_ROUTE}`}>
