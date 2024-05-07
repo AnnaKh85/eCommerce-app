@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/constants.ts';
 import Button from '../button/Button.tsx';
 import styles from './TopNav.module.css';
 
@@ -16,7 +17,7 @@ function TopNav() {
         <img className={styles.mainLogo} src="../icons/Main-logo.png" alt="main logo" />
       </div>
       <div className={styles.icons}>
-        <Link to="/login">
+        <Link to={`/${LOGIN_ROUTE}`}>
           <Button
             label="Log in"
             className="button-light"
@@ -25,7 +26,7 @@ function TopNav() {
             onClick={() => console.log('Login')}
           />
         </Link>
-        <Link to="/registration">
+        <Link to={`/${REGISTRATION_ROUTE}`}>
           <Button
             label="Sign up"
             className="button-dark"

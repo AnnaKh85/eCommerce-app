@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import Button from '../../components/button/Button.tsx';
+import { HOME_ROUTE } from '../../utils/constants.ts';
 import styles from './NotFoundPage.module.css';
 
 function NotFoundPage() {
@@ -12,7 +13,7 @@ function NotFoundPage() {
         The page you are looking for might have been removed, <br /> had its name changed, or is temporarily
         unavailable.
       </p>
-      <Link to="/">
+      <Link to={`/${HOME_ROUTE}`}>
         <Button
           label="GO TO HOME PAGE"
           className="button-dark"
