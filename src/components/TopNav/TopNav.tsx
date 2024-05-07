@@ -19,7 +19,7 @@ function TopNav() {
         <Link to="/login">
           <Button
             label="Log in"
-            classname="button-light"
+            className="button-light"
             type="button"
             disable={false}
             onClick={() => console.log('Login')}
@@ -28,7 +28,7 @@ function TopNav() {
         <Link to="/registration">
           <Button
             label="Sign up"
-            classname="button-dark"
+            className="button-dark"
             type="button"
             disable={false}
             onClick={() => console.log('registration')}

@@ -15,7 +15,7 @@ function NotFoundPage() {
       <Link to="/">
         <Button
           label="GO TO HOME PAGE"
-          classname="button-dark"
+          className="button-dark"
           type="button"
           disable={false}
           onClick={() => console.log('home page')}
