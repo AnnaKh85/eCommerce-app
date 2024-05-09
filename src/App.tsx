@@ -1,5 +1,6 @@
 import './App.css';
 
+import { useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Error from './pages/404/Error.tsx';
@@ -9,7 +10,7 @@ import AppLayout from './pages/AppLayout.tsx';
 import BasketPage from './pages/BasketPage.tsx';
 import CatalogPage from './pages/CatalogPage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
-import MainPage, { customerLoader } from './pages/MainPage.tsx';
+import MainPage from './pages/MainPage.tsx';
 import RegistrationPage from './pages/RegistrationPage.tsx';
 import {
   ABOUT_US,
@@ -19,6 +20,7 @@ import {
   LOGIN_ROUTE,
   REGISTRATION_ROUTE,
 } from './services/constants.ts';
+import { getAdminBearerToken } from './utils/getAdminToken.ts';
 
 const router = createBrowserRouter([
   {
@@ -30,7 +32,6 @@ const router = createBrowserRouter([
         path: HOME_ROUTE,
         element: <MainPage />,
         errorElement: <Error />,
-        loader: customerLoader,
       },
       {
         path: REGISTRATION_ROUTE,
@@ -62,7 +63,20 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  const [isToken, setIsToken] = useState(false);
+
+  useEffect(() => {
+    const fetchAndStoreToken = async () => {
+      const token = await getAdminBearerToken();
+      if (!localStorage.getItem('adminToken')) {
+        localStorage.setItem('adminToken', token);
+      }
+      setIsToken(true);
+    };
+    fetchAndStoreToken();
+  }, []);
+
+  return <>{isToken && <RouterProvider router={router} />}</>;
 }
 
 export default App;

@@ -14,12 +14,9 @@ export async function getAdminBearerToken() {
       },
     );
     const responseData = await response.json();
+    console.log(`responseData.access_token: ${responseData.access_token}`);
     return responseData.access_token;
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      console.error(e.message);
-    } else {
-      console.error('An unknown error occurred');
-    }
+    console.error('An unknown error occurred with getAdminBearerToken: ', e);
   }
 }
