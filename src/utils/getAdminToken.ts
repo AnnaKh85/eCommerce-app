@@ -15,7 +15,11 @@ export async function getAdminBearerToken() {
     );
     const responseData = await response.json();
     return responseData.access_token;
-  } catch (e) {
-    //TODO: error handling
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.error(e.message);
+    } else {
+      console.error('An unknown error occurred');
+    }
   }
 }
