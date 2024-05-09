@@ -5,7 +5,6 @@ function LoginPage() {
     <>
       <h2>LoginPage</h2>
       <LoginForm />
-      <LoginForm />
     </>
   );
 }
