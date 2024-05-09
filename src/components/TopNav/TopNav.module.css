@@ -44,7 +44,3 @@
     color: var(--color-dark-primary);
     cursor: pointer;
 }
-
-:global(.test) {
-    color: red;
-}

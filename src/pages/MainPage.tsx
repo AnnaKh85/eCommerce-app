@@ -3,7 +3,7 @@ import Card from '../components/card/Card.tsx';
 function MainPage() {
   return (
     <>
-      <h2 className="test">MainPage</h2>
+      <h2>MainPage</h2>
       <Card />
     </>
   );
