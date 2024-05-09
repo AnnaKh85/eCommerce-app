@@ -6,10 +6,12 @@ interface InputProps {
   placeholder: string;
   className: string;
   type: 'text';
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FormInput: React.FC<InputProps> = ({ placeholder, className, type }) => {
-  return <input className={className} type={type} placeholder={placeholder} />;
+const FormInput: React.FC<InputProps> = ({ placeholder, className, type, onChange }) => {
+  return <input className={className} type={type} placeholder={placeholder} onChange={onChange} />;
 };
 
 export default FormInput;
