@@ -1,12 +1,10 @@
-import TopNav from '../components/TopNav/TopNav.tsx';
-import TopNavLinks from '../components/TopNav/TopNavLinks.tsx';
+import Card from '../components/card/Card.tsx';
 
 function MainPage() {
   return (
     <>
-      <TopNav />
-      <TopNavLinks />
       <h2 className="test">MainPage</h2>
+      <Card />
     </>
   );
 }
