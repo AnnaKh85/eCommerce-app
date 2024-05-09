@@ -1,23 +1,16 @@
-import img404 from '@assets/404.png';
 import { Link, useRouteError } from 'react-router-dom';
 
 import Button from '../../components/button/Button.tsx';
 import { HOME_ROUTE } from '../../services/constants.ts';
 import type { RouteError } from '../../services/interfaces.ts';
-import styles from './NotFoundPage.module.css';
 
-function NotFoundPage() {
+function Error() {
   const error = useRouteError() as RouteError;
 
   return (
-    <div className={styles.layout404}>
-      <img className={styles.pic404} src={img404} alt="not found" />
-      <h2>404 - PAGE NOT FOUND</h2>
+    <div>
+      <h2>Something went wrong 😢</h2>
       <p>{error.data || error.message}</p>
-      <p>
-        The page you are looking for might have been removed, <br /> had its name changed, or is temporarily
-        unavailable.
-      </p>
       <Link to={HOME_ROUTE}>
         <Button
           label="GO TO HOME PAGE"
@@ -30,5 +23,4 @@ function NotFoundPage() {
     </div>
   );
 }
-
-export default NotFoundPage;
+export default Error;

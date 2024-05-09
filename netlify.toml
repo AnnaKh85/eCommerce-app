@@ -2,3 +2,35 @@
 from = "/*"
 to = "/"
 status = 200
+
+[context.deploy-preview.environment]
+VITE_CTP_PROJECT_KEY="mmg"
+VITE_CTP_CLIENT_SECRET="F-m0qEoebcKdJ9Y1I7y12S9CFPdsF6fx"
+VITE_CTP_CLIENT_ID="FN2KZ3zsx9QCrTtztoFfKH9b"
+VITE_CTP_AUTH_URL="https://auth.europe-west1.gcp.commercetools.com"
+VITE_CTP_API_URL="https://api.europe-west1.gcp.commercetools.com"
+VITE_CTP_SCOPES="manage_project:mmg view_audit_log:mmg manage_api_clients:mmg view_api_clients:mmg"
+
+[context.branch-deploy.environment]
+VITE_CTP_PROJECT_KEY="mmg"
+VITE_CTP_CLIENT_SECRET="F-m0qEoebcKdJ9Y1I7y12S9CFPdsF6fx"
+VITE_CTP_CLIENT_ID="FN2KZ3zsx9QCrTtztoFfKH9b"
+VITE_CTP_AUTH_URL="https://auth.europe-west1.gcp.commercetools.com"
+VITE_CTP_API_URL="https://api.europe-west1.gcp.commercetools.com"
+VITE_CTP_SCOPES="manage_project:mmg view_audit_log:mmg manage_api_clients:mmg view_api_clients:mmg"
+
+[context.dev.environment]
+VITE_CTP_PROJECT_KEY="mmg"
+VITE_CTP_CLIENT_SECRET="F-m0qEoebcKdJ9Y1I7y12S9CFPdsF6fx"
+VITE_CTP_CLIENT_ID="FN2KZ3zsx9QCrTtztoFfKH9b"
+VITE_CTP_AUTH_URL="https://auth.europe-west1.gcp.commercetools.com"
+VITE_CTP_API_URL="https://api.europe-west1.gcp.commercetools.com"
+VITE_CTP_SCOPES="manage_project:mmg view_audit_log:mmg manage_api_clients:mmg view_api_clients:mmg"
+
+[context.staging.environment] # “staging” is a branch name
+VITE_CTP_PROJECT_KEY="mmg"
+VITE_CTP_CLIENT_SECRET="F-m0qEoebcKdJ9Y1I7y12S9CFPdsF6fx"
+VITE_CTP_CLIENT_ID="FN2KZ3zsx9QCrTtztoFfKH9b"
+VITE_CTP_AUTH_URL="https://auth.europe-west1.gcp.commercetools.com"
+VITE_CTP_API_URL="https://api.europe-west1.gcp.commercetools.com"
+VITE_CTP_SCOPES="manage_project:mmg view_audit_log:mmg manage_api_clients:mmg view_api_clients:mmg"

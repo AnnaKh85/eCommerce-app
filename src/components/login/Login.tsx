@@ -3,30 +3,45 @@ import './login.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { REGISTRATION_ROUTE } from '../../utils/constants.ts';
+import { REGISTRATION_ROUTE } from '../../services/constants';
 import Button from '../button/Button';
 import FormInput from '../input/FormInput';
 
 function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-    const input = e.target as HTMLInputElement;
-
-    const checkLength = input.value.length >= 8;
-    const checkUpperCase = /[A-Z]/.test(input.value);
-    const checkLowerCase = /[a-z]/.test(input.value);
-    const checkDigit = /\d/.test(input.value);
-    const checkWhiteSpace = input.value.trim() === input.value;
-    if (input.value.length > 0) {
-      if (!checkLength || !checkUpperCase || !checkLowerCase || !checkDigit || !checkWhiteSpace) {
-        setPasswordError('enter correct password data');
-        console.log('enter correct password data');
+  const handleInputEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    const inputEmail = e.target as HTMLInputElement;
+    const checkEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (inputEmail.value.length > 0) {
+      if (!checkEmail.test(inputEmail.value)) {
+        setEmailError('Email address must be properly formatted (e.g., user@example.com)');
       } else {
-        setPasswordError('correct password data');
-        console.log('correct password data');
+        setEmailError('');
+      }
+    }
+  };
+
+  const handleInputPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    const inputPassword = e.target as HTMLInputElement;
+
+    const checkLength = inputPassword.value.length >= 8;
+    const checkUpperCase = /[A-Z]/.test(inputPassword.value);
+    const checkLowerCase = /[a-z]/.test(inputPassword.value);
+    const checkDigit = /\d/.test(inputPassword.value);
+    const checkWhiteSpace = inputPassword.value.trim() === inputPassword.value;
+    if (inputPassword.value.length > 0) {
+      if (!checkLength || !checkUpperCase || !checkLowerCase || !checkDigit || !checkWhiteSpace) {
+        setPasswordError(
+          'Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and must not contain leading or trailing whitespace.',
+        );
+      } else {
+        setPasswordError('');
       }
     }
   };
@@ -34,8 +49,18 @@ function LoginForm() {
   return (
     <div className="form-container">
       <form className="login-form">
-        <FormInput placeholder="Password" className="form-input" type="text" value={password} onChange={handleChange} />
+        <FormInput placeholder="Email" className="form-input" type="text" value={email} onChange={handleInputEmail} />
+        {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+
+        <FormInput
+          placeholder="Password"
+          className="form-input"
+          type="text"
+          value={password}
+          onChange={handleInputPassword}
+        />
         {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
+
         <Button
           label="Log in"
           className="button-dark"
