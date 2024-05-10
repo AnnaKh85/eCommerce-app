@@ -1,12 +1,12 @@
 .pic-404 {
-    max-width: 500px;
+  max-width: 500px;
 }
 
 .layout404 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
 }

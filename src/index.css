@@ -2,13 +2,13 @@
   --font-family-clash: 'Clash Display', sans-serif;
   --font-family-satoshi: 'Satoshi', sans-serif;
 
-  --color-dark-primary: #2A254B;
-  --color-primary: #4E4D93;
-  --color-light-gray: #F9F9F9;
-  --color-border-gray: #EBE8F4;
-  --color-white: #FFFFFF;
-  --color-border-dark: #CAC6DA;
-  --color-text-link: #726E8D;
+  --color-dark-primary: #2a254b;
+  --color-primary: #4e4d93;
+  --color-light-gray: #f9f9f9;
+  --color-border-gray: #ebe8f4;
+  --color-white: #ffffff;
+  --color-border-dark: #cac6da;
+  --color-text-link: #726e8d;
 
   line-height: 1.5;
   font-weight: 400;
