@@ -13,10 +13,10 @@ function AppLayout() {
       {isLoading && <Loader />}
       <TopNav />
       <TopNavLinks />
-      <main className="test">
+      <main>
         <Outlet />
       </main>
-      <footer>Footer</footer>
+      {/*<footer>Footer</footer>*/}
     </>
   );
 }

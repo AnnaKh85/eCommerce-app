@@ -1,43 +1,36 @@
 import mainLogo from '@assets/Main-logo.png';
+import SearchIcon from '@mui/icons-material/Search';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { IconButton, InputBase, Paper } from '@mui/material';
+import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../services/constants.ts';
-import Button from '../button/Button.tsx';
 import styles from './TopNav.module.css';
 
 function TopNav() {
   return (
     <div className={styles.topnav}>
       <div>
-        <input type="text" placeholder="Search" />
-        <button type="submit">
-          <i className="fa-solid fa-magnifying-glass"></i>
-        </button>
+        <Paper component="form" sx={{ p: '1px 2px', display: 'flex', alignItems: 'center', width: 300 }}>
+          <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search..." inputProps={{ 'aria-label': 'Search...' }} />
+          <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Paper>
       </div>
       <div>
         <img className={styles.mainLogo} src={mainLogo} alt="main logo" />
       </div>
       <div className={styles.icons}>
         <Link to={LOGIN_ROUTE}>
-          <Button
-            label="Log in"
-            className="button-light"
-            type="button"
-            disable={false}
-            onClick={() => console.log('Login')}
-          />
+          <Button variant="outlined"> Log in </Button>
         </Link>
         <Link to={REGISTRATION_ROUTE}>
-          <Button
-            label="Sign up"
-            className="button-dark"
-            type="button"
-            disable={false}
-            onClick={() => console.log('registration')}
-          />
+          <Button variant="contained"> Sign up </Button>
         </Link>
         <Link to="/cart">
-          <i className="fa-solid fa-cart-shopping fa-xl"></i>
+          <ShoppingCartIcon fontSize="large" sx={{ color: '#2A254B' }} />
         </Link>
       </div>
     </div>
