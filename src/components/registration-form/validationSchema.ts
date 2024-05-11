@@ -25,6 +25,15 @@ export const registrationFormSchema = loginFormSchema.shape({
   city: Yup.string()
     .required('City is required')
     .matches(/^[a-zA-Z\s]*$/, 'City must contain only letters and spaces'),
-  postalCode: Yup.string().required('Postal code is required'),
   country: Yup.string().required('Country is required'),
+  postalCode: Yup.string()
+    .required('Postal code is required')
+    .when('country', {
+      is: (value: string) => {
+        return value == 'US' || value == 'CA';
+      },
+      then: (schema) =>
+        schema.matches(/^[0-9A-Z]{6}$/, 'Postal code must contain 6 symbols, include numbers and capital letters'),
+      otherwise: (schema) => schema.matches(/^\d{5}$/, 'Postal code must contain only numbers, length of 5 symbols'),
+    }),
 });
