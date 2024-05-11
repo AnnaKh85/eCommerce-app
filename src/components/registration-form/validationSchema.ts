@@ -6,7 +6,8 @@ export const loginFormSchema = Yup.object().shape({
     .required('Password is required')
     .min(8, 'Password must be at least 8 characters')
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+      // /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+      /^[^\s@]+@[^\s@]+.[^\s@]+$/,
       'Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number',
     ),
 });

@@ -1,7 +1,6 @@
-import './RegistrationForm.css';
-
-import type { FormikHelpers, FormikValues } from 'formik';
-import { ErrorMessage, Field, Formik } from 'formik';
+import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import type { FormikHelpers } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import React from 'react';
 
 import { countries } from '../../utils/country';
@@ -32,141 +31,131 @@ const RegistrationForm: React.FC = () => {
     country: '',
   };
 
-  const handleSubmit = (values: FormikValues, { setSubmitting }: FormikHelpers<FormValues>) => {
+  const handleSubmit = (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
     console.log(values);
     setSubmitting(false);
   };
 
   return (
-    <div className="main">
+    <Box width={400} display="flex" flexDirection="column" margin="0 auto" alignItems="center">
       <Formik initialValues={initialValues} validationSchema={registrationFormSchema} onSubmit={handleSubmit}>
-        {({ isSubmitting, touched, errors, handleSubmit }) => (
-          <form className="registration-form" onSubmit={handleSubmit}>
-            <h1 className="registration-form-title">Registration Form</h1>
-            <div className="registration-form-block">
-              <div className="registration-form-wrapper">
-                <label className="registration-form-label">Email</label>
-                <Field
-                  className={`registration-form-inp ${touched.email && errors.email ? 'input-err' : ''}`}
-                  type="email"
-                  name="email"
-                />
-              </div>
-              <ErrorMessage className="registration-form-error" name="email" component="div" />
-            </div>
+        {({ isSubmitting, touched, errors }) => (
+          <Form className="registration-form">
+            <h1 className="registration-form-title">Registration</h1>
 
-            <div className="registration-form-block">
-              <div className="registration-form-wrapper">
-                <label className="registration-form-label">Password</label>
-                <Field
-                  className={`registration-form-inp ${touched.password && errors.password ? 'input-err' : ''}`}
-                  type="password"
-                  name="password"
-                />
-              </div>
-              <ErrorMessage className="registration-form-error" name="password" component="div" />
-            </div>
+            <Field
+              as={TextField}
+              label="Email"
+              name="email"
+              helperText={touched.email ? errors.email : ''}
+              error={touched.email && Boolean(errors.email)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
 
-            <div className="registration-form-block">
-              <div className="registration-form-wrapper">
-                <label className="registration-form-label">First Name</label>
-                <Field
-                  className={`registration-form-inp ${touched.firstName && errors.firstName ? 'input-err' : ''}`}
-                  type="text"
-                  name="firstName"
-                />
-              </div>
-              <ErrorMessage className="registration-form-error" name="firstName" component="div" />
-            </div>
+            <Field
+              as={TextField}
+              type="password"
+              label="Password"
+              name="password"
+              helperText={touched.password ? errors.password : ''}
+              error={touched.password && Boolean(errors.password)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
 
-            <div className="registration-form-block">
-              <div className="registration-form-wrapper">
-                <label className="registration-form-label">Last Name</label>
-                <Field
-                  className={`registration-form-inp ${touched.lastName && errors.lastName ? 'input-err' : ''}`}
-                  type="text"
-                  name="lastName"
-                />
-              </div>
-              <ErrorMessage className="registration-form-error" name="lastName" component="div" />
-            </div>
+            <Field
+              as={TextField}
+              label="First Name"
+              name="firstName"
+              helperText={touched.firstName ? errors.firstName : ''}
+              error={touched.firstName && Boolean(errors.firstName)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
 
-            <div className="registration-form-block">
-              <div className="registration-form-wrapper">
-                <label className="registration-form-label">Date of Birth</label>
-                <Field
-                  className={`registration-form-inp ${touched.dob && errors.dob ? 'input-err' : ''}`}
-                  type="date"
-                  name="dob"
-                />
-              </div>
-              <ErrorMessage className="registration-form-error" name="dob" component="div" />
-            </div>
+            <Field
+              as={TextField}
+              label="Last Name"
+              name="lastName"
+              helperText={touched.lastName ? errors.lastName : ''}
+              error={touched.lastName && Boolean(errors.lastName)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
 
-            <div className="registration-form-block">
-              <div className="registration-form-wrapper">
-                <label className="registration-form-label">Street</label>
-                <Field
-                  className={`registration-form-inp ${touched.street && errors.street ? 'input-err' : ''}`}
-                  type="text"
-                  name="street"
-                />
-              </div>
-              <ErrorMessage className="registration-form-error" name="street" component="div" />
-            </div>
+            <Field
+              as={TextField}
+              type="date"
+              label="Date of Birth"
+              name="dob"
+              InputLabelProps={{ shrink: true }}
+              helperText={touched.dob ? errors.dob : ''}
+              error={touched.dob && Boolean(errors.dob)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
 
-            <div className="registration-form-block">
-              <div className="registration-form-wrapper">
-                <label className="registration-form-label">City</label>
-                <Field
-                  className={`registration-form-inp ${touched.city && errors.city ? 'input-err' : ''}`}
-                  type="text"
-                  name="city"
-                />
-              </div>
-              <ErrorMessage className="registration-form-error" name="city" component="div" />
-            </div>
+            <Field
+              as={TextField}
+              label="Street"
+              name="street"
+              helperText={touched.street ? errors.street : ''}
+              error={touched.street && Boolean(errors.street)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
 
-            <div className="registration-form-block">
-              <div className="registration-form-wrapper">
-                <label className="registration-form-label">Postal Code</label>
-                <Field
-                  className={`registration-form-inp ${touched.postalCode && errors.postalCode ? 'input-err' : ''}`}
-                  type="text"
-                  name="postalCode"
-                />
-              </div>
-              <ErrorMessage className="registration-form-error" name="postalCode" component="div" />
-            </div>
+            <Field
+              as={TextField}
+              label="City"
+              name="city"
+              helperText={touched.city ? errors.city : ''}
+              error={touched.city && Boolean(errors.city)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
 
-            <div className="registration-form-block">
-              <div className="registration-form-wrapper">
-                <label className="registration-form-label">Country</label>
-                <Field
-                  className={`registration-form-inp ${touched.country && errors.country ? 'input-err' : ''}`}
-                  as="select"
-                  name="country"
-                >
-                  <option value="" disabled>
-                    Choose one
-                  </option>
-                  {countries.map((country) => (
-                    <option key={country.alpha2Code} value={country.alpha2Code}>
-                      {country.name}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <ErrorMessage className="registration-form-error" name="country" component="div" />
-            </div>
+            <Field
+              as={TextField}
+              label="Postal Code"
+              name="postalCode"
+              helperText={touched.postalCode ? errors.postalCode : ''}
+              error={touched.postalCode && Boolean(errors.postalCode)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
 
-            <button type="submit" disabled={isSubmitting}>
+            <FormControl fullWidth margin="normal" error={touched.country && Boolean(errors.country)}>
+              <InputLabel>Country</InputLabel>
+              <Field as={Select} name="country" label="Country" displayEmpty variant="standard">
+                <MenuItem value="" disabled>
+                  Choose one
+                </MenuItem>
+                {countries.map((country) => (
+                  <MenuItem key={country.alpha2Code} value={country.alpha2Code}>
+                    {country.name}
+                  </MenuItem>
+                ))}
+              </Field>
+              {touched.country && errors.country && <FormHelperText>{errors.country}</FormHelperText>}
+            </FormControl>
+
+            <Button type="submit" variant="contained" color="primary" disabled={isSubmitting} fullWidth>
               Register
-            </button>
-          </form>
+            </Button>
+          </Form>
         )}
       </Formik>
-    </div>
+    </Box>
   );
 };
 

@@ -1,7 +1,7 @@
 import img404 from '@assets/404.png';
+import Button from '@mui/material/Button';
 import { Link, useRouteError } from 'react-router-dom';
 
-import Button from '../../components/button/Button.tsx';
 import { HOME_ROUTE } from '../../services/constants.ts';
 import type { RouteError } from '../../services/interfaces.ts';
 import styles from './NotFoundPage.module.css';
@@ -18,15 +18,9 @@ function NotFoundPage() {
         The page you are looking for might have been removed, <br /> had its name changed, or is temporarily
         unavailable.
       </p>
-      <Link to={HOME_ROUTE}>
-        <Button
-          label="GO TO HOME PAGE"
-          className="button-dark"
-          type="button"
-          disable={false}
-          onClick={() => console.log('home page')}
-        />
-      </Link>
+      <Button variant="contained" component={Link} to={HOME_ROUTE}>
+        GO TO HOME PAGE
+      </Button>
     </div>
   );
 }
