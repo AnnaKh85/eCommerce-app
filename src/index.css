@@ -25,6 +25,10 @@
   flex-direction: column;
   justify-content: start;
   align-items: center;
+
+  list-style-type: none;
+  text-decoration: none;
+  margin: 0 auto;
 }
 
 * {

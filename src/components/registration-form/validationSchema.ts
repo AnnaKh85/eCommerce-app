@@ -1,7 +1,10 @@
 import * as Yup from 'yup';
 
 export const loginFormSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email address').required('Email is required'),
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Email is required')
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email address'),
   password: Yup.string()
     .required('Password is required')
     .min(8, 'Password must be at least 8 characters')

@@ -46,7 +46,6 @@ function LoginForm() {
 
   return (
     <Box width={400} my={4} display="flex" flexDirection="column" margin="0 auto" alignItems="center" gap={4} p={2}>
-      {/*<form className="login-form">*/}
       <TextField
         required
         fullWidth
@@ -57,8 +56,7 @@ function LoginForm() {
         value={email}
         onChange={handleInputEmail}
       />
-      {/*<FormInput placeholder="Email" className="form-input" type="text" value={email} onChange={handleInputEmail} />*/}
-      {/*{emailError && <p style={{ color: 'red' }}>{emailError}</p>}*/}
+
       <TextField
         id="standard-password-input"
         required
@@ -77,25 +75,15 @@ function LoginForm() {
         }
         onChange={handleInputPassword}
       />
-      {/*<FormInput*/}
-      {/*  placeholder="Password"*/}
-      {/*  className="form-input"*/}
-      {/*  type="text"*/}
-      {/*  value={password}*/}
-      {/*  onChange={handleInputPassword}*/}
-      {/*/>*/}
-      {/*{passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}*/}
 
       <Button variant="contained" fullWidth>
-        {' '}
-        Log in{' '}
+        Log in
       </Button>
 
       <Box width={400} my={4} display="flex" flexDirection="row" margin="0 auto" alignItems="center" gap={4} p={2}>
         <p>Do not have an account ? </p>
         <Link to={REGISTRATION_ROUTE}>Register now</Link>
       </Box>
-      {/*</form>*/}
     </Box>
   );
 }
