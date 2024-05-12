@@ -1,4 +1,4 @@
-import mainLogo from '@assets/Main-logo.png';
+import mainLogo from '@assets/Screenshot_1019.png';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { IconButton, InputBase, Paper } from '@mui/material';
