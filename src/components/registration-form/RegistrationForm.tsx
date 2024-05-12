@@ -3,6 +3,8 @@ import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 
+import createCustomer from '../../services/api/createCustomer';
+import type { CustomerDraft } from '../../services/interfaces';
 import { countries } from '../../utils/country';
 import { registrationFormSchema } from './validationSchema';
 
@@ -18,7 +20,11 @@ interface FormValues {
   country: string;
 }
 
-const RegistrationForm: React.FC = () => {
+interface Props {
+  onRegistrationSuccess: () => void;
+}
+
+const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
   const initialValues: FormValues = {
     email: '',
     password: '',
@@ -31,8 +37,29 @@ const RegistrationForm: React.FC = () => {
     country: '',
   };
 
-  const handleSubmit = (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
-    console.log(values);
+  const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
+    const customerDraft: CustomerDraft = {
+      email: values.email,
+      password: values.password,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      dateOfBirth: values.dob.toString(),
+      addresses: [
+        {
+          country: values.country,
+          streetName: values.street,
+          postalCode: values.postalCode,
+          city: values.city,
+        },
+      ],
+    };
+    setSubmitting(true);
+    try {
+      await createCustomer(customerDraft);
+      onRegistrationSuccess();
+    } catch (error) {
+      console.log(error);
+    }
     setSubmitting(false);
   };
 
