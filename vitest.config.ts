@@ -1,7 +1,7 @@
 // vite.config.ts
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
 // Vitest
 import { defineConfig as defineVitestConfig } from 'vitest/config';
@@ -10,7 +10,9 @@ export default defineVitestConfig({
   plugins: [react(), viteCommonjs(), visualizer()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src'),
+      '@app': path.resolve(__dirname, './src/app'),
+      '@assets': path.resolve(__dirname, './src/assets'),
     },
   },
   test: {
