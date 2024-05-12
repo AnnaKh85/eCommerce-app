@@ -2,7 +2,9 @@ import { Box, Button, TextField } from '@mui/material';
 import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
+import { REGISTRATION_ROUTE } from '../../services/constants';
 import { loginFormSchema } from './validateLogin';
 
 interface LoginFormValues {
@@ -52,6 +54,20 @@ const LoginForm: React.FC = () => {
             <Button type="submit" variant="contained" color="primary" disabled={isSubmitting} fullWidth>
               Log in
             </Button>
+
+            <Box
+              width={400}
+              my={4}
+              display="flex"
+              flexDirection="row"
+              margin="0 auto"
+              alignItems="center"
+              gap={4}
+              p={2}
+            >
+              <p>Do not have an account ? </p>
+              <Link to={REGISTRATION_ROUTE}>Register now</Link>
+            </Box>
           </Form>
         )}
       </Formik>
