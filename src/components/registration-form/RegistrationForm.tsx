@@ -32,7 +32,7 @@ const RegistrationForm: React.FC = () => {
   };
 
   const handleSubmit = (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
-    // console.log(values);
+    console.log(values);
     setSubmitting(false);
   };
 
