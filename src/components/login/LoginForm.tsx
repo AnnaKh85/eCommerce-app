@@ -3,6 +3,8 @@ import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 
+import { loginFormSchema } from './validateLogin';
+
 interface LoginFormValues {
   email: string;
   password: string;
@@ -21,7 +23,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <Box width={400} display="flex" flexDirection="column" margin="0 auto" alignItems="center">
-      <Formik initialValues={initValues} onSubmit={handleSubmit}>
+      <Formik initialValues={initValues} validationSchema={loginFormSchema} onSubmit={handleSubmit}>
         {({ isSubmitting, touched, errors }) => (
           <Form>
             <Field

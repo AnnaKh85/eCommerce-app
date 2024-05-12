@@ -1,4 +1,4 @@
-.form-container {
+/* .form-container {
   width: 500px;
   display: flex;
   margin: 0 auto;
@@ -8,10 +8,10 @@
 
 .login-form {
   /*max-width: 50%;*/
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* gap: 15px; */
+/* } */
 
 /* .LoginPageSignUpButton { */
   /*width: 100%;*/
