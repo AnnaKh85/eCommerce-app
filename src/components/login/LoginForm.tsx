@@ -24,8 +24,8 @@ const LoginForm: React.FC = () => {
   };
 
   const handleSubmit = (values: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
+    login(values);
     console.log('LOGIN handleSubmit: ', values);
-    console.log('LOGIN isAuthenticated: ', login);
     console.log('isAuthenticated:', isAuthenticated);
     setAuth(values);
     setSubmitting(false);
