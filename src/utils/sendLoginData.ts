@@ -10,7 +10,7 @@ export default async function setAuth(values: LoginFormValues) {
 
     const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/login`, {
       headers: {
-        Authorization: `Bearer RUUDsx3DeoeDNqCN-6XpMsOKh51r2dDC`,
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
         'Content-Type': 'application/json',
       },
       method: 'POST',
