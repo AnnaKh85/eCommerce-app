@@ -1,5 +1,6 @@
 import { BASE_URL, PRODUCT_KEY } from '../constants.ts';
-import type { CustomerDraft, CustomerSignInResult } from '../interfaces.ts';
+import type { CustomerDraft, CustomerSignInResult, ResponseError } from '../interfaces.ts';
+import { ApiError } from './apiError.ts';
 
 const createCustomer = async (customer: CustomerDraft): Promise<CustomerSignInResult> => {
   const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/customers`, {
@@ -10,11 +11,11 @@ const createCustomer = async (customer: CustomerDraft): Promise<CustomerSignInRe
     },
     body: JSON.stringify(customer),
   });
-  const data = (await response.json()) as CustomerSignInResult;
+  const data = await response.json();
   if (!response.ok) {
-    throw new Error('Something went wrong');
+    throw new ApiError(data as ResponseError);
   }
-  return data;
+  return data as CustomerSignInResult;
 };
 
 export default createCustomer;

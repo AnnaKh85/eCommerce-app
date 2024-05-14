@@ -38,3 +38,14 @@ export interface BaseAddress {
 export interface CustomerSignInResult {
   customer: Customer;
 }
+
+export interface ResponseError {
+  statusCode: number;
+  message: string;
+  errors: Error[];
+}
+
+export interface Error {
+  code: string;
+  message: string;
+}

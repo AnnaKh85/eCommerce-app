@@ -1,8 +1,10 @@
 import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 
+import { ApiError } from '../../services/api/apiError';
 import createCustomer from '../../services/api/createCustomer';
 import type { CustomerDraft } from '../../services/interfaces';
 import { countries } from '../../utils/country';
@@ -37,6 +39,8 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
     country: '',
   };
 
+  const [serverError, setServerError] = useState('');
+
   const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
     const customerDraft: CustomerDraft = {
       email: values.email,
@@ -54,10 +58,20 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
       ],
     };
     setSubmitting(true);
+    setServerError('');
     try {
       await createCustomer(customerDraft);
       onRegistrationSuccess();
     } catch (error) {
+      if (error instanceof ApiError) {
+        if (error.responseError.statusCode === 401) {
+          setServerError('Something went wrong. Try to reload page!');
+        } else {
+          setServerError(error.message);
+        }
+      } else {
+        setServerError('Something went wrong');
+      }
       console.log(error);
     }
     setSubmitting(false);
@@ -69,7 +83,13 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
         {({ isSubmitting, touched, errors }) => (
           <Form className="registration-form">
             <h1 className="registration-form-title">Registration</h1>
-
+            {serverError && (
+              <div>
+                <Typography variant="body1" color="error" fontWeight="bold">
+                  {serverError}
+                </Typography>
+              </div>
+            )}
             <Field
               as={TextField}
               label="Email"
