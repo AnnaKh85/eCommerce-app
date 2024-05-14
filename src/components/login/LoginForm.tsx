@@ -19,7 +19,7 @@ const LoginForm: React.FC = () => {
   };
 
   const handleSubmit = (values: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
-    console.log(values);
+    console.log('LOGIN handleSubmit: ', values);
     setSubmitting(false);
   };
 
