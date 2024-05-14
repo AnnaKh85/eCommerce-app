@@ -5,6 +5,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { REGISTRATION_ROUTE } from '../../services/constants';
+import setAuth from '../../utils/sendLoginData';
 import { loginFormSchema } from './validateLogin';
 
 interface LoginFormValues {
@@ -20,6 +21,7 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = (values: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
     console.log('LOGIN handleSubmit: ', values);
+    setAuth();
     setSubmitting(false);
   };
 
