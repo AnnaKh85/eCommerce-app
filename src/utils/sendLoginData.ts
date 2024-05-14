@@ -1,10 +1,11 @@
+import type { LoginFormValues } from '../components/login/LoginForm';
 import { BASE_URL, PRODUCT_KEY } from '../services/constants';
 
-export default async function setAuth() {
+export default async function setAuth(values: LoginFormValues) {
   try {
     const requestBody = {
-      email: 'johndoe@example.com',
-      password: 'secret123',
+      email: values.email,
+      password: values.password,
     };
 
     const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/login`, {

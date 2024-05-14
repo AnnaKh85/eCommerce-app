@@ -6,14 +6,18 @@ import { Link } from 'react-router-dom';
 
 import { REGISTRATION_ROUTE } from '../../services/constants';
 import setAuth from '../../utils/sendLoginData';
+import { useAuth } from './AuthContext';
 import { loginFormSchema } from './validateLogin';
 
-interface LoginFormValues {
+export interface LoginFormValues {
   email: string;
   password: string;
 }
 
 const LoginForm: React.FC = () => {
+  const { login } = useAuth();
+  const { isAuthenticated } = useAuth();
+
   const initValues: LoginFormValues = {
     email: '',
     password: '',
@@ -21,7 +25,9 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = (values: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
     console.log('LOGIN handleSubmit: ', values);
-    setAuth();
+    console.log('LOGIN isAuthenticated: ', login);
+    console.log('isAuthenticated:', isAuthenticated);
+    setAuth(values);
     setSubmitting(false);
   };
 
