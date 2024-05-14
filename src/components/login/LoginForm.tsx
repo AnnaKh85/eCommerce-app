@@ -5,21 +5,29 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { REGISTRATION_ROUTE } from '../../services/constants';
+import setAuth from '../../utils/sendLoginData';
+import { useAuth } from './AuthContext';
 import { loginFormSchema } from './validateLogin';
 
-interface LoginFormValues {
+export interface LoginFormValues {
   email: string;
   password: string;
 }
 
 const LoginForm: React.FC = () => {
+  const { login } = useAuth();
+  const { isAuthenticated } = useAuth();
+
   const initValues: LoginFormValues = {
     email: '',
     password: '',
   };
 
   const handleSubmit = (values: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
-    console.log(values);
+    login(values);
+    console.log('LOGIN handleSubmit: ', values);
+    console.log('isAuthenticated:', isAuthenticated);
+    setAuth(values);
     setSubmitting(false);
   };
 
