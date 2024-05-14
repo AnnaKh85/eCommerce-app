@@ -1,50 +1,34 @@
-import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
+import HomeIcon from '@mui/icons-material/Home';
+import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { ABOUT_US, CATALOG_ROUTE, HOME_ROUTE } from '../../services/constants.ts';
 
 function PageNav() {
   return (
-    <Box
-      sx={{
-        width: '100%',
-        maxWidth: '500px',
-        textAlign: 'center',
-        bgcolor: 'background.paper',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: '0 auto',
-      }}
-    >
-      <List
-        sx={{
-          width: '100%',
-          maxWidth: '500px',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: '0 auto',
-        }}
-      >
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to={HOME_ROUTE}>
-            <ListItemText primary="Home page" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to={CATALOG_ROUTE}>
-            <ListItemText primary="Catalog page" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to={ABOUT_US}>
-            <ListItemText primary="About us" />
-          </ListItemButton>
-        </ListItem>
-      </List>
+    <Box sx={{ width: 500 }}>
+      <BottomNavigation showLabels>
+        <BottomNavigationAction
+          label="HOME"
+          icon={<HomeIcon sx={{ color: '#2A254B' }} />}
+          component={Link}
+          to={HOME_ROUTE}
+        />
+        <BottomNavigationAction
+          label="CATALOG"
+          icon={<DirectionsBikeIcon sx={{ color: '#2A254B' }} />}
+          component={Link}
+          to={CATALOG_ROUTE}
+        />
+        <BottomNavigationAction
+          label="ABOUT US"
+          icon={<Diversity3Icon sx={{ color: '#2A254B' }} />}
+          component={Link}
+          to={ABOUT_US}
+        />
+      </BottomNavigation>
     </Box>
   );
 }
