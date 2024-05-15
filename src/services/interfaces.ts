@@ -15,3 +15,26 @@ export interface Customer {
   isEmailVerified: boolean;
   key: string;
 }
+
+// Based on https://docs.commercetools.com/api/projects/customers#ctp:api:type:CustomerDraft
+export interface CustomerDraft {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth?: string;
+  addresses?: BaseAddress[];
+}
+
+// Based on https://docs.commercetools.com/api/types#ctp:api:type:BaseAddress
+
+export interface BaseAddress {
+  country: string;
+  streetName?: string;
+  postalCode?: string;
+  city?: string;
+}
+
+export interface CustomerSignInResult {
+  customer: Customer;
+}
