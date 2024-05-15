@@ -11,12 +11,15 @@ import {
 } from '@mui/material';
 import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ApiError } from '../../services/api/apiError';
 import createCustomer from '../../services/api/createCustomer';
+import { HOME_ROUTE } from '../../services/constants.ts';
 import type { CustomerDraft } from '../../services/interfaces';
 import { countries } from '../../utils/country';
+import { AuthContext } from '../login/AuthContext.tsx';
 import { registrationFormSchema } from './validationSchema';
 
 interface FormValues {
@@ -49,6 +52,16 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
   };
 
   const [serverError, setServerError] = useState('');
+  const { isAuthenticated, login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(HOME_ROUTE);
+    } else {
+      console.debug(`isAuthenticated: ${isAuthenticated}`);
+    }
+  }, [isAuthenticated]);
 
   const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
     const customerDraft: CustomerDraft = {
@@ -71,6 +84,8 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
     try {
       await createCustomer(customerDraft);
       onRegistrationSuccess();
+      login(values);
+      console.log('user entered with values:', values);
     } catch (error) {
       if (error instanceof ApiError) {
         if (error.responseError.statusCode === 401) {

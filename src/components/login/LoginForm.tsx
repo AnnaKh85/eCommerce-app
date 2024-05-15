@@ -1,11 +1,10 @@
 import { Box, Button, TextField } from '@mui/material';
 import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { REGISTRATION_ROUTE } from '../../services/constants';
-import setAuth from '../../utils/sendLoginData';
+import { HOME_ROUTE, REGISTRATION_ROUTE } from '../../services/constants';
 import { useAuth } from './AuthContext';
 import { loginFormSchema } from './validateLogin';
 
@@ -17,17 +16,26 @@ export interface LoginFormValues {
 const LoginForm: React.FC = () => {
   const { login } = useAuth();
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const initValues: LoginFormValues = {
     email: '',
     password: '',
   };
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(HOME_ROUTE);
+    } else {
+      console.debug(`isAuthenticated: ${isAuthenticated}`);
+    }
+  }, [isAuthenticated]);
+
   const handleSubmit = (values: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
     login(values);
     console.log('LOGIN handleSubmit: ', values);
     console.log('isAuthenticated:', isAuthenticated);
-    setAuth(values);
+    // setAuth(values);
     setSubmitting(false);
   };
 

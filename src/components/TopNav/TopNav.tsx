@@ -3,34 +3,47 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
-import { CART_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../services/constants.ts';
+import { CART_ROUTE, HOME_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE, REGISTRATION_ROUTE } from '../../services/constants.ts';
+import { useAuth } from '../login/AuthContext.tsx';
 import PageNav from './PageNav.tsx';
 import styles from './TopNav.module.css';
 
 function TopNav() {
+  const { isAuthenticated, logout } = useAuth();
   return (
     <div className={styles.topnav}>
-      {/*<div>*/}
-      {/*  <Paper component="form" sx={{ p: '1px 2px', display: 'flex', alignItems: 'center', width: 300 }}>*/}
-      {/*    <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search..." inputProps={{ 'aria-label': 'Search...' }} />*/}
-      {/*    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">*/}
-      {/*      <SearchIcon />*/}
-      {/*    </IconButton>*/}
-      {/*  </Paper>*/}
-      {/*</div>*/}
       <div>
         <img className={styles.mainLogo} src={mainLogo} alt="main logo" />
       </div>
       <PageNav />
       <div className={styles.icons}>
-        <Button variant="outlined" component={Link} to={LOGIN_ROUTE}>
-          {' '}
-          Log in{' '}
-        </Button>
-        <Button variant="contained" component={Link} to={REGISTRATION_ROUTE}>
-          {' '}
-          Sign up{' '}
-        </Button>
+        {isAuthenticated ? (
+          <Button
+            variant="outlined"
+            component={Link}
+            to={HOME_ROUTE}
+            onClick={() => {
+              logout();
+            }}
+          >
+            Logout
+          </Button>
+        ) : (
+          <Button variant="outlined" component={Link} to={LOGIN_ROUTE}>
+            Log in
+          </Button>
+        )}
+
+        {isAuthenticated ? (
+          <Button variant="contained" component={Link} to={PROFILE_ROUTE}>
+            Profile
+          </Button>
+        ) : (
+          <Button variant="contained" component={Link} to={REGISTRATION_ROUTE}>
+            Sign up
+          </Button>
+        )}
+
         <Link to={CART_ROUTE}>
           <ShoppingCartIcon fontSize="large" sx={{ color: '#2A254B' }} />
         </Link>
