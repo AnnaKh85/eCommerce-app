@@ -1,5 +1,4 @@
 import { Button, Dialog, DialogContent } from '@mui/material';
-import React from 'react';
 
 interface Props {
   isOpen: boolean;
