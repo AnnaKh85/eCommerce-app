@@ -9,13 +9,15 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { ApiError } from '../../services/api/apiError';
-import createCustomer from '../../services/api/createCustomer';
+import createCustomer from '../../services/api/createCustomer.ts';
 import { HOME_ROUTE, LOGIN_ROUTE } from '../../services/constants.ts';
 import type { CustomerDraft } from '../../services/interfaces';
 import { countries } from '../../utils/country';
@@ -32,6 +34,7 @@ interface FormValues {
   city: string;
   postalCode: string;
   country: string;
+  defaultShippingAddress: boolean;
 }
 
 interface Props {
@@ -49,6 +52,7 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
     city: '',
     postalCode: '',
     country: '',
+    defaultShippingAddress: false,
   };
 
   const [serverError, setServerError] = useState('');
@@ -79,6 +83,11 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
         },
       ],
     };
+
+    if (values.defaultShippingAddress === true) {
+      customerDraft.defaultBillingAddress = 0;
+      customerDraft.defaultShippingAddress = 0;
+    }
     setSubmitting(true);
     setServerError('');
     try {
@@ -219,6 +228,14 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
               </Field>
               {touched.country && errors.country && <FormHelperText>{errors.country}</FormHelperText>}
             </FormControl>
+
+            <Field
+              type="checkbox"
+              name="defaultShippingAddress"
+              as={FormControlLabel}
+              control={<Checkbox />}
+              label="Set as default address"
+            />
 
             <Button
               sx={{ marginTop: '30px', marginBottom: '30px' }}
