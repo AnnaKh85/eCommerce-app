@@ -12,11 +12,11 @@ import {
 import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { ApiError } from '../../services/api/apiError';
 import createCustomer from '../../services/api/createCustomer';
-import { HOME_ROUTE } from '../../services/constants.ts';
+import { HOME_ROUTE, LOGIN_ROUTE } from '../../services/constants.ts';
 import type { CustomerDraft } from '../../services/interfaces';
 import { countries } from '../../utils/country';
 import { AuthContext } from '../login/AuthContext.tsx';
@@ -220,9 +220,21 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
               {touched.country && errors.country && <FormHelperText>{errors.country}</FormHelperText>}
             </FormControl>
 
-            <Button type="submit" variant="contained" color="primary" disabled={isSubmitting} fullWidth>
+            <Button
+              sx={{ marginTop: '30px', marginBottom: '30px' }}
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isSubmitting}
+              fullWidth
+            >
               Register
             </Button>
+
+            <Box display="flex" flexDirection="row" margin="0 auto" alignItems="center" justifyContent="center" gap={4}>
+              <p>Already have an account ? </p>
+              <Link to={LOGIN_ROUTE}>Log in</Link>
+            </Box>
           </Form>
         )}
       </Formik>

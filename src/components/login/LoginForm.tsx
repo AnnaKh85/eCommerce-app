@@ -67,7 +67,14 @@ const LoginForm: React.FC = () => {
               variant="standard"
             />
 
-            <Button type="submit" variant="contained" color="primary" disabled={isSubmitting} fullWidth>
+            <Button
+              sx={{ marginTop: '30px', marginBottom: '30px' }}
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isSubmitting}
+              fullWidth
+            >
               Log in
             </Button>
 
