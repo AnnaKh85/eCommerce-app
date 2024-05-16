@@ -103,6 +103,7 @@ function MainPage() {
           borderRadius: '8px',
           marginTop: '20px',
           padding: '20px',
+          marginBottom: '30px',
         }}
       >
         <Typography variant="h4" gutterBottom>

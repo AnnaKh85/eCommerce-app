@@ -13,7 +13,9 @@ function TopNav() {
   return (
     <div className={styles.topnav}>
       <div>
-        <img className={styles.mainLogo} src={mainLogo} alt="main logo" />
+        <Link to={HOME_ROUTE}>
+          <img className={styles.mainLogo} src={mainLogo} alt="main logo" />
+        </Link>
       </div>
       <PageNav />
       <div className={styles.icons}>
