@@ -1,6 +1,6 @@
 import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, Container, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Container, MenuItem, Toolbar, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -11,6 +11,8 @@ import { ABOUT_US, CATALOG_ROUTE, HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE } 
 
 const Footer: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+
+  const pages: string[] = ['Home', 'Catalog', 'About us', 'Login', 'Registration'];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -72,11 +74,11 @@ const Footer: React.FC = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {/*{pages.map((page) => (*/}
-              {/*    <MenuItem key={page} onClick={handleCloseNavMenu}>*/}
-              {/*        <Typography textAlign="center">{page}</Typography>*/}
-              {/*    </MenuItem>*/}
-              {/*))}*/}
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
           <DirectionsBikeIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -98,7 +100,9 @@ const Footer: React.FC = () => {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', alignItems: 'center' } }}>
+          <Box
+            sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', alignItems: 'center', justifyContent: 'center' } }}
+          >
             <Button sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to={CATALOG_ROUTE}>
               Catalog
             </Button>

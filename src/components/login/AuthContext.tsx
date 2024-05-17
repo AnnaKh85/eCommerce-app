@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import setAuth from '../../utils/sendLoginData';
 import type { LoginFormValues } from './LoginForm';
@@ -14,7 +14,6 @@ export const AuthContext = React.createContext<AuthContextType>({
   isAuthenticated: false,
   login() {},
   logout() {},
-  // username: '',
 });
 
 interface AuthProviderProps {
@@ -24,18 +23,25 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    const customerId = localStorage.getItem('customerId');
+    if (customerId) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   const login = async (values: LoginFormValues) => {
     const response = await setAuth(values);
     if (response.customer.email !== null || response.customer.email === '') {
+      localStorage.setItem('customerId', response.customer.id);
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
     }
-    // console.log('user entered with values:', values);
-    // setIsAuthenticated(true);
   };
 
   const logout = () => {
+    localStorage.removeItem('customerId');
     setIsAuthenticated(false);
   };
 
