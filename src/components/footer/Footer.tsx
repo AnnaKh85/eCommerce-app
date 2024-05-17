@@ -75,7 +75,22 @@ const Footer: React.FC = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to={
+                    page === 'Home'
+                      ? HOME_ROUTE
+                      : page === 'Catalog'
+                        ? CATALOG_ROUTE
+                        : page === 'About us'
+                          ? ABOUT_US
+                          : page === 'Login'
+                            ? LOGIN_ROUTE
+                            : REGISTRATION_ROUTE
+                  }
+                >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -85,8 +100,8 @@ const Footer: React.FC = () => {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            to={HOME_ROUTE}
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -98,7 +113,7 @@ const Footer: React.FC = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Mammagamma
           </Typography>
           <Box
             sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', alignItems: 'center', justifyContent: 'center' } }}
