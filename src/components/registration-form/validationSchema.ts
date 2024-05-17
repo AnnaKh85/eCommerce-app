@@ -39,4 +39,5 @@ export const registrationFormSchema = loginFormSchema.shape({
         schema.matches(/^[0-9A-Z]{6}$/, 'Postal code must contain 6 symbols, include numbers and capital letters'),
       otherwise: (schema) => schema.matches(/^\d{5}$/, 'Postal code must contain only numbers, length of 5 symbols'),
     }),
+  defaultShippingAddress: Yup.boolean(),
 });

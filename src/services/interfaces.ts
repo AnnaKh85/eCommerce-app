@@ -24,6 +24,8 @@ export interface CustomerDraft {
   lastName: string;
   dateOfBirth?: string;
   addresses?: BaseAddress[];
+  defaultShippingAddress?: number;
+  defaultBillingAddress?: number;
 }
 
 // Based on https://docs.commercetools.com/api/types#ctp:api:type:BaseAddress
