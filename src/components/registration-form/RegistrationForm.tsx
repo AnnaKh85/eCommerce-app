@@ -19,22 +19,28 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ApiError } from '../../services/api/apiError';
 import createCustomer from '../../services/api/createCustomer.ts';
 import { HOME_ROUTE, LOGIN_ROUTE } from '../../services/constants.ts';
-import type { CustomerDraft } from '../../services/interfaces';
+import type { BaseAddress, CustomerDraft } from '../../services/interfaces';
 import { countries } from '../../utils/country';
 import { AuthContext } from '../login/AuthContext.tsx';
 import { registrationFormSchema } from './validationSchema';
 
+interface Address {
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
 interface FormValues {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
   dob: string;
-  street: string;
-  city: string;
-  postalCode: string;
-  country: string;
+  address: Address;
+  billingAddress: Address;
+  shippingAddress: Address;
   defaultShippingAddress: boolean;
+  defaultBillingAddress: boolean;
 }
 
 interface Props {
@@ -48,11 +54,26 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
     firstName: '',
     lastName: '',
     dob: '',
-    street: '',
-    city: '',
-    postalCode: '',
-    country: '',
+    address: {
+      street: '',
+      city: '',
+      postalCode: '',
+      country: '',
+    },
+    shippingAddress: {
+      street: '',
+      city: '',
+      postalCode: '',
+      country: '',
+    },
+    billingAddress: {
+      street: '',
+      city: '',
+      postalCode: '',
+      country: '',
+    },
     defaultShippingAddress: false,
+    defaultBillingAddress: false,
   };
 
   const [serverError, setServerError] = useState('');
@@ -68,25 +89,46 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
   }, [isAuthenticated]);
 
   const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
+    const address: BaseAddress = {
+      country: values.address.country,
+      streetName: values.address.street,
+      postalCode: values.address.postalCode,
+      city: values.address.city,
+    };
+    const shippingAddress: BaseAddress = {
+      country: values.shippingAddress.country,
+      streetName: values.shippingAddress.street,
+      postalCode: values.shippingAddress.postalCode,
+      city: values.shippingAddress.city,
+    };
+
+    const billingAddress: BaseAddress = {
+      country: values.billingAddress.country,
+      streetName: values.billingAddress.street,
+      postalCode: values.billingAddress.postalCode,
+      city: values.billingAddress.city,
+    };
+
+    const addresses = [address, shippingAddress, billingAddress];
+    const shippingAddressIndex = 1;
+    const billingAddressIndex = 2;
+
     const customerDraft: CustomerDraft = {
       email: values.email,
       password: values.password,
       firstName: values.firstName,
       lastName: values.lastName,
       dateOfBirth: values.dob.toString(),
-      addresses: [
-        {
-          country: values.country,
-          streetName: values.street,
-          postalCode: values.postalCode,
-          city: values.city,
-        },
-      ],
+      addresses: addresses,
+      shippingAddresses: [shippingAddressIndex],
+      billingAddresses: [billingAddressIndex],
     };
 
     if (values.defaultShippingAddress === true) {
-      customerDraft.defaultBillingAddress = 0;
-      customerDraft.defaultShippingAddress = 0;
+      customerDraft.defaultShippingAddress = shippingAddressIndex;
+    }
+    if (values.defaultBillingAddress === true) {
+      customerDraft.defaultBillingAddress = billingAddressIndex;
     }
     setSubmitting(true);
     setServerError('');
@@ -184,9 +226,9 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
             <Field
               as={TextField}
               label="Street"
-              name="street"
-              helperText={touched.street ? errors.street : ''}
-              error={touched.street && Boolean(errors.street)}
+              name="address.street"
+              helperText={touched.address?.street ? errors.address?.street : ''}
+              error={touched.address?.street && Boolean(errors.address?.street)}
               margin="normal"
               fullWidth
               variant="standard"
@@ -195,9 +237,9 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
             <Field
               as={TextField}
               label="City"
-              name="city"
-              helperText={touched.city ? errors.city : ''}
-              error={touched.city && Boolean(errors.city)}
+              name="address.city"
+              helperText={touched.address?.city ? errors.address?.city : ''}
+              error={touched.address?.city && Boolean(errors.address?.city)}
               margin="normal"
               fullWidth
               variant="standard"
@@ -206,17 +248,17 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
             <Field
               as={TextField}
               label="Postal Code"
-              name="postalCode"
-              helperText={touched.postalCode ? errors.postalCode : ''}
-              error={touched.postalCode && Boolean(errors.postalCode)}
+              name="address.postalCode"
+              helperText={touched.address?.postalCode ? errors.address?.postalCode : ''}
+              error={touched.address?.postalCode && Boolean(errors.address?.postalCode)}
               margin="normal"
               fullWidth
               variant="standard"
             />
 
-            <FormControl fullWidth margin="normal" error={touched.country && Boolean(errors.country)}>
+            <FormControl fullWidth margin="normal" error={touched.address?.country && Boolean(errors.address?.country)}>
               <InputLabel>Country</InputLabel>
-              <Field as={Select} name="country" label="Country" displayEmpty variant="standard">
+              <Field as={Select} name="address.country" label="Country" displayEmpty variant="standard">
                 <MenuItem value="" disabled>
                   Choose one
                 </MenuItem>
@@ -226,7 +268,63 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
                   </MenuItem>
                 ))}
               </Field>
-              {touched.country && errors.country && <FormHelperText>{errors.country}</FormHelperText>}
+              {touched.address?.country && errors.address?.country && (
+                <FormHelperText>{errors.address?.country}</FormHelperText>
+              )}
+            </FormControl>
+
+            <Field
+              as={TextField}
+              label="Street"
+              name="shippingAddress.street"
+              helperText={touched.shippingAddress?.street ? errors.shippingAddress?.street : ''}
+              error={touched.shippingAddress?.street && Boolean(errors.shippingAddress?.street)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
+
+            <Field
+              as={TextField}
+              label="City"
+              name="shippingAddress.city"
+              helperText={touched.shippingAddress?.city ? errors.shippingAddress?.city : ''}
+              error={touched.shippingAddress?.city && Boolean(errors.shippingAddress?.city)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
+
+            <Field
+              as={TextField}
+              label="Postal Code"
+              name="shippingAddress.postalCode"
+              helperText={touched.shippingAddress?.postalCode ? errors.shippingAddress?.postalCode : ''}
+              error={touched.shippingAddress?.postalCode && Boolean(errors.shippingAddress?.postalCode)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
+
+            <FormControl
+              fullWidth
+              margin="normal"
+              error={touched.shippingAddress?.country && Boolean(errors.shippingAddress?.country)}
+            >
+              <InputLabel>Country</InputLabel>
+              <Field as={Select} name="shippingAddress.country" label="Country" displayEmpty variant="standard">
+                <MenuItem value="" disabled>
+                  Choose one
+                </MenuItem>
+                {countries.map((country) => (
+                  <MenuItem key={country.alpha2Code} value={country.alpha2Code}>
+                    {country.name}
+                  </MenuItem>
+                ))}
+              </Field>
+              {touched.shippingAddress?.country && errors.shippingAddress?.country && (
+                <FormHelperText>{errors.shippingAddress?.country}</FormHelperText>
+              )}
             </FormControl>
 
             <Field
@@ -234,7 +332,69 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
               name="defaultShippingAddress"
               as={FormControlLabel}
               control={<Checkbox />}
-              label="Set as default address"
+              label="Set as default shipping address"
+            />
+
+            <Field
+              as={TextField}
+              label="Street"
+              name="billingAddress.street"
+              helperText={touched.billingAddress?.street ? errors.billingAddress?.street : ''}
+              error={touched.billingAddress?.street && Boolean(errors.billingAddress?.street)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
+
+            <Field
+              as={TextField}
+              label="City"
+              name="billingAddress.city"
+              helperText={touched.billingAddress?.city ? errors.billingAddress?.city : ''}
+              error={touched.billingAddress?.city && Boolean(errors.billingAddress?.city)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
+
+            <Field
+              as={TextField}
+              label="Postal Code"
+              name="billingAddress.postalCode"
+              helperText={touched.billingAddress?.postalCode ? errors.billingAddress?.postalCode : ''}
+              error={touched.billingAddress?.postalCode && Boolean(errors.billingAddress?.postalCode)}
+              margin="normal"
+              fullWidth
+              variant="standard"
+            />
+
+            <FormControl
+              fullWidth
+              margin="normal"
+              error={touched.billingAddress?.country && Boolean(errors.billingAddress?.country)}
+            >
+              <InputLabel>Country</InputLabel>
+              <Field as={Select} name="billingAddress.country" label="Country" displayEmpty variant="standard">
+                <MenuItem value="" disabled>
+                  Choose one
+                </MenuItem>
+                {countries.map((country) => (
+                  <MenuItem key={country.alpha2Code} value={country.alpha2Code}>
+                    {country.name}
+                  </MenuItem>
+                ))}
+              </Field>
+              {touched.billingAddress?.country && errors.billingAddress?.country && (
+                <FormHelperText>{errors.billingAddress?.country}</FormHelperText>
+              )}
+            </FormControl>
+
+            <Field
+              type="checkbox"
+              name="defaultBillingAddress"
+              as={FormControlLabel}
+              control={<Checkbox />}
+              label="Set as default billing address"
             />
 
             <Button

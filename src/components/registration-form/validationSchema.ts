@@ -14,16 +14,7 @@ export const loginFormSchema = Yup.object().shape({
     ),
 });
 
-export const registrationFormSchema = loginFormSchema.shape({
-  firstName: Yup.string()
-    .required('First name is required')
-    .matches(/^[a-zA-Z]+$/, 'First name must contain only letters'),
-  lastName: Yup.string()
-    .required('Last name is required')
-    .matches(/^[a-zA-Z]+$/, 'Last name must contain only letters'),
-  dob: Yup.date()
-    .required('Date of birth is required')
-    .max(new Date(Date.now() - 13 * 365 * 24 * 60 * 60 * 1000), 'You must be at least 13 years old'),
+const addressSchema = Yup.object().shape({
   street: Yup.string().required('Street is required'),
   city: Yup.string()
     .required('City is required')
@@ -39,5 +30,21 @@ export const registrationFormSchema = loginFormSchema.shape({
         schema.matches(/^[0-9A-Z]{6}$/, 'Postal code must contain 6 symbols, include numbers and capital letters'),
       otherwise: (schema) => schema.matches(/^\d{5}$/, 'Postal code must contain only numbers, length of 5 symbols'),
     }),
+});
+
+export const registrationFormSchema = loginFormSchema.shape({
+  firstName: Yup.string()
+    .required('First name is required')
+    .matches(/^[a-zA-Z]+$/, 'First name must contain only letters'),
+  lastName: Yup.string()
+    .required('Last name is required')
+    .matches(/^[a-zA-Z]+$/, 'Last name must contain only letters'),
+  dob: Yup.date()
+    .required('Date of birth is required')
+    .max(new Date(Date.now() - 13 * 365 * 24 * 60 * 60 * 1000), 'You must be at least 13 years old'),
+  address: addressSchema,
+  shippingAddress: addressSchema,
+  billingAddress: addressSchema,
   defaultShippingAddress: Yup.boolean(),
+  defaultBillingAddress: Yup.boolean(),
 });
