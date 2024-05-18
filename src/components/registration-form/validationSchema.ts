@@ -47,7 +47,10 @@ export const registrationFormSchema = loginFormSchema.shape({
     .max(new Date(Date.now() - 13 * 365 * 24 * 60 * 60 * 1000), 'You must be at least 13 years old'),
   address: addressSchema,
   shippingAddress: addressSchema,
-  billingAddress: addressSchema,
+  sameAddress: Yup.boolean(),
+  billingAddress: Yup.object().when('sameAddress', ([sameAddress], schema) => {
+    return sameAddress ? schema.nullable() : addressSchema;
+  }),
   defaultShippingAddress: Yup.boolean(),
   defaultBillingAddress: Yup.boolean(),
 });

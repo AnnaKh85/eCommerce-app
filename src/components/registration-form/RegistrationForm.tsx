@@ -42,6 +42,7 @@ interface FormValues {
   shippingAddress: Address;
   defaultShippingAddress: boolean;
   defaultBillingAddress: boolean;
+  sameAddress: boolean;
 }
 
 const RegistrationForm = () => {
@@ -71,6 +72,7 @@ const RegistrationForm = () => {
     },
     defaultShippingAddress: false,
     defaultBillingAddress: false,
+    sameAddress: false,
   };
 
   const [serverError, setServerError] = useState('');
@@ -101,12 +103,18 @@ const RegistrationForm = () => {
       city: values.shippingAddress.city,
     };
 
-    const billingAddress: BaseAddress = {
-      country: values.billingAddress.country,
-      streetName: values.billingAddress.street,
-      postalCode: values.billingAddress.postalCode,
-      city: values.billingAddress.city,
-    };
+    let billingAddress: BaseAddress;
+
+    if (values.sameAddress === false) {
+      billingAddress = {
+        country: values.billingAddress.country,
+        streetName: values.billingAddress.street,
+        postalCode: values.billingAddress.postalCode,
+        city: values.billingAddress.city,
+      };
+    } else {
+      billingAddress = shippingAddress;
+    }
 
     const addresses = [address, shippingAddress, billingAddress];
     const shippingAddressIndex = 1;
@@ -165,9 +173,11 @@ const RegistrationForm = () => {
   return (
     <Box width={400} display="flex" flexDirection="column" margin="0 auto" alignItems="center">
       <Formik initialValues={initialValues} validationSchema={registrationFormSchema} onSubmit={handleSubmit}>
-        {({ isSubmitting, touched, errors }) => (
+        {({ isSubmitting, touched, errors, values }) => (
           <Form className="registration-form">
-            <h1 className="registration-form-title">Registration</h1>
+            <Typography variant="h4" component="h1" gutterBottom>
+              Registration
+            </Typography>
             {serverError && (
               <div>
                 <Typography variant="body1" color="error" fontWeight="bold">
@@ -181,7 +191,7 @@ const RegistrationForm = () => {
               name="email"
               helperText={touched.email ? errors.email : ''}
               error={touched.email && Boolean(errors.email)}
-              margin="normal"
+              sx={{ marginBottom: 2 }}
               fullWidth
               variant="standard"
             />
@@ -193,7 +203,7 @@ const RegistrationForm = () => {
               name="password"
               helperText={touched.password ? errors.password : ''}
               error={touched.password && Boolean(errors.password)}
-              margin="normal"
+              sx={{ marginBottom: 2 }}
               fullWidth
               variant="standard"
             />
@@ -204,7 +214,7 @@ const RegistrationForm = () => {
               name="firstName"
               helperText={touched.firstName ? errors.firstName : ''}
               error={touched.firstName && Boolean(errors.firstName)}
-              margin="normal"
+              sx={{ marginBottom: 2 }}
               fullWidth
               variant="standard"
             />
@@ -215,7 +225,7 @@ const RegistrationForm = () => {
               name="lastName"
               helperText={touched.lastName ? errors.lastName : ''}
               error={touched.lastName && Boolean(errors.lastName)}
-              margin="normal"
+              sx={{ marginBottom: 2 }}
               fullWidth
               variant="standard"
             />
@@ -228,184 +238,214 @@ const RegistrationForm = () => {
               InputLabelProps={{ shrink: true }}
               helperText={touched.dob ? errors.dob : ''}
               error={touched.dob && Boolean(errors.dob)}
-              margin="normal"
+              sx={{ marginBottom: 2 }}
               fullWidth
               variant="standard"
             />
 
-            <Field
-              as={TextField}
-              label="Street"
-              name="address.street"
-              helperText={touched.address?.street ? errors.address?.street : ''}
-              error={touched.address?.street && Boolean(errors.address?.street)}
-              margin="normal"
-              fullWidth
-              variant="standard"
-            />
+            <Box maxWidth={600} margin="0 auto">
+              <Typography variant="h6" component="h2" gutterBottom sx={{ margin: 2 }}>
+                Address
+              </Typography>
+              <Field
+                as={TextField}
+                label="Street"
+                name="address.street"
+                helperText={touched.address?.street ? errors.address?.street : ''}
+                error={touched.address?.street && Boolean(errors.address?.street)}
+                margin="normal"
+                fullWidth
+                variant="standard"
+              />
 
-            <Field
-              as={TextField}
-              label="City"
-              name="address.city"
-              helperText={touched.address?.city ? errors.address?.city : ''}
-              error={touched.address?.city && Boolean(errors.address?.city)}
-              margin="normal"
-              fullWidth
-              variant="standard"
-            />
+              <Field
+                as={TextField}
+                label="City"
+                name="address.city"
+                helperText={touched.address?.city ? errors.address?.city : ''}
+                error={touched.address?.city && Boolean(errors.address?.city)}
+                margin="normal"
+                fullWidth
+                variant="standard"
+              />
 
-            <Field
-              as={TextField}
-              label="Postal Code"
-              name="address.postalCode"
-              helperText={touched.address?.postalCode ? errors.address?.postalCode : ''}
-              error={touched.address?.postalCode && Boolean(errors.address?.postalCode)}
-              margin="normal"
-              fullWidth
-              variant="standard"
-            />
+              <Field
+                as={TextField}
+                label="Postal Code"
+                name="address.postalCode"
+                helperText={touched.address?.postalCode ? errors.address?.postalCode : ''}
+                error={touched.address?.postalCode && Boolean(errors.address?.postalCode)}
+                margin="normal"
+                fullWidth
+                variant="standard"
+              />
 
-            <FormControl fullWidth margin="normal" error={touched.address?.country && Boolean(errors.address?.country)}>
-              <InputLabel>Country</InputLabel>
-              <Field as={Select} name="address.country" label="Country" displayEmpty variant="standard">
-                <MenuItem value="" disabled>
-                  Choose one
-                </MenuItem>
-                {countries.map((country) => (
-                  <MenuItem key={country.alpha2Code} value={country.alpha2Code}>
-                    {country.name}
+              <FormControl
+                fullWidth
+                margin="normal"
+                error={touched.address?.country && Boolean(errors.address?.country)}
+              >
+                <InputLabel>Country</InputLabel>
+                <Field as={Select} name="address.country" label="Country" displayEmpty variant="standard">
+                  <MenuItem value="" disabled>
+                    Choose one
                   </MenuItem>
-                ))}
-              </Field>
-              {touched.address?.country && errors.address?.country && (
-                <FormHelperText>{errors.address?.country}</FormHelperText>
-              )}
-            </FormControl>
+                  {countries.map((country) => (
+                    <MenuItem key={country.alpha2Code} value={country.alpha2Code}>
+                      {country.name}
+                    </MenuItem>
+                  ))}
+                </Field>
+                {touched.address?.country && errors.address?.country && (
+                  <FormHelperText>{errors.address?.country}</FormHelperText>
+                )}
+              </FormControl>
+            </Box>
 
-            <Field
-              as={TextField}
-              label="Street"
-              name="shippingAddress.street"
-              helperText={touched.shippingAddress?.street ? errors.shippingAddress?.street : ''}
-              error={touched.shippingAddress?.street && Boolean(errors.shippingAddress?.street)}
-              margin="normal"
-              fullWidth
-              variant="standard"
-            />
+            <Box maxWidth={600} margin="0 auto">
+              <Typography variant="h6" component="h2" gutterBottom sx={{ margin: 2 }}>
+                Shipping address
+              </Typography>
 
-            <Field
-              as={TextField}
-              label="City"
-              name="shippingAddress.city"
-              helperText={touched.shippingAddress?.city ? errors.shippingAddress?.city : ''}
-              error={touched.shippingAddress?.city && Boolean(errors.shippingAddress?.city)}
-              margin="normal"
-              fullWidth
-              variant="standard"
-            />
+              <Field
+                as={TextField}
+                label="Street"
+                name="shippingAddress.street"
+                helperText={touched.shippingAddress?.street ? errors.shippingAddress?.street : ''}
+                error={touched.shippingAddress?.street && Boolean(errors.shippingAddress?.street)}
+                margin="normal"
+                fullWidth
+                variant="standard"
+              />
 
-            <Field
-              as={TextField}
-              label="Postal Code"
-              name="shippingAddress.postalCode"
-              helperText={touched.shippingAddress?.postalCode ? errors.shippingAddress?.postalCode : ''}
-              error={touched.shippingAddress?.postalCode && Boolean(errors.shippingAddress?.postalCode)}
-              margin="normal"
-              fullWidth
-              variant="standard"
-            />
+              <Field
+                as={TextField}
+                label="City"
+                name="shippingAddress.city"
+                helperText={touched.shippingAddress?.city ? errors.shippingAddress?.city : ''}
+                error={touched.shippingAddress?.city && Boolean(errors.shippingAddress?.city)}
+                margin="normal"
+                fullWidth
+                variant="standard"
+              />
 
-            <FormControl
-              fullWidth
-              margin="normal"
-              error={touched.shippingAddress?.country && Boolean(errors.shippingAddress?.country)}
-            >
-              <InputLabel>Country</InputLabel>
-              <Field as={Select} name="shippingAddress.country" label="Country" displayEmpty variant="standard">
-                <MenuItem value="" disabled>
-                  Choose one
-                </MenuItem>
-                {countries.map((country) => (
-                  <MenuItem key={country.alpha2Code} value={country.alpha2Code}>
-                    {country.name}
+              <Field
+                as={TextField}
+                label="Postal Code"
+                name="shippingAddress.postalCode"
+                helperText={touched.shippingAddress?.postalCode ? errors.shippingAddress?.postalCode : ''}
+                error={touched.shippingAddress?.postalCode && Boolean(errors.shippingAddress?.postalCode)}
+                margin="normal"
+                fullWidth
+                variant="standard"
+              />
+
+              <FormControl
+                fullWidth
+                margin="normal"
+                error={touched.shippingAddress?.country && Boolean(errors.shippingAddress?.country)}
+              >
+                <InputLabel>Country</InputLabel>
+                <Field as={Select} name="shippingAddress.country" label="Country" displayEmpty variant="standard">
+                  <MenuItem value="" disabled>
+                    Choose one
                   </MenuItem>
-                ))}
-              </Field>
-              {touched.shippingAddress?.country && errors.shippingAddress?.country && (
-                <FormHelperText>{errors.shippingAddress?.country}</FormHelperText>
-              )}
-            </FormControl>
+                  {countries.map((country) => (
+                    <MenuItem key={country.alpha2Code} value={country.alpha2Code}>
+                      {country.name}
+                    </MenuItem>
+                  ))}
+                </Field>
+                {touched.shippingAddress?.country && errors.shippingAddress?.country && (
+                  <FormHelperText>{errors.shippingAddress?.country}</FormHelperText>
+                )}
+              </FormControl>
 
-            <Field
-              type="checkbox"
-              name="defaultShippingAddress"
-              as={FormControlLabel}
-              control={<Checkbox />}
-              label="Set as default shipping address"
-            />
+              <Field
+                type="checkbox"
+                name="defaultShippingAddress"
+                as={FormControlLabel}
+                control={<Checkbox />}
+                label="Set as default shipping address"
+              />
 
-            <Field
-              as={TextField}
-              label="Street"
-              name="billingAddress.street"
-              helperText={touched.billingAddress?.street ? errors.billingAddress?.street : ''}
-              error={touched.billingAddress?.street && Boolean(errors.billingAddress?.street)}
-              margin="normal"
-              fullWidth
-              variant="standard"
-            />
+              <Field
+                type="checkbox"
+                name="sameAddress"
+                as={FormControlLabel}
+                control={<Checkbox />}
+                label="Use the same address for both billing and shipping"
+              />
+            </Box>
+            {values.sameAddress === false && (
+              <Box maxWidth={600} margin="0 auto">
+                <Typography variant="h6" component="h2" gutterBottom sx={{ margin: 2 }}>
+                  Billing address
+                </Typography>
 
-            <Field
-              as={TextField}
-              label="City"
-              name="billingAddress.city"
-              helperText={touched.billingAddress?.city ? errors.billingAddress?.city : ''}
-              error={touched.billingAddress?.city && Boolean(errors.billingAddress?.city)}
-              margin="normal"
-              fullWidth
-              variant="standard"
-            />
+                <Field
+                  as={TextField}
+                  label="Street"
+                  name="billingAddress.street"
+                  helperText={touched.billingAddress?.street ? errors.billingAddress?.street : ''}
+                  error={touched.billingAddress?.street && Boolean(errors.billingAddress?.street)}
+                  margin="normal"
+                  fullWidth
+                  variant="standard"
+                />
 
-            <Field
-              as={TextField}
-              label="Postal Code"
-              name="billingAddress.postalCode"
-              helperText={touched.billingAddress?.postalCode ? errors.billingAddress?.postalCode : ''}
-              error={touched.billingAddress?.postalCode && Boolean(errors.billingAddress?.postalCode)}
-              margin="normal"
-              fullWidth
-              variant="standard"
-            />
+                <Field
+                  as={TextField}
+                  label="City"
+                  name="billingAddress.city"
+                  helperText={touched.billingAddress?.city ? errors.billingAddress?.city : ''}
+                  error={touched.billingAddress?.city && Boolean(errors.billingAddress?.city)}
+                  margin="normal"
+                  fullWidth
+                  variant="standard"
+                />
 
-            <FormControl
-              fullWidth
-              margin="normal"
-              error={touched.billingAddress?.country && Boolean(errors.billingAddress?.country)}
-            >
-              <InputLabel>Country</InputLabel>
-              <Field as={Select} name="billingAddress.country" label="Country" displayEmpty variant="standard">
-                <MenuItem value="" disabled>
-                  Choose one
-                </MenuItem>
-                {countries.map((country) => (
-                  <MenuItem key={country.alpha2Code} value={country.alpha2Code}>
-                    {country.name}
-                  </MenuItem>
-                ))}
-              </Field>
-              {touched.billingAddress?.country && errors.billingAddress?.country && (
-                <FormHelperText>{errors.billingAddress?.country}</FormHelperText>
-              )}
-            </FormControl>
+                <Field
+                  as={TextField}
+                  label="Postal Code"
+                  name="billingAddress.postalCode"
+                  helperText={touched.billingAddress?.postalCode ? errors.billingAddress?.postalCode : ''}
+                  error={touched.billingAddress?.postalCode && Boolean(errors.billingAddress?.postalCode)}
+                  margin="normal"
+                  fullWidth
+                  variant="standard"
+                />
 
-            <Field
-              type="checkbox"
-              name="defaultBillingAddress"
-              as={FormControlLabel}
-              control={<Checkbox />}
-              label="Set as default billing address"
-            />
+                <FormControl
+                  fullWidth
+                  margin="normal"
+                  error={touched.billingAddress?.country && Boolean(errors.billingAddress?.country)}
+                >
+                  <InputLabel>Country</InputLabel>
+                  <Field as={Select} name="billingAddress.country" label="Country" displayEmpty variant="standard">
+                    <MenuItem value="" disabled>
+                      Choose one
+                    </MenuItem>
+                    {countries.map((country) => (
+                      <MenuItem key={country.alpha2Code} value={country.alpha2Code}>
+                        {country.name}
+                      </MenuItem>
+                    ))}
+                  </Field>
+                  {touched.billingAddress?.country && errors.billingAddress?.country && (
+                    <FormHelperText>{errors.billingAddress?.country}</FormHelperText>
+                  )}
+                </FormControl>
+
+                <Field
+                  type="checkbox"
+                  name="defaultBillingAddress"
+                  as={FormControlLabel}
+                  control={<Checkbox />}
+                  label="Set as default billing address"
+                />
+              </Box>
+            )}
 
             <Button
               sx={{ marginTop: '30px', marginBottom: '30px' }}
@@ -419,7 +459,7 @@ const RegistrationForm = () => {
             </Button>
 
             <Box display="flex" flexDirection="row" margin="0 auto" alignItems="center" justifyContent="center" gap={4}>
-              <p>Already have an account ? </p>
+              <p>Already have an account ?</p>
               <Link to={LOGIN_ROUTE}>Log in</Link>
             </Box>
           </Form>
