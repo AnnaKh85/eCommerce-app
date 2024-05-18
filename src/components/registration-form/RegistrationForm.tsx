@@ -22,6 +22,7 @@ import { HOME_ROUTE, LOGIN_ROUTE } from '../../services/constants.ts';
 import type { BaseAddress, CustomerDraft } from '../../services/interfaces';
 import { countries } from '../../utils/country';
 import { AuthContext } from '../login/AuthContext.tsx';
+import CustomSnackbar from '../registration-response/Snackbar.tsx';
 import { registrationFormSchema } from './validationSchema';
 
 interface Address {
@@ -43,11 +44,7 @@ interface FormValues {
   defaultBillingAddress: boolean;
 }
 
-interface Props {
-  onRegistrationSuccess: () => void;
-}
-
-const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
+const RegistrationForm = () => {
   const initialValues: FormValues = {
     email: '',
     password: '',
@@ -77,12 +74,14 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
   };
 
   const [serverError, setServerError] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const { isAuthenticated, login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(HOME_ROUTE);
+      handleRegistrationSuccess();
     } else {
       console.debug(`isAuthenticated: ${isAuthenticated}`);
     }
@@ -134,7 +133,6 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
     setServerError('');
     try {
       await createCustomer(customerDraft);
-      onRegistrationSuccess();
       login(values);
       console.log('user entered with values:', values);
     } catch (error) {
@@ -150,6 +148,18 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
       console.log(error);
     }
     setSubmitting(false);
+  };
+
+  const handleRegistrationSuccess = () => {
+    setSnackbarMessage(`Customer was registered!`);
+    setSnackbarOpen(true);
+    setTimeout(() => {
+      navigate(HOME_ROUTE);
+    }, 3000);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -415,6 +425,7 @@ const RegistrationForm = ({ onRegistrationSuccess }: Props) => {
           </Form>
         )}
       </Formik>
+      <CustomSnackbar open={snackbarOpen} message={snackbarMessage} handleClose={handleCloseSnackbar} />
     </Box>
   );
 };
