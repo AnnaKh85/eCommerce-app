@@ -27,7 +27,10 @@ const addressSchema = Yup.object().shape({
         return value == 'US' || value == 'CA';
       },
       then: (schema) =>
-        schema.matches(/^[0-9A-Z]{6}$/, 'Postal code must contain 6 symbols, include numbers and capital letters'),
+        schema.matches(
+          /^[A-Z][0-9][A-Z] [0-9][A-Z][0-9]$/,
+          'Postal code must have the format "A3A 1B1", include numbers and capital letters',
+        ),
       otherwise: (schema) => schema.matches(/^\d{5}$/, 'Postal code must contain only numbers, length of 5 symbols'),
     }),
 });
