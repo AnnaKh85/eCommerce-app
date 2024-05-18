@@ -37,9 +37,8 @@ interface FormValues {
   firstName: string;
   lastName: string;
   dob: string;
-  address: Address;
-  billingAddress: Address;
   shippingAddress: Address;
+  billingAddress: Address;
   defaultShippingAddress: boolean;
   defaultBillingAddress: boolean;
   sameAddress: boolean;
@@ -52,12 +51,6 @@ const RegistrationForm = () => {
     firstName: '',
     lastName: '',
     dob: '',
-    address: {
-      street: '',
-      city: '',
-      postalCode: '',
-      country: '',
-    },
     shippingAddress: {
       street: '',
       city: '',
@@ -90,12 +83,6 @@ const RegistrationForm = () => {
   }, [isAuthenticated]);
 
   const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
-    const address: BaseAddress = {
-      country: values.address.country,
-      streetName: values.address.street,
-      postalCode: values.address.postalCode,
-      city: values.address.city,
-    };
     const shippingAddress: BaseAddress = {
       country: values.shippingAddress.country,
       streetName: values.shippingAddress.street,
@@ -116,9 +103,9 @@ const RegistrationForm = () => {
       billingAddress = shippingAddress;
     }
 
-    const addresses = [address, shippingAddress, billingAddress];
-    const shippingAddressIndex = 1;
-    const billingAddressIndex = 2;
+    const addresses = [shippingAddress, billingAddress];
+    const shippingAddressIndex = 0;
+    const billingAddressIndex = 1;
 
     const customerDraft: CustomerDraft = {
       email: values.email,
@@ -242,65 +229,6 @@ const RegistrationForm = () => {
               fullWidth
               variant="standard"
             />
-
-            <Box maxWidth={600} margin="0 auto">
-              <Typography variant="h6" component="h2" gutterBottom sx={{ margin: 2 }}>
-                Address
-              </Typography>
-              <Field
-                as={TextField}
-                label="Street"
-                name="address.street"
-                helperText={touched.address?.street ? errors.address?.street : ''}
-                error={touched.address?.street && Boolean(errors.address?.street)}
-                margin="normal"
-                fullWidth
-                variant="standard"
-              />
-
-              <Field
-                as={TextField}
-                label="City"
-                name="address.city"
-                helperText={touched.address?.city ? errors.address?.city : ''}
-                error={touched.address?.city && Boolean(errors.address?.city)}
-                margin="normal"
-                fullWidth
-                variant="standard"
-              />
-
-              <Field
-                as={TextField}
-                label="Postal Code"
-                name="address.postalCode"
-                helperText={touched.address?.postalCode ? errors.address?.postalCode : ''}
-                error={touched.address?.postalCode && Boolean(errors.address?.postalCode)}
-                margin="normal"
-                fullWidth
-                variant="standard"
-              />
-
-              <FormControl
-                fullWidth
-                margin="normal"
-                error={touched.address?.country && Boolean(errors.address?.country)}
-              >
-                <InputLabel>Country</InputLabel>
-                <Field as={Select} name="address.country" label="Country" displayEmpty variant="standard">
-                  <MenuItem value="" disabled>
-                    Choose one
-                  </MenuItem>
-                  {countries.map((country) => (
-                    <MenuItem key={country.alpha2Code} value={country.alpha2Code}>
-                      {country.name}
-                    </MenuItem>
-                  ))}
-                </Field>
-                {touched.address?.country && errors.address?.country && (
-                  <FormHelperText>{errors.address?.country}</FormHelperText>
-                )}
-              </FormControl>
-            </Box>
 
             <Box maxWidth={600} margin="0 auto">
               <Typography variant="h6" component="h2" gutterBottom sx={{ margin: 2 }}>

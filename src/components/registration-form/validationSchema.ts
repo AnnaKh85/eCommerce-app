@@ -45,7 +45,6 @@ export const registrationFormSchema = loginFormSchema.shape({
   dob: Yup.date()
     .required('Date of birth is required')
     .max(new Date(Date.now() - 13 * 365 * 24 * 60 * 60 * 1000), 'You must be at least 13 years old'),
-  address: addressSchema,
   shippingAddress: addressSchema,
   sameAddress: Yup.boolean(),
   billingAddress: Yup.object().when('sameAddress', ([sameAddress], schema) => {
