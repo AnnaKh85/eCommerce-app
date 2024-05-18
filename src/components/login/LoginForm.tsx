@@ -43,15 +43,12 @@ const LoginForm: React.FC = () => {
       if (error instanceof ApiError) {
         if (error.responseError.statusCode === 401) {
           setServerError(error.message);
-          console.log('console ERROR: ', error);
         } else {
           setServerError(error.message);
-          console.log('setServerError(error.message): ', error.message);
         }
       } else {
         setServerError('Incorrect email or password');
       }
-      console.log('last console ERROR: ', error);
     }
     setSubmitting(false);
   };

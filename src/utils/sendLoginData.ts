@@ -17,10 +17,9 @@ export default async function setAuth(values: LoginFormValues) {
       body: JSON.stringify(requestBody),
     });
     const responseData = await response.json();
-    console.debug(`LOG IN responseData: ${responseData.customer.firstName}`);
     return responseData;
   } catch (error) {
-    console.error('getAdminBearerToken error: ', error);
+    console.debug('Auth error: ', error);
     throw error;
   }
 }
