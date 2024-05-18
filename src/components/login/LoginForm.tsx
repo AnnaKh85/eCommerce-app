@@ -36,20 +36,22 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = async (values: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
     setSubmitting(true);
-    setServerError('setServerError');
+    setServerError('');
     try {
       await login(values);
     } catch (error) {
       if (error instanceof ApiError) {
         if (error.responseError.statusCode === 401) {
-          setServerError('Something went wrong. Try to reload page!');
+          setServerError(error.message);
+          console.log('console ERROR: ', error);
         } else {
           setServerError(error.message);
           console.log('setServerError(error.message): ', error.message);
         }
       } else {
-        setServerError('Customer is undefined');
+        setServerError('Incorrect email or password');
       }
+      console.log('last console ERROR: ', error);
     }
     setSubmitting(false);
   };
