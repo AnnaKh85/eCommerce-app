@@ -24,6 +24,8 @@ export interface CustomerDraft {
   lastName: string;
   dateOfBirth?: string;
   addresses?: BaseAddress[];
+  shippingAddresses?: number[];
+  billingAddresses?: number[];
   defaultShippingAddress?: number;
   defaultBillingAddress?: number;
 }

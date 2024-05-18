@@ -1,9 +1,10 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { ApiError } from '../../services/api/apiError';
 import { HOME_ROUTE, REGISTRATION_ROUTE } from '../../services/constants';
 import { useAuth } from './AuthContext';
 import { loginFormSchema } from './validateLogin';
@@ -23,6 +24,8 @@ const LoginForm: React.FC = () => {
     password: '',
   };
 
+  const [serverError, setServerError] = useState('');
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate(HOME_ROUTE);
@@ -31,11 +34,22 @@ const LoginForm: React.FC = () => {
     }
   }, [isAuthenticated]);
 
-  const handleSubmit = (values: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
-    login(values);
-    console.log('LOGIN handleSubmit: ', values);
-    console.log('isAuthenticated:', isAuthenticated);
-    // setAuth(values);
+  const handleSubmit = async (values: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
+    setSubmitting(true);
+    setServerError('');
+    try {
+      await login(values);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        if (error.responseError.statusCode === 401) {
+          setServerError(error.message);
+        } else {
+          setServerError(error.message);
+        }
+      } else {
+        setServerError('Incorrect email or password');
+      }
+    }
     setSubmitting(false);
   };
 
@@ -44,6 +58,13 @@ const LoginForm: React.FC = () => {
       <Formik initialValues={initValues} validationSchema={loginFormSchema} onSubmit={handleSubmit}>
         {({ isSubmitting, touched, errors }) => (
           <Form>
+            {serverError && (
+              <div>
+                <Typography variant="body1" color="error" fontWeight="bold">
+                  {serverError}
+                </Typography>
+              </div>
+            )}
             <Field
               as={TextField}
               label="Email"
