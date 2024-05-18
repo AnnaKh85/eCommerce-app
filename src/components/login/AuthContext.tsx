@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (customerId) {
       setIsAuthenticated(true);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   const login = async (values: LoginFormValues) => {
     const response = await setAuth(values);
