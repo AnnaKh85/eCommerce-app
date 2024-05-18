@@ -31,13 +31,13 @@ function MainPage() {
       {/*<h2>MainPage</h2>*/}
       {/*<Card />*/}
       <Container style={styles.banner}>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="h3" gutterBottom sx={{ fontSize: { xs: '1.5rem', sm: '2.25rem' } }}>
           Welcome to Mammagamma – Your Ultimate Destination for Biking Enthusiasts!
         </Typography>
         <Container
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: { xs: 'column', sm: 'row' },
             justifyContent: 'center',
             alignItems: 'center',
             textAlign: 'left',
@@ -58,7 +58,7 @@ function MainPage() {
               padding: '20px',
             }}
           >
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography variant="subtitle1" gutterBottom sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}>
               Whether you’re a seasoned rider or just starting your biking journey, we’ve got something for everyone.
               Explore our wide range of bicycles, gear up with top-quality accessories, and experience the thrill of the
               open road.
@@ -84,7 +84,7 @@ function MainPage() {
           gap: '20px',
         }}
       >
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom sx={{ fontSize: { xs: '1.5rem', sm: '2.25rem' } }}>
           Explore Our Collection
         </Typography>
         <CardCollection />
@@ -106,10 +106,10 @@ function MainPage() {
           marginBottom: '30px',
         }}
       >
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom sx={{ fontSize: { xs: '1.5rem', sm: '2.25rem' } }}>
           Ready to ride? Browse our online store or visit our physical location. Mammagamma – Where Adventure Begins!
         </Typography>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom sx={{ fontSize: { xs: '1.1rem', sm: '1.8rem' } }}>
           Remember, life is like riding a bicycle – to keep your balance, you must keep moving!
         </Typography>
       </Container>
