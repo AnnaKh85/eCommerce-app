@@ -19,7 +19,8 @@ export default async function setAuth(values: LoginFormValues) {
     const responseData = await response.json();
     console.debug(`LOG IN responseData: ${responseData.customer.firstName}`);
     return responseData;
-  } catch (e: unknown) {
-    console.error('An unknown error occurred with getAdminBearerToken: ', e);
+  } catch (error) {
+    console.error('getAdminBearerToken error: ', error);
+    throw error;
   }
 }
