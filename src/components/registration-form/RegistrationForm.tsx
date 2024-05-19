@@ -78,10 +78,8 @@ const RegistrationForm = () => {
   useEffect(() => {
     if (isAuthenticated) {
       handleRegistrationSuccess();
-    } else {
-      console.debug(`isAuthenticated: ${isAuthenticated}`);
     }
-  }, [isAuthenticated]);
+  }, []);
 
   const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
     const shippingAddress: BaseAddress = {
@@ -130,7 +128,6 @@ const RegistrationForm = () => {
     try {
       await createCustomer(customerDraft);
       login(values);
-      console.log('user entered with values:', values);
     } catch (error) {
       if (error instanceof ApiError) {
         if (error.responseError.statusCode === 401) {
@@ -141,7 +138,6 @@ const RegistrationForm = () => {
       } else {
         setServerError('Something went wrong');
       }
-      console.log(error);
     }
     setSubmitting(false);
   };
