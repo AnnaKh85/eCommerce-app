@@ -29,8 +29,6 @@ const LoginForm: React.FC = () => {
   useEffect(() => {
     if (isAuthenticated) {
       navigate(HOME_ROUTE);
-    } else {
-      console.debug(`isAuthenticated: ${isAuthenticated}`);
     }
   }, [isAuthenticated]);
 
