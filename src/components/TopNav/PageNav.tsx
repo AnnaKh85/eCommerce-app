@@ -8,8 +8,15 @@ import { ABOUT_US, CATALOG_ROUTE, HOME_ROUTE } from '../../services/constants.ts
 
 function PageNav() {
   return (
-    <Box sx={{ width: 500 }}>
-      <BottomNavigation showLabels>
+    <Box sx={{ minWidth: '270px' }}>
+      <BottomNavigation
+        showLabels
+        sx={{
+          '.MuiBottomNavigationAction-label': {
+            display: { xs: 'none', sm: 'inline' },
+          },
+        }}
+      >
         <BottomNavigationAction
           label="HOME"
           icon={<HomeIcon sx={{ color: '#2A254B' }} />}

@@ -23,6 +23,15 @@ export const theme = createTheme({
       dark: '#702c5b',
     },
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
 });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

@@ -54,7 +54,18 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <Box width={400} display="flex" flexDirection="column" margin="0 auto" alignItems="center">
+    <Box
+      sx={{
+        width: {
+          xs: '100%',
+          sm: '500px',
+        },
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '0 auto',
+        alignItems: 'center',
+      }}
+    >
       <Formik initialValues={initValues} validationSchema={loginFormSchema} onSubmit={handleSubmit}>
         {({ isSubmitting, touched, errors }) => (
           <Form>
@@ -100,14 +111,23 @@ const LoginForm: React.FC = () => {
             </Button>
 
             <Box
-              width={400}
+              sx={{
+                width: {
+                  xs: '100%',
+                  sm: '500px',
+                },
+                display: 'flex',
+                flexDirection: 'row',
+                margin: '0 auto',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                fontSize: {
+                  xs: '12px',
+                  sm: '16px',
+                },
+              }}
               my={4}
-              display="flex"
-              flexDirection="row"
-              margin="0 auto"
-              alignItems="center"
-              gap={4}
-              p={2}
             >
               <p>Do not have an account ? </p>
               <Link to={REGISTRATION_ROUTE}>Register now</Link>

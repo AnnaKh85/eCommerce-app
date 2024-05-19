@@ -17,7 +17,7 @@ function CardWhyUs() {
         gap: '20px',
       }}
     >
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontSize: { xs: '1.5rem', sm: '2.25rem' } }}>
         Why Choose Mammagamma?
       </Typography>
       <Box sx={{ flexGrow: 1 }}>
@@ -27,10 +27,10 @@ function CardWhyUs() {
               <Card variant="outlined" style={{ border: '0' }}>
                 <CardMedia sx={{ height: 140, backgroundSize: 'cover' }} image={bicycle115} title="bicycle2" />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5" component="div" sx={{ fontSize: { xs: '1.1rem', sm: '2rem' } }}>
                     Quality Bikes
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}>
                     Discover a curated collection of high-performance bikes – from sleek road bikes to rugged mountain
                     bikes. Our expert team ensures that every bike meets the highest standards.
                   </Typography>
@@ -43,10 +43,10 @@ function CardWhyUs() {
               <Card variant="outlined" style={{ border: '0' }}>
                 <CardMedia sx={{ height: 140, backgroundSize: 'cover' }} image={bicycle111} title="bicycle2" />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5" component="div" sx={{ fontSize: { xs: '1.1rem', sm: '2rem' } }}>
                     Service and Repairs
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}>
                     Our in-house mechanics provide top-notch service and repairs. Keep your bike in tip-top shape with
                     our maintenance packages.
                   </Typography>
@@ -60,10 +60,10 @@ function CardWhyUs() {
               <Card variant="outlined" style={{ border: '0' }}>
                 <CardMedia sx={{ height: 140, backgroundSize: 'cover' }} image={bicycle112} title="bicycle2" />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5" component="div" sx={{ fontSize: { xs: '1.1rem', sm: '2rem' } }}>
                     Community Hub
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}>
                     Join our cycling community! Attend group rides, workshops, and events. Share your biking stories and
                     connect with fellow enthusiasts.
                   </Typography>
@@ -76,10 +76,10 @@ function CardWhyUs() {
               <Card variant="outlined" style={{ border: '0' }}>
                 <CardMedia sx={{ height: 140, backgroundSize: 'cover' }} image={bicycle18} title="bicycle2" />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5" component="div" sx={{ fontSize: { xs: '1.1rem', sm: '2rem' } }}>
                     Expert Advice
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}>
                     Need guidance? Our knowledgeable staff is here to assist you in choosing the perfect bike based on
                     your preferences, riding style, and terrain.
                   </Typography>

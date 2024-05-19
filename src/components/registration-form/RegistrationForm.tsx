@@ -31,6 +31,7 @@ interface Address {
   postalCode: string;
   country: string;
 }
+
 interface FormValues {
   email: string;
   password: string;
@@ -158,7 +159,22 @@ const RegistrationForm = () => {
   };
 
   return (
-    <Box width={400} display="flex" flexDirection="column" margin="0 auto" alignItems="center">
+    <Box
+      sx={{
+        width: {
+          xs: '100%',
+          sm: '500px',
+        },
+        fontSize: {
+          xs: '0.8rem',
+          sm: '1rem',
+        },
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '0 auto',
+        alignItems: 'center',
+      }}
+    >
       <Formik initialValues={initialValues} validationSchema={registrationFormSchema} onSubmit={handleSubmit}>
         {({ isSubmitting, touched, errors, values }) => (
           <Form className="registration-form">
@@ -386,7 +402,25 @@ const RegistrationForm = () => {
               Register
             </Button>
 
-            <Box display="flex" flexDirection="row" margin="0 auto" alignItems="center" justifyContent="center" gap={4}>
+            <Box
+              sx={{
+                width: {
+                  xs: '100%',
+                  sm: '500px',
+                },
+                display: 'flex',
+                flexDirection: 'row',
+                margin: '0 auto',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                fontSize: {
+                  xs: '12px',
+                  sm: '16px',
+                },
+              }}
+              my={4}
+            >
               <p>Already have an account ?</p>
               <Link to={LOGIN_ROUTE}>Log in</Link>
             </Box>
