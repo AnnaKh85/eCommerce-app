@@ -141,7 +141,7 @@ function TopNav() {
             <PersonAddIcon
               sx={{
                 display: { xs: 'flex', sm: 'none' },
-                fontSize: { sx: '1rem', md: '2rem' },
+                fontSize: { sx: '1rem', sm: '2rem' },
                 mr: 1,
               }}
             />
