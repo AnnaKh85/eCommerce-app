@@ -79,10 +79,7 @@ const RegistrationForm = () => {
     if (isAuthenticated) {
       handleRegistrationSuccess();
     }
-    // } else {
-    //   console.debug(`isAuthenticated: ${isAuthenticated}`);
-    // }
-  }, [isAuthenticated]);
+  }, []);
 
   const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
     const shippingAddress: BaseAddress = {
