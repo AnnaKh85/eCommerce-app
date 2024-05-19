@@ -1,46 +1,21 @@
-.nav {
-    display: flex;
-    justify-content: space-between;
-}
-
 .topnav {
-    width: 100%;
-    min-height: 71px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.main-menu-link {
-    list-style-type: none;
-    text-decoration: none;
-    margin: 0 auto;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    min-height: 71px;
-    width: 100%;
-}
-
-.main-menu-link a {
-    text-decoration: none;
-    font-size: 16px;
-    font-family: var(--font-family-satoshi);
-    color: var(--color-text-link);
+  width: 100%;
+  min-height: 71px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .main-logo {
-    height: 71px;
+  height: 100px;
 }
 
 .icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    color: var(--color-dark-primary);
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: var(--color-dark-primary);
+  cursor: pointer;
 }

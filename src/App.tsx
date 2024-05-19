@@ -11,6 +11,7 @@ import BasketPage from './pages/BasketPage.tsx';
 import CatalogPage from './pages/CatalogPage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import MainPage from './pages/MainPage.tsx';
+import ProfilePage from './pages/ProfilePage.tsx';
 import RegistrationPage from './pages/RegistrationPage.tsx';
 import {
   ABOUT_US,
@@ -18,6 +19,7 @@ import {
   CATALOG_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
+  PROFILE_ROUTE,
   REGISTRATION_ROUTE,
 } from './services/constants.ts';
 import { getAdminBearerToken } from './utils/getAdminToken.ts';
@@ -58,6 +60,11 @@ const router = createBrowserRouter([
         element: <BasketPage />,
         errorElement: <Error />,
       },
+      {
+        path: PROFILE_ROUTE,
+        element: <ProfilePage />,
+        errorElement: <Error />,
+      },
     ],
   },
 ]);
@@ -68,9 +75,7 @@ function App() {
   useEffect(() => {
     const fetchAndStoreToken = async () => {
       const token = await getAdminBearerToken();
-      if (!localStorage.getItem('adminToken')) {
-        localStorage.setItem('adminToken', token);
-      }
+      localStorage.setItem('adminToken', token);
       setIsToken(true);
     };
     fetchAndStoreToken();

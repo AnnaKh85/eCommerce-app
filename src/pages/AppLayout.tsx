@@ -1,23 +1,27 @@
 import { Outlet, useNavigation } from 'react-router-dom';
 
+import Footer from '../components/footer/Footer.tsx';
 import Loader from '../components/loader/Loader.tsx';
-import TopNav from '../components/TopNav/TopNav.tsx';
-import TopNavLinks from '../components/TopNav/TopNavLinks.tsx';
+import { AuthProvider } from '../components/login/AuthContext.tsx';
+// import TopNav from '../components/TopNav/TopNav.tsx';
+import TopNavResp from '../components/TopNav/TopNavResp.tsx';
 
 function AppLayout() {
   const navigation = useNavigation();
   const isLoading = navigation.state === 'loading';
 
   return (
-    <>
-      {isLoading && <Loader />}
-      <TopNav />
-      <TopNavLinks />
-      <main>
-        <Outlet />
-      </main>
-      {/*<footer>Footer</footer>*/}
-    </>
+    <AuthProvider>
+      <>
+        {isLoading && <Loader />}
+        {/*<TopNav />*/}
+        <TopNavResp />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+      </>
+    </AuthProvider>
   );
 }
 

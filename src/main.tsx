@@ -10,7 +10,7 @@ const rootDiv = document.createElement('div');
 rootDiv.id = 'root';
 document.body.appendChild(rootDiv);
 
-const theme = createTheme({
+export const theme = createTheme({
   palette: {
     primary: {
       main: '#2A254B',
@@ -21,6 +21,15 @@ const theme = createTheme({
       main: '#9a3270',
       light: '#ddb9d5',
       dark: '#702c5b',
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1280,
+      xl: 1920,
     },
   },
 });
