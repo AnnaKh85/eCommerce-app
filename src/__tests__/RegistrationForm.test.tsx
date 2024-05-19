@@ -1,39 +1,58 @@
-describe.skip('RegistrationForm Submit Button', () => {
-  // it('should enable the submit button initially', async () => {
-  //   render(<RegistrationForm  onRegistrationSuccess={}/>);
-  //   const submitButton = screen.getByRole('button', { name: 'Register' });
-  //   expect(submitButton).not.toBeDisabled();
-  // });
-  //
-  // it('should disable the submit button when the form is submitting', async () => {
-  //   render(<RegistrationForm />);
-  //   const submitButton = screen.getByRole('button', { name: 'Register' });
-  //   fireEvent.click(submitButton);
-  //   expect(submitButton).toBeDisabled();
-  // });
-  //
-  // it('should re-enable the submit button after form submission is complete', async () => {
-  //   render(<RegistrationForm />);
-  //   const submitButton = screen.getByRole('button', { name: 'Register' });
-  //   fireEvent.click(submitButton);
-  //   await waitFor(() => expect(submitButton).not.toBeDisabled());
-  // });
-  //
-  // it('should disable the submit button upon form re-submission', async () => {
-  //   render(<RegistrationForm />);
-  //   const submitButton = screen.getByRole('button', { name: 'Register' });
-  //   fireEvent.click(submitButton);
-  //   await waitFor(() => expect(submitButton).not.toBeDisabled());
-  //   fireEvent.click(submitButton);
-  //   expect(submitButton).toBeDisabled();
-  // });
-  //
-  // it('should enable the submit button when the form is reset after submission', async () => {
-  //   render(<RegistrationForm />);
-  //   const submitButton = screen.getByRole('button', { name: 'Register' });
-  //   fireEvent.click(submitButton);
-  //   await waitFor(() => expect(submitButton).not.toBeDisabled());
-  //
-  //   expect(submitButton).not.toBeDisabled();
-  // });
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react'; // Import React
+import { BrowserRouter } from 'react-router-dom';
+
+import RegistrationForm from '../components/registration-form/RegistrationForm.tsx';
+
+describe('RegistrationForm Checkbox States', () => {
+  // Define types for the parameters
+  const renderWithRouter = (ui: React.ReactElement, { route = '/' }: { route?: string } = {}) => {
+    window.history.pushState({}, 'Test page', route);
+    return render(ui, { wrapper: BrowserRouter });
+  };
+  it('should check defaultShippingAddress checkbox correctly', async () => {
+    renderWithRouter(<RegistrationForm />);
+    const defaultShippingAddressCheckbox = screen.getByLabelText('Set as default shipping address');
+    expect(defaultShippingAddressCheckbox).not.toBeChecked();
+    await userEvent.click(defaultShippingAddressCheckbox);
+    expect(defaultShippingAddressCheckbox).toBeChecked();
+  });
+
+  it('should check defaultBillingAddress checkbox correctly when sameAddress is unchecked', async () => {
+    renderWithRouter(<RegistrationForm />);
+    const sameAddressCheckbox = screen.getByLabelText('Use the same address for both billing and shipping');
+    await userEvent.click(sameAddressCheckbox); // Uncheck if initially checked
+    await userEvent.click(sameAddressCheckbox); // Re-check to ensure it's unchecked for this test
+    const defaultBillingAddressCheckbox = screen.getByRole('checkbox', { name: 'Set as default billing address' });
+    expect(defaultBillingAddressCheckbox).not.toBeChecked();
+    await userEvent.click(defaultBillingAddressCheckbox);
+    expect(defaultBillingAddressCheckbox).toBeChecked();
+  });
+
+  it('should not allow defaultBillingAddress checkbox to be checked when sameAddress is checked', async () => {
+    renderWithRouter(<RegistrationForm />);
+    const sameAddressCheckbox = screen.getByLabelText('Use the same address for both billing and shipping');
+    await userEvent.click(sameAddressCheckbox); // Ensure it's checked
+    const defaultBillingAddressCheckbox = screen.queryByRole('checkbox', { name: 'Set as default billing address' });
+    expect(defaultBillingAddressCheckbox).toBeNull();
+  });
+
+  it('should toggle sameAddress checkbox correctly', async () => {
+    renderWithRouter(<RegistrationForm />);
+    const sameAddressCheckbox = screen.getByLabelText('Use the same address for both billing and shipping');
+    expect(sameAddressCheckbox).not.toBeChecked();
+    await userEvent.click(sameAddressCheckbox);
+    expect(sameAddressCheckbox).toBeChecked();
+    await userEvent.click(sameAddressCheckbox);
+    expect(sameAddressCheckbox).not.toBeChecked();
+  });
+
+  it('should ensure that checking sameAddress checkbox hides the billing address fields', async () => {
+    renderWithRouter(<RegistrationForm />);
+    const sameAddressCheckbox = screen.getByLabelText('Use the same address for both billing and shipping');
+    await userEvent.click(sameAddressCheckbox);
+    const billingAddressFields = screen.queryByText('Billing address');
+    expect(billingAddressFields).toBeNull();
+  });
 });

@@ -36,26 +36,4 @@ describe('LoginForm', () => {
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
     expect(passwordInput.value).toBe('password123');
   });
-
-  test.skip('displays error message for invalid email format', async () => {
-    renderWithRouter(<LoginForm />);
-    const emailInput = screen.getByLabelText(/email/i) as HTMLInputElement;
-    fireEvent.change(emailInput, { target: { value: 'invalidemail' } });
-    const errorMessage = await screen.findByText(/invalid email address/i);
-    expect(errorMessage).toBeInTheDocument();
-  });
-
-  test.skip('displays error message for invalid password format', async () => {
-    renderWithRouter(<LoginForm />);
-    const passwordInput = screen.getByLabelText(/password/i) as HTMLInputElement;
-    fireEvent.change(passwordInput, { target: { value: 'short' } });
-    const errorMessage = await screen.findByText(/password is too short/i);
-    expect(errorMessage).toBeInTheDocument();
-  });
-
-  test.skip('submit button is disabled when form inputs are invalid', () => {
-    renderWithRouter(<LoginForm />);
-    const submitButton = screen.getByRole('button', { name: /log in/i });
-    expect(submitButton).toBeDisabled();
-  });
 });

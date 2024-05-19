@@ -28,6 +28,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/styles.d.ts"],
+  "include": ["src", "src/styles.d.ts", "node_modules/vitest/globals.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
