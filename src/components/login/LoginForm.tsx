@@ -30,7 +30,7 @@ const LoginForm: React.FC = () => {
     if (isAuthenticated) {
       navigate(HOME_ROUTE);
     }
-  }, [isAuthenticated]);
+  }, []);
 
   const handleSubmit = async (values: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
     setSubmitting(true);
