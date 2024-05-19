@@ -128,7 +128,7 @@ const RegistrationForm = () => {
     try {
       await createCustomer(customerDraft);
       login(values);
-      console.log('user entered with values:', values);
+      // console.log('user entered with values:', values);
     } catch (error) {
       if (error instanceof ApiError) {
         if (error.responseError.statusCode === 401) {
