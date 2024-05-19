@@ -78,9 +78,10 @@ const RegistrationForm = () => {
   useEffect(() => {
     if (isAuthenticated) {
       handleRegistrationSuccess();
-    } else {
-      console.debug(`isAuthenticated: ${isAuthenticated}`);
     }
+    // } else {
+    //   console.debug(`isAuthenticated: ${isAuthenticated}`);
+    // }
   }, [isAuthenticated]);
 
   const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
