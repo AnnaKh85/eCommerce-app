@@ -75,9 +75,7 @@ function App() {
   useEffect(() => {
     const fetchAndStoreToken = async () => {
       const token = await getAdminBearerToken();
-      if (!localStorage.getItem('adminToken')) {
-        localStorage.setItem('adminToken', token);
-      }
+      localStorage.setItem('adminToken', token);
       setIsToken(true);
     };
     fetchAndStoreToken();

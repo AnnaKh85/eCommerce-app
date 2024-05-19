@@ -51,9 +51,10 @@ function ResponsiveAppBar() {
   useEffect(() => {
     if (isAuthenticated) {
       navigate(HOME_ROUTE);
-    } else {
-      console.debug(`isAuthenticated: ${isAuthenticated}`);
     }
+    //  else {
+    //   console.debug(`isAuthenticated: ${isAuthenticated}`);
+    // }
   }, [isAuthenticated]);
 
   const handleLogout = () => {
