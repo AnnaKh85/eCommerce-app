@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <AppBar position="sticky" sx={{ top: 'auto', bottom: 0 }}>
+    <AppBar position="static" sx={{ top: 'auto', bottom: 0 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <DirectionsBikeIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

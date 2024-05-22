@@ -52,9 +52,6 @@ function ResponsiveAppBar() {
     if (isAuthenticated) {
       navigate(HOME_ROUTE);
     }
-    //  else {
-    //   console.debug(`isAuthenticated: ${isAuthenticated}`);
-    // }
   }, [isAuthenticated]);
 
   const handleLogout = () => {
@@ -79,7 +76,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <DirectionsBikeIcon sx={{ display: { xs: 'none', sm: 'flex' }, mr: 1 }} />
