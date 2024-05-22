@@ -1,3 +1,5 @@
+import { PRODUCT_KEY } from '../services/constants.ts';
+
 export async function getAdminBearerToken() {
   try {
     const response = await fetch(
@@ -6,8 +8,7 @@ export async function getAdminBearerToken() {
       }`,
       {
         headers: {
-          Authorization:
-            'Basic ' + btoa(`${import.meta.env.VITE_CTP_CLIENT_ID}:${import.meta.env.VITE_CTP_CLIENT_SECRET}`),
+          Authorization: 'Basic Rk4yS1ozenN4OVFDclR0enRvRmZLSDliOkYtbTBxRW9lYmNLZEo5WTFJN3kxMlM5Q0ZQZHNGNmZ4',
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         method: 'POST',
@@ -17,5 +18,25 @@ export async function getAdminBearerToken() {
     return responseData.access_token;
   } catch (e: unknown) {
     console.error('An unknown error occurred with getAdminBearerToken: ', e);
+  }
+}
+
+export async function generateAnonymousToken() {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_CTP_AUTH_URL}/oauth/${PRODUCT_KEY}/anonymous/token?grant_type=client_credentials`,
+      {
+        headers: {
+          Authorization: 'Basic Rk4yS1ozenN4OVFDclR0enRvRmZLSDliOkYtbTBxRW9lYmNLZEo5WTFJN3kxMlM5Q0ZQZHNGNmZ4',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        method: 'POST',
+      },
+    );
+
+    const token = await response.json();
+    return token.access_token;
+  } catch (err) {
+    console.error(err);
   }
 }

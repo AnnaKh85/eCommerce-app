@@ -22,7 +22,7 @@ import {
   PROFILE_ROUTE,
   REGISTRATION_ROUTE,
 } from './services/constants.ts';
-import { getAdminBearerToken } from './utils/getAdminToken.ts';
+import { generateAnonymousToken, getAdminBearerToken } from './utils/getAdminToken.ts';
 
 const router = createBrowserRouter([
   {
@@ -79,6 +79,13 @@ function App() {
       setIsToken(true);
     };
     fetchAndStoreToken();
+
+    const setAnonymousToken = async () => {
+      const response = await generateAnonymousToken();
+      sessionStorage.setItem('anonymousToken', response);
+      return response;
+    };
+    setAnonymousToken();
   }, []);
 
   return <>{isToken && <RouterProvider router={router} />}</>;

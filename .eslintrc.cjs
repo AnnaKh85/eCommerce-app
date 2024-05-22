@@ -23,6 +23,9 @@ module.exports = {
         node: true,
       },
       files: ['.eslintrc.{js,cjs}', '*.ts', '*.tsx', '*.js', '*.jsx', '*.ts', '*.tsx', '*.js', '*.jsx', '*.html'],
+      rules: {
+        "react/prop-types": "off",
+      },
       parserOptions: {
         sourceType: 'script',
       },

@@ -53,3 +53,84 @@ export interface Error {
   code: string;
   message: string;
 }
+
+export interface ICategory {
+  id: string;
+  version: number;
+  versionModifiedAt: string;
+  lastMessageSequenceNumber: number;
+  createdAt: string;
+  lastModifiedAt: string;
+  lastModifiedBy: { isPlatformClient: boolean };
+  createdBy: { isPlatformClient: boolean };
+  key: string;
+  name: ILocalizedString;
+  slug: ILocalizedString;
+  orderHint: string;
+}
+
+interface IReference {
+  typeId: string;
+  id: string;
+}
+
+interface ILocalizedString {
+  [key: string]: string;
+}
+
+interface IPrice {
+  id: string;
+  value: {
+    type: string;
+    currencyCode: string;
+    centAmount: number;
+    fractionDigits: number;
+  };
+  country: string;
+}
+
+interface IImage {
+  url: string;
+  label: string;
+  dimensions: {
+    w: number;
+    h: number;
+  };
+}
+
+interface IAttribute {
+  name: string;
+  value: string | ILocalizedString;
+}
+
+interface IVariant {
+  id: number;
+  sku: string;
+  key: string;
+  prices: IPrice[];
+  images: IImage[];
+  attributes: IAttribute[];
+}
+
+export interface IProduct {
+  id: string;
+  version: number;
+  productType: IReference;
+  name: ILocalizedString;
+  description: ILocalizedString;
+  categories: IReference[];
+  categoryOrderHints: Record<string, string>;
+  slug: ILocalizedString;
+  metaTitle: ILocalizedString;
+  metaDescription: ILocalizedString;
+  variants: IVariant[];
+  masterVariant: IVariant;
+  searchKeywords: Record<string, string>;
+  hasStagedChanges: boolean;
+  published: boolean;
+  key: string;
+  taxCategory: IReference;
+  priceMode: string;
+  createdAt: string;
+  lastModifiedAt: string;
+}
