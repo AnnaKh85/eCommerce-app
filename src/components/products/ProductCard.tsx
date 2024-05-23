@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       sx={{
         maxWidth: 345,
         margin: '10px 0',
-        height: '470px',
+        height: '400px',
         display: 'flex',
         flexDirection: 'row',
         gap: '10px',
@@ -30,7 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <CardMedia
           component="img"
           alt={product.name['en-GB']}
-          height="140"
+          height="100"
           image={product.masterVariant.images[0].url}
           sx={{ objectFit: 'contain' }}
         />
@@ -44,16 +44,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             sx={{
               fontSize: { xs: '0.8rem', sm: '0.9rem' },
               textAlign: { xs: 'center', sm: 'left' },
-              height: '150px',
+              display: '-webkit-box',
+              overflow: 'hidden',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 3,
+              height: '60px',
             }}
           >
             {product.description['en-GB']}
           </Typography>
           <Typography
             color="text.primary"
-            sx={{ fontSize: { xs: '0.8rem', sm: '1rem', fontWeight: '700', margin: '8px' } }}
+            sx={{ fontSize: { xs: '0.8rem', sm: '1rem', fontWeight: '700', margin: '16px' } }}
           >
-            Price: {product.masterVariant.prices[0].value.centAmount / 100}{' '}
+            Price: {product.masterVariant.prices[0].value.centAmount / 100}
             {product.masterVariant.prices[0].value.currencyCode}
           </Typography>
         </CardContent>
@@ -67,8 +71,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             gap: '10px',
           }}
         >
-          <Button size="small" variant={'outlined'}>
-            Details
+          <Button size="small" variant="outlined" onClick={() => {}}>
+            Show more
           </Button>
           <Button size="small" variant={'outlined'}>
             <AddShoppingCartIcon />
