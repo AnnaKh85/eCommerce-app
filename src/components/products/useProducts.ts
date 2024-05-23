@@ -9,7 +9,7 @@ export function useProducts() {
     error,
   } = useQuery({
     queryKey: ['products'],
-    queryFn: () => getFilteredProducts('8159c386-d6d2-46b3-abea-9ef140b3e0f5', '', 0),
+    queryFn: () => getFilteredProducts('', '', 0),
   });
 
   return { isLoading, error, products };

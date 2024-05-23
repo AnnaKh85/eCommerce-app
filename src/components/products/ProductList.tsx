@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 
 import type { IProduct } from '../../services/interfaces.ts';
 import ProductCard from './ProductCard.tsx';
@@ -11,11 +11,21 @@ export default function ProductList() {
   if (error) return <div>An error occurred: {error.message}</div>;
 
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        overflow: 'hidden',
+        p: 2,
+        width: '70%',
+      }}
+    >
       {products &&
         products.results.map((product: IProduct) => {
           return <ProductCard product={product} key={product.id} />;
         })}
-    </>
+    </Box>
   );
 }

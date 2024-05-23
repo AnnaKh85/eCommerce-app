@@ -48,7 +48,7 @@ export default function CategoryList() {
                     inputProps={{ 'aria-labelledby': labelId }}
                   />
                 </ListItemIcon>
-                <ListItemText id={labelId} primary={category.name['en-US']} />
+                <ListItemText id={labelId} primary={category.name['en-GB']} />
               </ListItemButton>
             </ListItem>
           );
