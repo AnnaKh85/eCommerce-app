@@ -42,4 +42,5 @@ body {
   min-width: 320px;
   font-family: var(--font-family-clash);
   color: var(--color-dark-primary);
+  overflow-x: hidden;
 }
