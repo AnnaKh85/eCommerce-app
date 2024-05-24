@@ -6,10 +6,11 @@ import { useProducts } from './useProducts.ts';
 
 interface ProductListProps {
   selectedCategory: string | null;
+  selectedPriceRange: string | null;
 }
 
-export default function ProductList({ selectedCategory }: ProductListProps) {
-  const { isLoading, products, error } = useProducts(selectedCategory || '');
+export default function ProductList({ selectedCategory, selectedPriceRange }: ProductListProps) {
+  const { isLoading, products, error } = useProducts(selectedCategory || '', selectedPriceRange || '');
 
   if (isLoading) return <CircularProgress />;
   if (error) return <div>An error occurred: {error.message}</div>;

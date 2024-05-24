@@ -1,24 +1,21 @@
 import { Box, ListItem, Typography } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import React from 'react';
-export default function PriceOptions() {
-  const [checked, setChecked] = React.useState([0]);
+import Radio from '@mui/material/Radio';
+import { useState } from 'react';
 
-  const handleToggle = (value: number) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+interface PriceOptionsProps {
+  setSelectedPriceRange: (priceRange: string) => void;
+}
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+export default function PriceOptions({ setSelectedPriceRange }: PriceOptionsProps) {
+  const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
 
-    setChecked(newChecked);
+  const handleSelectPriceRange = (priceRange: string) => {
+    setSelectedPrice(priceRange);
+    setSelectedPriceRange(priceRange);
   };
 
   return (
@@ -36,16 +33,16 @@ export default function PriceOptions() {
           Price:
         </Typography>
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-          {['0-5000', '5001-10000', '10001-50000', '50001+'].map((value) => {
-            const labelId = `checkbox-list-label-${value}`;
+          {['0-5000', '5001-10000', '10001-50000', '50001-500000'].map((value) => {
+            const labelId = `radio-list-label-${value}`;
 
             return (
               <ListItem key={value} disablePadding>
-                <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
+                <ListItemButton role={undefined} onClick={() => handleSelectPriceRange(value)} dense>
                   <ListItemIcon>
-                    <Checkbox
+                    <Radio
                       edge="start"
-                      checked={checked.indexOf(value) !== -1}
+                      checked={selectedPrice === value}
                       tabIndex={-1}
                       disableRipple
                       inputProps={{ 'aria-labelledby': labelId }}

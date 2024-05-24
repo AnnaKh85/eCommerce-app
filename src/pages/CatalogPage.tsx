@@ -13,6 +13,7 @@ import type { ICategory } from '../services/interfaces.ts';
 function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null);
+  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
   const { categories } = useCategories();
 
   useEffect(() => {
@@ -22,10 +23,15 @@ function CatalogPage() {
     }
   }, [selectedCategory, categories]);
 
-  const handleDelete = () => {
+  const handleDeleteCategory = () => {
     console.info('You clicked the delete icon.');
     setSelectedCategory(null);
     setSelectedCategoryName(null);
+  };
+
+  const handleDeletePriceRange = () => {
+    console.info('You clicked the delete icon.');
+    setSelectedPriceRange(null);
   };
 
   return (
@@ -53,7 +59,7 @@ function CatalogPage() {
           }}
         >
           <CategoryList setSelectedCategory={setSelectedCategory} />
-          <PriceOptions />
+          <PriceOptions setSelectedPriceRange={setSelectedPriceRange} />
           <ColorOptions />
         </Box>
 
@@ -79,10 +85,15 @@ function CatalogPage() {
           >
             <Typography variant="h6">Applied filters: </Typography>
             <Stack direction="row" spacing={1}>
-              {selectedCategoryName && <Chip label={selectedCategoryName} variant="outlined" onDelete={handleDelete} />}
+              {selectedCategoryName && (
+                <Chip label={selectedCategoryName} variant="outlined" onDelete={handleDeleteCategory} />
+              )}
+              {selectedPriceRange && (
+                <Chip label={`Price: ${selectedPriceRange}`} variant="outlined" onDelete={handleDeletePriceRange} />
+              )}
             </Stack>
           </Box>
-          <ProductList selectedCategory={selectedCategory} />
+          <ProductList selectedCategory={selectedCategory} selectedPriceRange={selectedPriceRange} />
         </Box>
       </Box>
     </>
