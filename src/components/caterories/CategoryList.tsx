@@ -1,10 +1,10 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Radio from '@mui/material/Radio'; // Import Radio instead of Checkbox
 import * as React from 'react';
 
 import type { ICategory } from '../../services/interfaces.ts';
@@ -15,21 +15,12 @@ interface CategoryListProps {
 }
 
 export default function CategoryList({ setSelectedCategory }: CategoryListProps) {
-  const [checked, setChecked] = React.useState<ICategory[]>([]);
+  const [selected, setSelected] = React.useState<string | null>(null); // Use a single state for the selected category
   const { isLoading, categories, error } = useCategories();
 
   const handleToggle = (value: ICategory) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-    setSelectedCategory(newChecked.length > 0 ? newChecked[0].id : null);
+    setSelected(value.id);
+    setSelectedCategory(value.id);
   };
 
   if (isLoading) return <CircularProgress />;
@@ -52,15 +43,15 @@ export default function CategoryList({ setSelectedCategory }: CategoryListProps)
         <List sx={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}>
           {categories &&
             categories.results.map((category: ICategory) => {
-              const labelId = `checkbox-list-label-${category.id}`;
+              const labelId = `radio-button-label-${category.id}`;
 
               return (
                 <ListItem key={category.id} disablePadding>
                   <ListItemButton role={undefined} onClick={handleToggle(category)} dense>
                     <ListItemIcon>
-                      <Checkbox
+                      <Radio
                         edge="start"
-                        checked={checked.indexOf(category) !== -1}
+                        checked={selected === category.id}
                         tabIndex={-1}
                         disableRipple
                         inputProps={{ 'aria-labelledby': labelId }}

@@ -7,6 +7,7 @@ import { useProducts } from './useProducts.ts';
 interface ProductListProps {
   selectedCategory: string | null;
 }
+
 export default function ProductList({ selectedCategory }: ProductListProps) {
   const { isLoading, products, error } = useProducts(selectedCategory || '');
 
@@ -18,11 +19,12 @@ export default function ProductList({ selectedCategory }: ProductListProps) {
       sx={{
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        alignItems: 'center',
+        justifyContent: 'left',
+        alignItems: 'flex-start',
         overflow: 'hidden',
+        gap: '10px',
         p: 2,
-        width: '70%',
+        width: '100%',
       }}
     >
       {products &&
