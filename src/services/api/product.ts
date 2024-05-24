@@ -16,8 +16,8 @@ export async function getProduct(id: string) {
 
 export async function getFilteredProducts(
   currentCategoryId?: string | null,
-  // priceFrom?: string,
-  // priceTo?: string,
+  priceFrom?: string,
+  priceTo?: string,
   sort?: string,
   offset?: number,
 ) {
@@ -25,26 +25,26 @@ export async function getFilteredProducts(
 
   if (authorizationToken) {
     const params = new URLSearchParams();
-    // let priceFromFinal: string | number = Number(priceFrom) * 100;
-    // let priceToFinal: string | number = Number(priceTo) * 100;
+    let priceFromFinal: string | number = Number(priceFrom) * 100;
+    let priceToFinal: string | number = Number(priceTo) * 100;
 
-    params.append('limit', '8');
+    params.append('limit', '10');
 
     params.append('offset', `${offset}`);
 
     if (currentCategoryId) {
       params.append('filter', `categories.id:"${currentCategoryId}"`);
     }
-    //
-    // if (priceFrom || priceTo) {
-    //     if (priceTo === '0' || priceTo === '') {
-    //         priceToFinal = '*';
-    //     }
-    //     if (priceFrom === '') {
-    //         priceFromFinal = '0';
-    //     }
-    //     params.append('filter', `variants.price.centAmount:range (${priceFromFinal} to ${priceToFinal})`);
-    // }
+
+    if (priceFrom || priceTo) {
+      if (priceTo === '0' || priceTo === '') {
+        priceToFinal = '*';
+      }
+      if (priceFrom === '') {
+        priceFromFinal = '0';
+      }
+      params.append('filter', `variants.price.centAmount:range (${priceFromFinal} to ${priceToFinal})`);
+    }
 
     if (sort) {
       params.append('sort', `${sort}`);

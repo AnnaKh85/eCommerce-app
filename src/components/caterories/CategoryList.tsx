@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,7 +10,11 @@ import * as React from 'react';
 import type { ICategory } from '../../services/interfaces.ts';
 import { useCategories } from './useCategories.ts';
 
-export default function CategoryList() {
+interface CategoryListProps {
+  setSelectedCategory: (id: string | null) => void;
+}
+
+export default function CategoryList({ setSelectedCategory }: CategoryListProps) {
   const [checked, setChecked] = React.useState<ICategory[]>([]);
   const { isLoading, categories, error } = useCategories();
 
@@ -25,34 +29,50 @@ export default function CategoryList() {
     }
 
     setChecked(newChecked);
+    setSelectedCategory(newChecked.length > 0 ? newChecked[0].id : null);
   };
 
   if (isLoading) return <CircularProgress />;
   if (error) return <div>An error occurred: {error.message}</div>;
 
   return (
-    <List sx={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}>
-      {categories &&
-        categories.results.map((category: ICategory) => {
-          const labelId = `checkbox-list-label-${category.id}`;
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'noWrap',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          p: 2,
+        }}
+      >
+        <Typography variant="h6" gutterBottom>
+          Categories:
+        </Typography>
+        <List sx={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}>
+          {categories &&
+            categories.results.map((category: ICategory) => {
+              const labelId = `checkbox-list-label-${category.id}`;
 
-          return (
-            <ListItem key={category.id} disablePadding>
-              <ListItemButton role={undefined} onClick={handleToggle(category)} dense>
-                <ListItemIcon>
-                  <Checkbox
-                    edge="start"
-                    checked={checked.indexOf(category) !== -1}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                  />
-                </ListItemIcon>
-                <ListItemText id={labelId} primary={category.name['en-GB']} />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-    </List>
+              return (
+                <ListItem key={category.id} disablePadding>
+                  <ListItemButton role={undefined} onClick={handleToggle(category)} dense>
+                    <ListItemIcon>
+                      <Checkbox
+                        edge="start"
+                        checked={checked.indexOf(category) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{ 'aria-labelledby': labelId }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText id={labelId} primary={category.name['en-GB']} />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+        </List>
+      </Box>
+    </>
   );
 }

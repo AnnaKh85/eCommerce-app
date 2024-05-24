@@ -4,8 +4,11 @@ import type { IProduct } from '../../services/interfaces.ts';
 import ProductCard from './ProductCard.tsx';
 import { useProducts } from './useProducts.ts';
 
-export default function ProductList() {
-  const { isLoading, products, error } = useProducts();
+interface ProductListProps {
+  selectedCategory: string | null;
+}
+export default function ProductList({ selectedCategory }: ProductListProps) {
+  const { isLoading, products, error } = useProducts(selectedCategory || '');
 
   if (isLoading) return <CircularProgress />;
   if (error) return <div>An error occurred: {error.message}</div>;
