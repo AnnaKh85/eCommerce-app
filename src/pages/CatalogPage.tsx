@@ -8,6 +8,8 @@ import { useCategories } from '../components/caterories/useCategories.ts';
 import CountryOptions from '../components/filters/CountryOptions.tsx';
 import PriceOptions from '../components/filters/PriceOptions.tsx';
 import ProductList from '../components/products/ProductList.tsx';
+import SortByName from '../components/sortOptions/SortByName.tsx';
+import SortByPrice from '../components/sortOptions/SortByPrice.tsx';
 import type { ICategory } from '../services/interfaces.ts';
 
 function CatalogPage() {
@@ -15,6 +17,7 @@ function CatalogPage() {
   const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [sort, setSort] = useState<string | null>('');
   const { categories } = useCategories();
 
   useEffect(() => {
@@ -40,6 +43,17 @@ function CatalogPage() {
     setSelectedCountry(null);
   };
 
+  const handleSortNameChange = (newSort: string) => {
+    setSort(newSort);
+  };
+  const handleSortPriceChange = (newSort: string) => {
+    setSort(newSort);
+  };
+
+  // const handleSortCreatedAtChange = (newSort: string) => {
+  //     setSort(newSort);
+  // };
+
   return (
     <>
       <h2>Catalog page</h2>
@@ -58,7 +72,6 @@ function CatalogPage() {
             display: 'flex',
             margin: '0 auto',
             flexDirection: 'column',
-            gap: '20px',
             flexWrap: 'noWrap',
             width: '30%',
             // maxWidth: '250px',
@@ -106,10 +119,26 @@ function CatalogPage() {
               )}
             </Stack>
           </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              margin: '0 auto',
+              flexDirection: 'row',
+              justifyContent: 'left',
+              alignItems: 'center',
+              gap: '20px',
+              width: '100%',
+            }}
+          >
+            <SortByName setSort={handleSortNameChange} />
+            <SortByPrice setSort={handleSortPriceChange} />
+            {/*<SortByCreatedAt setSort={handleSortCreatedAtChange} />*/}
+          </Box>
           <ProductList
             selectedCategory={selectedCategory}
             selectedPriceRange={selectedPriceRange}
             selectedCountry={selectedCountry}
+            sort={sort}
           />
         </Box>
       </Box>

@@ -29,7 +29,7 @@ export async function getFilteredProducts(
     let priceFromFinal: string | number = Number(priceFrom) * 100;
     let priceToFinal: string | number = Number(priceTo) * 100;
 
-    params.append('limit', '10');
+    params.append('limit', '20');
 
     params.append('offset', `${offset}`);
 

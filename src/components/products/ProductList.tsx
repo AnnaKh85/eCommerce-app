@@ -8,13 +8,15 @@ interface ProductListProps {
   selectedCategory: string | null;
   selectedPriceRange: string | null;
   selectedCountry: string | null;
+  sort: string | null;
 }
 
-export default function ProductList({ selectedCategory, selectedPriceRange, selectedCountry }: ProductListProps) {
+export default function ProductList({ selectedCategory, selectedPriceRange, selectedCountry, sort }: ProductListProps) {
   const { isLoading, products, error } = useProducts(
     selectedCategory || '',
     selectedPriceRange || '',
     selectedCountry || '',
+    sort || '',
   );
 
   if (isLoading) return <CircularProgress />;
