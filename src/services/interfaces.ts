@@ -86,6 +86,14 @@ interface IPrice {
     centAmount: number;
     fractionDigits: number;
   };
+  discounted: {
+    value: {
+      type: string;
+      currencyCode: string;
+      centAmount: number;
+      fractionDigits: number;
+    };
+  };
   country: string;
 }
 
