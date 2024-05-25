@@ -67,7 +67,6 @@ export async function getFilteredProducts(
       throw new Error(`Error fetching data: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   }
 }
