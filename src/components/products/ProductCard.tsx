@@ -17,7 +17,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <Card
       sx={{
-        maxWidth: 345,
+        width: 345,
         margin: '10px 0',
         height: '400px',
         display: 'flex',
@@ -51,7 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               height: '60px',
             }}
           >
-            {product.description['en-GB']}
+            {product.description['en-GB'] || ''}
           </Typography>
           <Typography
             color="text.primary"

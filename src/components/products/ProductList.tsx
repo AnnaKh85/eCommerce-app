@@ -4,8 +4,18 @@ import type { IProduct } from '../../services/interfaces.ts';
 import ProductCard from './ProductCard.tsx';
 import { useProducts } from './useProducts.ts';
 
-export default function ProductList() {
-  const { isLoading, products, error } = useProducts();
+interface ProductListProps {
+  selectedCategory: string | null;
+  selectedPriceRange: string | null;
+  selectedCountry: string | null;
+}
+
+export default function ProductList({ selectedCategory, selectedPriceRange, selectedCountry }: ProductListProps) {
+  const { isLoading, products, error } = useProducts(
+    selectedCategory || '',
+    selectedPriceRange || '',
+    selectedCountry || '',
+  );
 
   if (isLoading) return <CircularProgress />;
   if (error) return <div>An error occurred: {error.message}</div>;
@@ -15,11 +25,12 @@ export default function ProductList() {
       sx={{
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        alignItems: 'center',
+        justifyContent: 'left',
+        alignItems: 'flex-start',
         overflow: 'hidden',
+        gap: '10px',
         p: 2,
-        width: '70%',
+        width: '100%',
       }}
     >
       {products &&

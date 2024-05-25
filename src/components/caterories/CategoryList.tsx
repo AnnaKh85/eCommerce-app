@@ -1,58 +1,69 @@
-import { CircularProgress } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Radio from '@mui/material/Radio'; // Import Radio instead of Checkbox
 import * as React from 'react';
 
 import type { ICategory } from '../../services/interfaces.ts';
 import { useCategories } from './useCategories.ts';
 
-export default function CategoryList() {
-  const [checked, setChecked] = React.useState<ICategory[]>([]);
+interface CategoryListProps {
+  setSelectedCategory: (id: string | null) => void;
+}
+
+export default function CategoryList({ setSelectedCategory }: CategoryListProps) {
+  const [selected, setSelected] = React.useState<string | null>(null); // Use a single state for the selected category
   const { isLoading, categories, error } = useCategories();
 
   const handleToggle = (value: ICategory) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
+    setSelected(value.id);
+    setSelectedCategory(value.id);
   };
 
   if (isLoading) return <CircularProgress />;
   if (error) return <div>An error occurred: {error.message}</div>;
 
   return (
-    <List sx={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}>
-      {categories &&
-        categories.results.map((category: ICategory) => {
-          const labelId = `checkbox-list-label-${category.id}`;
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'noWrap',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          p: 2,
+        }}
+      >
+        <Typography variant="h6" gutterBottom>
+          Categories:
+        </Typography>
+        <List sx={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}>
+          {categories &&
+            categories.results.map((category: ICategory) => {
+              const labelId = `radio-button-label-${category.id}`;
 
-          return (
-            <ListItem key={category.id} disablePadding>
-              <ListItemButton role={undefined} onClick={handleToggle(category)} dense>
-                <ListItemIcon>
-                  <Checkbox
-                    edge="start"
-                    checked={checked.indexOf(category) !== -1}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                  />
-                </ListItemIcon>
-                <ListItemText id={labelId} primary={category.name['en-GB']} />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-    </List>
+              return (
+                <ListItem key={category.id} disablePadding>
+                  <ListItemButton role={undefined} onClick={handleToggle(category)} dense>
+                    <ListItemIcon>
+                      <Radio
+                        edge="start"
+                        checked={selected === category.id}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{ 'aria-labelledby': labelId }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText id={labelId} primary={category.name['en-GB']} />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+        </List>
+      </Box>
+    </>
   );
 }
