@@ -1,10 +1,10 @@
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Radio from '@mui/material/Radio'; // Import Radio instead of Checkbox
+import Radio from '@mui/material/Radio';
 import * as React from 'react';
 
 import type { ICategory } from '../../services/interfaces.ts';
@@ -16,14 +16,13 @@ interface CategoryListProps {
 
 export default function CategoryList({ setSelectedCategory }: CategoryListProps) {
   const [selected, setSelected] = React.useState<string | null>(null); // Use a single state for the selected category
-  const { isLoading, categories, error } = useCategories();
+  const { categories, error } = useCategories();
 
   const handleToggle = (value: ICategory) => () => {
     setSelected(value.id);
     setSelectedCategory(value.id);
   };
 
-  if (isLoading) return <CircularProgress />;
   if (error) return <div>An error occurred: {error.message}</div>;
 
   return (
@@ -34,7 +33,7 @@ export default function CategoryList({ setSelectedCategory }: CategoryListProps)
           flexWrap: 'noWrap',
           flexDirection: 'column',
           overflow: 'hidden',
-          p: 2,
+          p: 1,
         }}
       >
         <Typography variant="h6" gutterBottom>
