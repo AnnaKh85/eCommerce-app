@@ -1,7 +1,7 @@
 import { BASE_URL, PRODUCT_KEY } from '../constants.ts';
 import type { IProduct } from '../interfaces.ts';
 
-export async function getProduct(id: string) {
+export async function getProductById(id: string) {
   const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
 
   const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/product-projections/${id}`, {
