@@ -15,6 +15,8 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const isDiscounted = !!product.masterVariant.prices[0].discounted;
+
   return (
     <Card
       sx={{
@@ -55,11 +57,39 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {product.description['en-GB'] || ''}
           </Typography>
           <Typography
-            color="text.primary"
-            sx={{ fontSize: { xs: '0.8rem', sm: '1rem', fontWeight: '700', margin: '16px' } }}
+            sx={{ fontSize: { xs: '0.8rem', sm: '1rem', fontWeight: '700', margin: '8px' } }}
+            color={isDiscounted ? 'text.secondary' : 'text.primary'}
+            fontSize={isDiscounted ? '1rem' : '0.8rem'}
+            fontWeight={isDiscounted ? '500' : '700'}
+            margin="16px"
           >
-            Price: {product.masterVariant.prices[0].value.centAmount / 100}
+            {product.masterVariant.prices[0].value.centAmount / 100}{' '}
             {product.masterVariant.prices[0].value.currencyCode}
+          </Typography>
+          <Typography
+            color="text.primary"
+            sx={{ fontSize: { xs: '0.8rem', sm: '1rem', fontWeight: '700', margin: '8px' } }}
+          >
+            {product.masterVariant.prices[0].discounted?.value.centAmount && (
+              <Typography
+                sx={{
+                  color: 'var(--color-text-secondary-main)',
+                  backgroundColor: 'var(--color-text-secondary-light)',
+                  borderRadius: '5px',
+                  padding: '5px',
+                  fontSize: { xs: '0.8rem', sm: '1rem', fontWeight: '700', margin: '8px' },
+                }}
+              >
+                {Math.round(
+                  ((product.masterVariant.prices[0].value.centAmount -
+                    product.masterVariant.prices[0].discounted.value.centAmount) /
+                    product.masterVariant.prices[0].value.centAmount) *
+                    100,
+                )}
+                % off {product.masterVariant.prices[0].discounted.value.centAmount / 100}{' '}
+                {product.masterVariant.prices[0].discounted.value.currencyCode}
+              </Typography>
+            )}
           </Typography>
         </CardContent>
         <CardActions
