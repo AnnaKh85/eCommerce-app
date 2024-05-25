@@ -8,6 +8,7 @@ import { useCategories } from '../components/caterories/useCategories.ts';
 import CountryOptions from '../components/filters/CountryOptions.tsx';
 import PriceOptions from '../components/filters/PriceOptions.tsx';
 import ProductList from '../components/products/ProductList.tsx';
+import SearchField from '../components/search/Search.tsx';
 import SortByName from '../components/sortOptions/SortByName.tsx';
 import SortByPrice from '../components/sortOptions/SortByPrice.tsx';
 import type { ICategory } from '../services/interfaces.ts';
@@ -18,6 +19,7 @@ function CatalogPage() {
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [sort, setSort] = useState<string | null>('');
+  const [queryString, setQueryString] = useState<string | null>(null);
   const { categories } = useCategories();
 
   useEffect(() => {
@@ -54,6 +56,21 @@ function CatalogPage() {
   //     setSort(newSort);
   // };
 
+  const handleSetSelectedCategory = (category: string | null) => {
+    if (queryString) setQueryString(null);
+    setSelectedCategory(category);
+  };
+
+  const handleSetSelectedPriceRange = (priceRange: string | null) => {
+    if (queryString) setQueryString(null);
+    setSelectedPriceRange(priceRange);
+  };
+
+  const handleSetSelectedCountry = (country: string | null) => {
+    if (queryString) setQueryString(null);
+    setSelectedCountry(country);
+  };
+
   return (
     <>
       <h2>Catalog page</h2>
@@ -74,12 +91,12 @@ function CatalogPage() {
             flexDirection: 'column',
             flexWrap: 'noWrap',
             width: '30%',
-            // maxWidth: '250px',
           }}
         >
-          <CategoryList setSelectedCategory={setSelectedCategory} />
-          <PriceOptions setSelectedPriceRange={setSelectedPriceRange} />
-          <CountryOptions setSelectedCountry={setSelectedCountry} />
+          <SearchField setQueryString={setQueryString} />
+          <CategoryList setSelectedCategory={handleSetSelectedCategory} />
+          <PriceOptions setSelectedPriceRange={handleSetSelectedPriceRange} />
+          <CountryOptions setSelectedCountry={handleSetSelectedCountry} />
         </Box>
 
         <Box
@@ -139,6 +156,7 @@ function CatalogPage() {
             selectedPriceRange={selectedPriceRange}
             selectedCountry={selectedCountry}
             sort={sort}
+            queryString={queryString}
           />
         </Box>
       </Box>

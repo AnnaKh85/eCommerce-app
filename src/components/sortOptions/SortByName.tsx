@@ -16,10 +16,17 @@ export default function SortByName({ setSort }: SortOptionsProps) {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: 150 }}>
       <FormControl fullWidth>
         <InputLabel id="sort-label">Sort by name</InputLabel>
-        <Select labelId="sort-label" id="sort-select" value={sort} label="Sort by name" onChange={handleSortChange}>
+        <Select
+          labelId="sort-label"
+          id="sort-select"
+          value={sort}
+          label="Sort by name"
+          variant="standard"
+          onChange={handleSortChange}
+        >
           <MenuItem value={'name.en-GB asc'}>Name (A-Z)</MenuItem>
           <MenuItem value={'name.en-GB desc'}>Name (Z-A)</MenuItem>
         </Select>
