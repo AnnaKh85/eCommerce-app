@@ -4,9 +4,9 @@ import Stack from '@mui/material/Stack';
 import { useEffect, useState } from 'react';
 
 import CategoryList from '../components/caterories/CategoryList.tsx';
-import ColorOptions from '../components/caterories/ColorOptions.tsx';
-import PriceOptions from '../components/caterories/PriceOptions.tsx';
 import { useCategories } from '../components/caterories/useCategories.ts';
+import CountryOptions from '../components/filters/CountryOptions.tsx';
+import PriceOptions from '../components/filters/PriceOptions.tsx';
 import ProductList from '../components/products/ProductList.tsx';
 import type { ICategory } from '../services/interfaces.ts';
 
@@ -14,6 +14,7 @@ function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const { categories } = useCategories();
 
   useEffect(() => {
@@ -32,6 +33,11 @@ function CatalogPage() {
   const handleDeletePriceRange = () => {
     console.info('You clicked the delete icon.');
     setSelectedPriceRange(null);
+  };
+
+  const handleDeleteCountry = () => {
+    console.info('You clicked the delete icon.');
+    setSelectedCountry(null);
   };
 
   return (
@@ -60,7 +66,7 @@ function CatalogPage() {
         >
           <CategoryList setSelectedCategory={setSelectedCategory} />
           <PriceOptions setSelectedPriceRange={setSelectedPriceRange} />
-          <ColorOptions />
+          <CountryOptions setSelectedCountry={setSelectedCountry} />
         </Box>
 
         <Box
@@ -91,9 +97,20 @@ function CatalogPage() {
               {selectedPriceRange && (
                 <Chip label={`Price: ${selectedPriceRange}`} variant="outlined" onDelete={handleDeletePriceRange} />
               )}
+              {selectedCountry && (
+                <Chip
+                  label={`Country: ${selectedCountry === '1' ? 'Russia' : selectedCountry === '2' ? 'Germany' : selectedCountry === '3' ? 'China' : ''}`}
+                  variant="outlined"
+                  onDelete={handleDeleteCountry}
+                />
+              )}
             </Stack>
           </Box>
-          <ProductList selectedCategory={selectedCategory} selectedPriceRange={selectedPriceRange} />
+          <ProductList
+            selectedCategory={selectedCategory}
+            selectedPriceRange={selectedPriceRange}
+            selectedCountry={selectedCountry}
+          />
         </Box>
       </Box>
     </>

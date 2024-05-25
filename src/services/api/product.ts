@@ -18,6 +18,7 @@ export async function getFilteredProducts(
   currentCategoryId?: string | null,
   priceFrom?: string,
   priceTo?: string,
+  countryKey?: string,
   sort?: string,
   offset?: number,
 ) {
@@ -34,6 +35,10 @@ export async function getFilteredProducts(
 
     if (currentCategoryId) {
       params.append('filter', `categories.id:"${currentCategoryId}"`);
+    }
+
+    if (countryKey) {
+      params.append('filter', `variants.attributes.country.key:"${countryKey}"`);
     }
 
     if (priceFrom || priceTo) {
