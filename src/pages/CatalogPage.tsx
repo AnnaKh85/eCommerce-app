@@ -1,10 +1,9 @@
-import { Box, Typography } from '@mui/material';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import { useEffect, useState } from 'react';
+import { Box, Chip, Stack, Typography } from '@mui/material';
+import { useState } from 'react';
 
+import CategoryBreadcrumbs from '../components/caterories/CategoryBreadcrumbs.tsx';
 import CategoryList from '../components/caterories/CategoryList.tsx';
-import { useCategories } from '../components/caterories/useCategories.ts';
+// import { useCategories } from '../components/caterories/useCategories.ts';
 import CountryOptions from '../components/filters/CountryOptions.tsx';
 import MaterialOptions from '../components/filters/MaterialOptions.tsx';
 import PriceOptions from '../components/filters/PriceOptions.tsx';
@@ -12,29 +11,15 @@ import ProductList from '../components/products/ProductList.tsx';
 import SearchField from '../components/search/Search.tsx';
 import SortByName from '../components/sortOptions/SortByName.tsx';
 import SortByPrice from '../components/sortOptions/SortByPrice.tsx';
-import type { ICategory } from '../services/interfaces.ts';
 
 function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [sort, setSort] = useState<string | null>('');
   const [queryString, setQueryString] = useState<string | null>(null);
-  const { categories } = useCategories();
-
-  useEffect(() => {
-    if (selectedCategory && categories) {
-      const category = categories.results.find((c: ICategory) => c.id === selectedCategory);
-      setSelectedCategoryName(category ? category.name['en-GB'] : null);
-    }
-  }, [selectedCategory, categories]);
-
-  const handleDeleteCategory = () => {
-    setSelectedCategory(null);
-    setSelectedCategoryName(null);
-  };
+  // const { categories } = useCategories();
 
   const handleDeletePriceRange = () => {
     setSelectedPriceRange(null);
@@ -54,10 +39,6 @@ function CatalogPage() {
   const handleSortPriceChange = (newSort: string) => {
     setSort(newSort);
   };
-
-  // const handleSortCreatedAtChange = (newSort: string) => {
-  //     setSort(newSort);
-  // };
 
   const handleSetSelectedCategory = (category: string | null) => {
     if (queryString) setQueryString(null);
@@ -117,6 +98,7 @@ function CatalogPage() {
             width: '100%',
           }}
         >
+          <CategoryBreadcrumbs selectedCategory={selectedCategory} setSelectedCategory={handleSetSelectedCategory} />
           <Box
             sx={{
               display: 'flex',
@@ -130,15 +112,20 @@ function CatalogPage() {
           >
             <Typography variant="h6">Applied filters: </Typography>
             <Stack direction="row" spacing={1}>
-              {selectedCategoryName && (
-                <Chip label={selectedCategoryName} variant="outlined" onDelete={handleDeleteCategory} />
-              )}
               {selectedPriceRange && (
                 <Chip label={`Price: ${selectedPriceRange}`} variant="outlined" onDelete={handleDeletePriceRange} />
               )}
               {selectedCountry && (
                 <Chip
-                  label={`Country: ${selectedCountry === '1' ? 'Russia' : selectedCountry === '2' ? 'Germany' : selectedCountry === '3' ? 'China' : ''}`}
+                  label={`Country: ${
+                    selectedCountry === '1'
+                      ? 'Russia'
+                      : selectedCountry === '2'
+                        ? 'Germany'
+                        : selectedCountry === '3'
+                          ? 'China'
+                          : ''
+                  }`}
                   variant="outlined"
                   onDelete={handleDeleteCountry}
                 />
