@@ -35,7 +35,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           alt={product.name['en-GB']}
           height="100"
           image={product.masterVariant.images[0].url}
-          sx={{ objectFit: 'contain' }}
+          sx={{
+            objectFit: 'contain',
+            transition: 'transform 0.3s ease-in-out',
+            '&:hover': {
+              transform: 'scale(1.1)',
+            },
+          }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div" color="text.primary">
