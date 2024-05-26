@@ -30,18 +30,15 @@ function CatalogPage() {
   }, [selectedCategory, categories]);
 
   const handleDeleteCategory = () => {
-    console.info('You clicked the delete icon.');
     setSelectedCategory(null);
     setSelectedCategoryName(null);
   };
 
   const handleDeletePriceRange = () => {
-    console.info('You clicked the delete icon.');
     setSelectedPriceRange(null);
   };
 
   const handleDeleteCountry = () => {
-    console.info('You clicked the delete icon.');
     setSelectedCountry(null);
   };
 

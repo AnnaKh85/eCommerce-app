@@ -6,16 +6,16 @@ import ListItemText from '@mui/material/ListItemText';
 import Radio from '@mui/material/Radio';
 import { useState } from 'react';
 
-interface CountryOptionsProps {
-  setSelectedCountry: (country: string) => void;
+interface MaterialOptionsProps {
+  setSelectedMaterial: (material: string) => void;
 }
 
-export default function CountryOptions({ setSelectedCountry }: CountryOptionsProps) {
-  const [selectedCountry, setSelectedCountryState] = useState<string | null>(null);
+export default function MaterialOptions({ setSelectedMaterial }: MaterialOptionsProps) {
+  const [selectedMaterial, setSelectedMaterialState] = useState<string | null>(null);
 
-  const handleSelectCountry = (country: string) => {
-    setSelectedCountryState(country);
-    setSelectedCountry(country);
+  const handleSelectMaterial = (material: string) => {
+    setSelectedMaterialState(material);
+    setSelectedMaterial(material);
   };
 
   return (
@@ -30,20 +30,20 @@ export default function CountryOptions({ setSelectedCountry }: CountryOptionsPro
         }}
       >
         <Typography variant="h6" gutterBottom>
-          Country:
+          Material:
         </Typography>
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-          {['Russia', 'Germany', 'China'].map((value, index) => {
+          {['Plastic', 'Steel', 'Aluminium', 'Carbon', 'Textile'].map((value, index) => {
             const labelId = `radio-list-label-${index + 1}`;
-            const countryIndex: string = (index + 1).toString();
+            const materialIndex: string = (index + 1).toString();
 
             return (
               <ListItem key={value} disablePadding>
-                <ListItemButton role={undefined} onClick={() => handleSelectCountry(countryIndex)} dense>
+                <ListItemButton role={undefined} onClick={() => handleSelectMaterial(materialIndex)} dense>
                   <ListItemIcon>
                     <Radio
                       edge="start"
-                      checked={selectedCountry === countryIndex}
+                      checked={selectedMaterial === value}
                       tabIndex={-1}
                       disableRipple
                       inputProps={{ 'aria-labelledby': labelId }}
