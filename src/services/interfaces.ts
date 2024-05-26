@@ -66,6 +66,8 @@ export interface ICategory {
   key: string;
   name: ILocalizedString;
   slug: ILocalizedString;
+  ancestors: IReference[];
+  parent?: IReference;
   orderHint: string;
 }
 
