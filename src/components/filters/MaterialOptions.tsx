@@ -43,7 +43,7 @@ export default function MaterialOptions({ setSelectedMaterial }: MaterialOptions
                   <ListItemIcon>
                     <Radio
                       edge="start"
-                      checked={selectedMaterial === value}
+                      checked={selectedMaterial === materialIndex}
                       tabIndex={-1}
                       disableRipple
                       inputProps={{ 'aria-labelledby': labelId }}

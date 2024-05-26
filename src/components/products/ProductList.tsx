@@ -9,6 +9,7 @@ interface ProductListProps {
   selectedCategory: string | null;
   selectedPriceRange: string | null;
   selectedCountry: string | null;
+  selectedMaterial: string | null;
   sort: string | null;
   queryString: string | null;
 }
@@ -17,6 +18,7 @@ export default function ProductList({
   selectedCategory,
   selectedPriceRange,
   selectedCountry,
+  selectedMaterial,
   sort,
   queryString,
 }: ProductListProps) {
@@ -24,6 +26,7 @@ export default function ProductList({
     selectedCategory || '',
     selectedPriceRange || '',
     selectedCountry || '',
+    selectedMaterial || '',
     sort || '',
   );
 
