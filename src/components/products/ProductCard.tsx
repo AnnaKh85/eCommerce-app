@@ -20,7 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <Card
       sx={{
-        width: 345,
+        width: 300,
         margin: '10px 0',
         height: '400px',
         display: 'flex',

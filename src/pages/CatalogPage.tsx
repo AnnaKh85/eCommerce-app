@@ -98,7 +98,7 @@ function CatalogPage() {
             margin: '0 auto',
             flexDirection: 'column',
             flexWrap: 'noWrap',
-            width: '30%',
+            width: '20%',
           }}
         >
           <SearchField setQueryString={setQueryString} />
