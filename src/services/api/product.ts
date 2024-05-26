@@ -19,6 +19,7 @@ export async function getFilteredProducts(
   priceFrom?: string,
   priceTo?: string,
   countryKey?: string,
+  materialKey?: string,
   sort?: string,
   offset?: number,
 ) {
@@ -39,6 +40,10 @@ export async function getFilteredProducts(
 
     if (countryKey) {
       params.append('filter', `variants.attributes.country.key:"${countryKey}"`);
+    }
+
+    if (materialKey) {
+      params.append('filter', `variants.attributes.material.key:"${materialKey}"`);
     }
 
     if (priceFrom || priceTo) {

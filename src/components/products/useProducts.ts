@@ -6,6 +6,7 @@ export function useProducts(
   selectedCategory: string,
   priceRange: string | null,
   country: string | null,
+  material: string | null,
   sort: string | null = '',
 ) {
   let priceFrom = '';
@@ -22,9 +23,17 @@ export function useProducts(
     data: products,
     error,
   } = useQuery({
-    queryKey: ['products', selectedCategory, priceFrom, priceTo, country, sort],
+    queryKey: ['products', selectedCategory, priceFrom, priceTo, country, material, sort],
     queryFn: () =>
-      getFilteredProducts(selectedCategory || '', priceFrom || '', priceTo || '', country || '', sort || '', 0),
+      getFilteredProducts(
+        selectedCategory || '',
+        priceFrom || '',
+        priceTo || '',
+        country || '',
+        material || '',
+        sort || '',
+        0,
+      ),
   });
 
   return { isLoading, error, products };

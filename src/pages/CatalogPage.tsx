@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import CategoryList from '../components/caterories/CategoryList.tsx';
 import { useCategories } from '../components/caterories/useCategories.ts';
 import CountryOptions from '../components/filters/CountryOptions.tsx';
+import MaterialOptions from '../components/filters/MaterialOptions.tsx';
 import PriceOptions from '../components/filters/PriceOptions.tsx';
 import ProductList from '../components/products/ProductList.tsx';
 import SearchField from '../components/search/Search.tsx';
@@ -18,6 +19,7 @@ function CatalogPage() {
   const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [sort, setSort] = useState<string | null>('');
   const [queryString, setQueryString] = useState<string | null>(null);
   const { categories } = useCategories();
@@ -30,19 +32,20 @@ function CatalogPage() {
   }, [selectedCategory, categories]);
 
   const handleDeleteCategory = () => {
-    console.info('You clicked the delete icon.');
     setSelectedCategory(null);
     setSelectedCategoryName(null);
   };
 
   const handleDeletePriceRange = () => {
-    console.info('You clicked the delete icon.');
     setSelectedPriceRange(null);
   };
 
   const handleDeleteCountry = () => {
-    console.info('You clicked the delete icon.');
     setSelectedCountry(null);
+  };
+
+  const handleDeleteMaterial = () => {
+    setSelectedMaterial(null);
   };
 
   const handleSortNameChange = (newSort: string) => {
@@ -71,6 +74,11 @@ function CatalogPage() {
     setSelectedCountry(country);
   };
 
+  const handleSetSelectedMaterial = (material: string | null) => {
+    if (queryString) setQueryString(null);
+    setSelectedMaterial(material);
+  };
+
   return (
     <>
       <h2>Catalog page</h2>
@@ -97,6 +105,7 @@ function CatalogPage() {
           <CategoryList setSelectedCategory={handleSetSelectedCategory} />
           <PriceOptions setSelectedPriceRange={handleSetSelectedPriceRange} />
           <CountryOptions setSelectedCountry={handleSetSelectedCountry} />
+          <MaterialOptions setSelectedMaterial={handleSetSelectedMaterial} />
         </Box>
 
         <Box
@@ -134,6 +143,25 @@ function CatalogPage() {
                   onDelete={handleDeleteCountry}
                 />
               )}
+              {selectedMaterial && (
+                <Chip
+                  label={`Material: ${
+                    selectedMaterial === '1'
+                      ? 'Plastic'
+                      : selectedMaterial === '2'
+                        ? 'Steel'
+                        : selectedMaterial === '3'
+                          ? 'Aluminium'
+                          : selectedMaterial === '4'
+                            ? 'Carbon'
+                            : selectedMaterial === '5'
+                              ? 'Textile'
+                              : ''
+                  }`}
+                  variant="outlined"
+                  onDelete={handleDeleteMaterial}
+                />
+              )}
             </Stack>
           </Box>
           <Box
@@ -155,6 +183,7 @@ function CatalogPage() {
             selectedCategory={selectedCategory}
             selectedPriceRange={selectedPriceRange}
             selectedCountry={selectedCountry}
+            selectedMaterial={selectedMaterial}
             sort={sort}
             queryString={queryString}
           />

@@ -72,31 +72,28 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {product.masterVariant.prices[0].value.centAmount / 100}{' '}
             {product.masterVariant.prices[0].value.currencyCode}
           </Typography>
-          <Typography
-            color="text.primary"
-            sx={{ fontSize: { xs: '0.8rem', sm: '1rem', fontWeight: '700', margin: '8px' } }}
-          >
-            {product.masterVariant.prices[0].discounted?.value.centAmount && (
-              <Typography
-                sx={{
-                  color: 'var(--color-text-secondary-main)',
-                  backgroundColor: 'var(--color-text-secondary-light)',
-                  borderRadius: '5px',
-                  padding: '5px',
-                  fontSize: { xs: '0.8rem', sm: '1rem', fontWeight: '700', margin: '8px' },
-                }}
-              >
-                {Math.round(
-                  ((product.masterVariant.prices[0].value.centAmount -
-                    product.masterVariant.prices[0].discounted.value.centAmount) /
-                    product.masterVariant.prices[0].value.centAmount) *
-                    100,
-                )}
-                % off {product.masterVariant.prices[0].discounted.value.centAmount / 100}{' '}
-                {product.masterVariant.prices[0].discounted.value.currencyCode}
-              </Typography>
-            )}
-          </Typography>
+          {product.masterVariant.prices[0].discounted?.value.centAmount && (
+            <div
+              style={{
+                color: 'var(--color-text-secondary-main)',
+                backgroundColor: 'var(--color-text-secondary-light)',
+                borderRadius: '5px',
+                padding: '5px',
+                fontSize: '1rem',
+                fontWeight: '700',
+                margin: '8px',
+              }}
+            >
+              {Math.round(
+                ((product.masterVariant.prices[0].value.centAmount -
+                  product.masterVariant.prices[0].discounted.value.centAmount) /
+                  product.masterVariant.prices[0].value.centAmount) *
+                  100,
+              )}
+              % off {product.masterVariant.prices[0].discounted.value.centAmount / 100}{' '}
+              {product.masterVariant.prices[0].discounted.value.currencyCode}
+            </div>
+          )}
         </CardContent>
         <CardActions
           sx={{
