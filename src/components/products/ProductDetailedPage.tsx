@@ -25,42 +25,54 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
           <CardMedia component="img" alt={product.name['en-GB']} image={product.masterVariant.images[0].url} />
         </Grid>
         <Grid item xs={6}>
-          <CardContent>
-            <Typography variant="h5">{product.name['en-GB']}</Typography>
+          <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+            <Typography variant="h5" style={{ textAlign: 'left' }}>
+              {product.name['en-GB']}
+            </Typography>
+
+            <Grid container justifyContent="left">
+              <Grid item style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <Typography variant="h6">
+                  {product.masterVariant.prices[0].value.centAmount / 100}{' '}
+                  {product.masterVariant.prices[0].value.currencyCode}
+                </Typography>
+                {product.masterVariant.prices[0].discounted?.value.centAmount && (
+                  <div>
+                    <div
+                      style={{
+                        color: 'var(--color-text-secondary-main)',
+                        backgroundColor: 'var(--color-text-secondary-light)',
+                        borderRadius: '5px',
+                        padding: '5px',
+                        fontSize: '1rem',
+                        fontWeight: '700',
+                      }}
+                    >
+                      {Math.round(
+                        ((product.masterVariant.prices[0].value.centAmount -
+                          product.masterVariant.prices[0].discounted.value.centAmount) /
+                          product.masterVariant.prices[0].value.centAmount) *
+                          100,
+                      )}
+                      % off {product.masterVariant.prices[0].discounted.value.centAmount / 100}{' '}
+                      {product.masterVariant.prices[0].discounted.value.currencyCode}
+                    </div>
+                  </div>
+                )}
+              </Grid>
+            </Grid>
+            <div style={{ width: '100%', borderBottom: '1px solid rgba(169,169,169,0.6)', marginBottom: '10px' }}></div>
+
             <Typography variant="body1" style={{ textAlign: 'left' }}>
               {product.description['en-GB']}
             </Typography>
-            <Typography variant="h6">
-              {product.masterVariant.prices[0].value.centAmount / 100}{' '}
-              {product.masterVariant.prices[0].value.currencyCode}
-            </Typography>
-            {product.masterVariant.prices[0].discounted?.value.centAmount && (
-              <div>
-                <div
-                  style={{
-                    color: 'var(--color-text-secondary-main)',
-                    backgroundColor: 'var(--color-text-secondary-light)',
-                    borderRadius: '5px',
-                    padding: '5px',
-                    fontSize: '1rem',
-                    fontWeight: '700',
-                    margin: '8px',
-                  }}
-                >
-                  {Math.round(
-                    ((product.masterVariant.prices[0].value.centAmount -
-                      product.masterVariant.prices[0].discounted.value.centAmount) /
-                      product.masterVariant.prices[0].value.centAmount) *
-                      100,
-                  )}
-                  % off {product.masterVariant.prices[0].discounted.value.centAmount / 100}{' '}
-                  {product.masterVariant.prices[0].discounted.value.currencyCode}
-                </div>
+            <Grid container justifyContent="flex-start">
+              <Grid item>
                 <Button variant="contained" component={Link} to={CATALOG_ROUTE}>
                   Back to catalog
                 </Button>
-              </div>
-            )}
+              </Grid>
+            </Grid>
           </CardContent>
         </Grid>
       </Grid>
