@@ -67,9 +67,15 @@ function CatalogPage() {
         sx={{
           display: 'flex',
           margin: '0 auto',
-          flexDirection: 'row',
+          flexDirection: {
+            sx: 'column',
+            sm: 'row',
+          },
           gap: '20px',
-          flexWrap: 'noWrap',
+          flexWrap: {
+            xs: 'wrap',
+            sm: 'noWrap',
+          },
           width: '100%',
         }}
       >
@@ -79,7 +85,10 @@ function CatalogPage() {
             margin: '0 auto',
             flexDirection: 'column',
             flexWrap: 'noWrap',
-            width: '25%',
+            width: {
+              xs: '100%',
+              sm: '25%',
+            },
           }}
         >
           <SearchField setQueryString={setQueryString} />
@@ -110,8 +119,22 @@ function CatalogPage() {
               width: '100%',
             }}
           >
-            <Typography variant="h6">Applied filters: </Typography>
-            <Stack direction="row" spacing={1}>
+            <Typography
+              variant="h6"
+              sx={{
+                fontSize: {
+                  xs: '1rem',
+                  sm: '1.2rem',
+                },
+                fontWeight: {
+                  xs: '700',
+                  sm: '700',
+                },
+              }}
+            >
+              Applied filters:{' '}
+            </Typography>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
               {selectedPriceRange && (
                 <Chip label={`Price: ${selectedPriceRange}`} variant="outlined" onDelete={handleDeletePriceRange} />
               )}
@@ -155,7 +178,10 @@ function CatalogPage() {
             sx={{
               display: 'flex',
               margin: '0 auto',
-              flexDirection: 'row',
+              flexDirection: {
+                xs: 'column',
+                sm: 'row',
+              },
               justifyContent: 'left',
               alignItems: 'center',
               gap: '20px',
