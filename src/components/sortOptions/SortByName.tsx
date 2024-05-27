@@ -16,7 +16,15 @@ export default function SortByName({ setSort }: SortOptionsProps) {
   };
 
   return (
-    <Box sx={{ minWidth: 150 }}>
+    <Box
+      sx={{
+        minWidth: 150,
+        width: {
+          xs: '100%',
+          sm: '200px',
+        },
+      }}
+    >
       <FormControl fullWidth>
         <InputLabel id="sort-label">Sort by name</InputLabel>
         <Select

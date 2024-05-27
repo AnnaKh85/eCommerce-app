@@ -42,7 +42,10 @@ export default function ProductList({
       sx={{
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'left',
+        justifyContent: {
+          xs: 'center',
+          sm: 'left',
+        },
         alignItems: 'flex-start',
         overflow: 'hidden',
         gap: '10px',

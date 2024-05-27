@@ -20,9 +20,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <Card
       sx={{
-        width: 300,
+        width: {
+          xs: '200px',
+          sm: '300px',
+        },
         margin: '10px 0',
-        height: '400px',
+        height: {
+          xs: '400px',
+          sm: '400px',
+        },
         display: 'flex',
         flexDirection: 'row',
         gap: '10px',
@@ -44,14 +50,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           }}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" color="text.primary">
+          <Typography
+            gutterBottom
+            component="div"
+            color="text.primary"
+            sx={{
+              fontSize: { xs: '0.8rem', sm: '1.3rem' },
+              textAlign: { xs: 'center', sm: 'center' },
+              display: '-webkit-box',
+              overflow: 'hidden',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
             {product.name['en-GB']}
           </Typography>
           <Typography
             variant="body2"
             color="text.secondary"
             sx={{
-              fontSize: { xs: '0.8rem', sm: '0.9rem' },
+              fontSize: { xs: '0.7rem', sm: '0.9rem' },
               textAlign: { xs: 'center', sm: 'left' },
               display: '-webkit-box',
               overflow: 'hidden',
@@ -67,7 +84,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             color={isDiscounted ? 'text.secondary' : 'text.primary'}
             fontSize={isDiscounted ? '1rem' : '0.8rem'}
             fontWeight={isDiscounted ? '500' : '700'}
-            margin="16px"
+            margin={{
+              xs: '8px',
+              sm: '16px',
+            }}
           >
             {product.masterVariant.prices[0].value.centAmount / 100}{' '}
             {product.masterVariant.prices[0].value.currencyCode}
