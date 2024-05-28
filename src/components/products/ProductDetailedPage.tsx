@@ -1,7 +1,9 @@
+// import CardMedia from '@mui/material/CardMedia';
+import './DetailedPageSlider.css';
+
 import { CardContent, CircularProgress, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-// import CardMedia from '@mui/material/CardMedia';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 
@@ -25,20 +27,24 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    // arrows: true,
   };
 
   return (
     <Card>
       <Grid container>
         <Grid item xs={6}>
-          <Slider {...settings}>
-            {product.masterVariant.images.map((image) => (
-              <div key={image.url}>
-                <img src={image.url} alt={product.name['en-GB']} style={{ width: '100%' }} />
-              </div>
-            ))}
-          </Slider>
+          {product.masterVariant.images.length === 1 ? (
+            <img src={product.masterVariant.images[0].url} alt={product.name['en-GB']} style={{ width: '50%' }} />
+          ) : (
+            <Slider {...settings} className="slick-dots">
+              {product.masterVariant.images.map((image) => (
+                <div key={image.url}>
+                  <img src={image.url} alt={product.name['en-GB']} style={{ width: '50%' }} />
+                </div>
+              ))}
+            </Slider>
+          )}
         </Grid>
         <Grid item xs={6}>
           <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
