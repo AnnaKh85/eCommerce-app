@@ -1,5 +1,5 @@
-// import CardMedia from '@mui/material/CardMedia';
-import './DetailedPageSlider.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import { CardContent, CircularProgress, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -27,7 +27,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    // arrows: true,
+    arrows: true,
   };
 
   return (
@@ -35,12 +35,12 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
       <Grid container>
         <Grid item xs={6}>
           {product.masterVariant.images.length === 1 ? (
-            <img src={product.masterVariant.images[0].url} alt={product.name['en-GB']} style={{ width: '50%' }} />
+            <img src={product.masterVariant.images[0].url} alt={product.name['en-GB']} style={{ width: '60%' }} />
           ) : (
             <Slider {...settings} className="slick-dots">
               {product.masterVariant.images.map((image) => (
                 <div key={image.url}>
-                  <img src={image.url} alt={product.name['en-GB']} style={{ width: '50%' }} />
+                  <img src={image.url} alt={product.name['en-GB']} style={{ width: '60%' }} />
                 </div>
               ))}
             </Slider>
