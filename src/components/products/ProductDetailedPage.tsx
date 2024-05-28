@@ -1,8 +1,9 @@
 import { CardContent, CircularProgress, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
+// import CardMedia from '@mui/material/CardMedia';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
 
 import { CATALOG_ROUTE } from '../../services/constants.ts';
 import { useProduct } from './useProduct.ts';
@@ -18,11 +19,26 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
   if (error) return <div>An error occurred: {error.message}</div>;
   if (!product) return <div>No product found</div>;
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+  };
+
   return (
     <Card>
       <Grid container>
         <Grid item xs={6}>
-          <CardMedia component="img" alt={product.name['en-GB']} image={product.masterVariant.images[0].url} />
+          <Slider {...settings}>
+            {product.masterVariant.images.map((image) => (
+              <div key={image.url}>
+                <img src={image.url} alt={product.name['en-GB']} style={{ width: '100%' }} />
+              </div>
+            ))}
+          </Slider>
         </Grid>
         <Grid item xs={6}>
           <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>

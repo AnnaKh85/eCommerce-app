@@ -99,7 +99,7 @@ interface IPrice {
   country: string;
 }
 
-interface IImage {
+export interface IImage {
   url: string;
   label: string;
   dimensions: {
