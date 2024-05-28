@@ -1,0 +1,16 @@
+.general-info-block {
+  border-radius: 10px;
+  border: 2px solid blue;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.general-info-row {
+  width: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
