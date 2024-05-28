@@ -1,3 +1,5 @@
+import './DetailedPageSlider.css';
+
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { CardActionArea } from '@mui/material';
 import Button from '@mui/material/Button';

@@ -1,5 +1,6 @@
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import './DetailedPageSlider.css';
 
 import { CardContent, CircularProgress, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -37,10 +38,10 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
           {product.masterVariant.images.length === 1 ? (
             <img src={product.masterVariant.images[0].url} alt={product.name['en-GB']} style={{ width: '60%' }} />
           ) : (
-            <Slider {...settings} className="slick-dots">
+            <Slider {...settings} className="dots-container">
               {product.masterVariant.images.map((image) => (
                 <div key={image.url}>
-                  <img src={image.url} alt={product.name['en-GB']} style={{ width: '60%' }} />
+                  <img src={image.url} alt={product.name['en-GB']} style={{ width: '80%' }} />
                 </div>
               ))}
             </Slider>
