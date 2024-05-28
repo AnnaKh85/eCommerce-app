@@ -6,14 +6,16 @@ export interface RouteError {
 export interface Customer {
   id: string;
   email: string;
+  password: string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
-  password: string;
+  addresses: BaseAddress[];
+  defaultShippingAddressId: string;
   shippingAddressIds: string[];
+  defaultBillingAddressId: string;
   billingAddressIds: string[];
   isEmailVerified: boolean;
-  key: string;
 }
 
 // Based on https://docs.commercetools.com/api/projects/customers#ctp:api:type:CustomerDraft
@@ -23,13 +25,14 @@ export interface CustomerDraft {
   firstName: string;
   lastName: string;
   dateOfBirth?: string;
-  addresses?: BaseAddress[];
+  addresses?: BaseAddressDraft[];
   shippingAddresses?: number[];
   billingAddresses?: number[];
   defaultShippingAddress?: number;
   defaultBillingAddress?: number;
 }
 
+export type BaseAddressDraft = Omit<BaseAddress, 'id'>;
 // Based on https://docs.commercetools.com/api/types#ctp:api:type:BaseAddress
 
 export interface BaseAddress {
@@ -37,6 +40,7 @@ export interface BaseAddress {
   streetName?: string;
   postalCode?: string;
   city?: string;
+  id: string;
 }
 
 export interface CustomerSignInResult {
