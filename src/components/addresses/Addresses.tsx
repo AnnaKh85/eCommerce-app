@@ -1,3 +1,5 @@
+import './Addresses.css';
+
 import type { Customer } from '../../services/interfaces';
 import Address from '../address/Address';
 
@@ -15,9 +17,10 @@ const Addresses: React.FC<CustomerProps> = ({ customer }) => {
 
   if (shippingAddress && billingAddress) {
     return (
-      <div>
+      <div className="addresses-block">
         <h3>Addresses</h3>
         <Address customer={customer} shippingAddress={shippingAddress} billingAddress={billingAddress} />
+        <button className="address-btn">Edit</button>
       </div>
     );
   } else {

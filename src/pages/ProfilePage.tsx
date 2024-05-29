@@ -35,17 +35,21 @@ function ProfilePage() {
     }
   }, []);
 
+  const handleCustomerUpdate = (updatedCustomer: Customer) => {
+    setCustomer(updatedCustomer);
+  };
+
   if (loading) {
     return <Loader />;
   }
 
   return (
     <>
-      {serverError && <div>{serverError}</div>}
       <h2>Profile page</h2>
+      {serverError && <div>{serverError}</div>}
       {customer && (
         <>
-          <GeneralInfo customer={customer} />
+          <GeneralInfo customer={customer} onCustomerUpdate={handleCustomerUpdate} />
           <Addresses customer={customer} />
         </>
       )}
