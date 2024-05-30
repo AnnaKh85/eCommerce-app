@@ -5,12 +5,12 @@ interface Props {
   onClose: () => void;
 }
 
-const RegistrationResponse = ({ isOpen, onClose }: Props) => {
+const UpdateResponse = ({ isOpen, onClose }: Props) => {
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogContent>
-        <h2>Registration Successful!</h2>
-        <p>Your account has been successfully registered.</p>
+        <h2>Changes saved successfully!</h2>
+        <p>Your profile has been successfully updated.</p>
         <Button onClick={onClose} variant="contained">
           OK
         </Button>
@@ -19,4 +19,4 @@ const RegistrationResponse = ({ isOpen, onClose }: Props) => {
   );
 };
 
-export default RegistrationResponse;
+export default UpdateResponse;

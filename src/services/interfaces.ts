@@ -4,6 +4,7 @@ export interface RouteError {
 }
 
 export interface Customer {
+  version: number;
   id: string;
   email: string;
   password: string;
@@ -17,6 +18,35 @@ export interface Customer {
   billingAddressIds: string[];
   isEmailVerified: boolean;
 }
+
+export interface CustomerUpdate {
+  version: number;
+  actions: CustomerUpdateAction[];
+}
+
+export type CustomerUpdateAction = {
+  action: string;
+};
+
+export type SetFirstName = CustomerUpdateAction & {
+  action: 'setFirstName';
+  firstName: string;
+};
+
+export type SetLastName = CustomerUpdateAction & {
+  action: 'setLastName';
+  lastName: string;
+};
+
+export type SetDateOfBirth = CustomerUpdateAction & {
+  action: 'setDateOfBirth';
+  dateOfBirth: string;
+};
+
+export type ChangeEmail = CustomerUpdateAction & {
+  action: 'changeEmail';
+  email: string;
+};
 
 // Based on https://docs.commercetools.com/api/projects/customers#ctp:api:type:CustomerDraft
 export interface CustomerDraft {
