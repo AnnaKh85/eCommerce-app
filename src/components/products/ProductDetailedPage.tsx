@@ -28,7 +28,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: false,
   };
 
   return (
@@ -36,12 +36,14 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
       <Grid container>
         <Grid item xs={6}>
           {product.masterVariant.images.length === 1 ? (
-            <img src={product.masterVariant.images[0].url} alt={product.name['en-GB']} style={{ width: '60%' }} />
+            <img src={product.masterVariant.images[0].url} alt={product.name['en-GB']} style={{ width: '80%' }} />
           ) : (
             <Slider {...settings} className="dots-container">
               {product.masterVariant.images.map((image) => (
-                <div key={image.url}>
-                  <img src={image.url} alt={product.name['en-GB']} style={{ width: '80%' }} />
+                <div key={image.url} className="slider-image-container">
+                  <div className="image-wrapper">
+                    <img src={image.url} alt={product.name['en-GB']} style={{ width: '80%' }} />
+                  </div>
                 </div>
               ))}
             </Slider>

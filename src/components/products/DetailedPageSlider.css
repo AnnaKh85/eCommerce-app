@@ -1,3 +1,16 @@
 .dots-container {
-    position: relative;
+    /* position: relative; */
+    margin-bottom: 50px;
+}
+
+.slider-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-wrapper {
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
