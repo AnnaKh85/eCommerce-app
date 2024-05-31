@@ -95,8 +95,8 @@ export interface ICategory {
   lastMessageSequenceNumber: number;
   createdAt: string;
   lastModifiedAt: string;
-  lastModifiedBy: { isPlatformClient: boolean };
-  createdBy: { isPlatformClient: boolean };
+  lastModifiedBy?: { isPlatformClient: boolean };
+  createdBy?: { isPlatformClient: boolean };
   key: string;
   name: ILocalizedString;
   slug: ILocalizedString;
