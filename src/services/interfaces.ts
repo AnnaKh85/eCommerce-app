@@ -4,17 +4,49 @@ export interface RouteError {
 }
 
 export interface Customer {
+  version: number;
   id: string;
   email: string;
+  password: string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
-  password: string;
+  addresses: BaseAddress[];
+  defaultShippingAddressId: string;
   shippingAddressIds: string[];
+  defaultBillingAddressId: string;
   billingAddressIds: string[];
   isEmailVerified: boolean;
-  key: string;
 }
+
+export interface CustomerUpdate {
+  version: number;
+  actions: CustomerUpdateAction[];
+}
+
+export type CustomerUpdateAction = {
+  action: string;
+};
+
+export type SetFirstName = CustomerUpdateAction & {
+  action: 'setFirstName';
+  firstName: string;
+};
+
+export type SetLastName = CustomerUpdateAction & {
+  action: 'setLastName';
+  lastName: string;
+};
+
+export type SetDateOfBirth = CustomerUpdateAction & {
+  action: 'setDateOfBirth';
+  dateOfBirth: string;
+};
+
+export type ChangeEmail = CustomerUpdateAction & {
+  action: 'changeEmail';
+  email: string;
+};
 
 // Based on https://docs.commercetools.com/api/projects/customers#ctp:api:type:CustomerDraft
 export interface CustomerDraft {
@@ -23,13 +55,14 @@ export interface CustomerDraft {
   firstName: string;
   lastName: string;
   dateOfBirth?: string;
-  addresses?: BaseAddress[];
+  addresses?: BaseAddressDraft[];
   shippingAddresses?: number[];
   billingAddresses?: number[];
   defaultShippingAddress?: number;
   defaultBillingAddress?: number;
 }
 
+export type BaseAddressDraft = Omit<BaseAddress, 'id'>;
 // Based on https://docs.commercetools.com/api/types#ctp:api:type:BaseAddress
 
 export interface BaseAddress {
@@ -37,6 +70,7 @@ export interface BaseAddress {
   streetName?: string;
   postalCode?: string;
   city?: string;
+  id: string;
 }
 
 export interface CustomerSignInResult {
