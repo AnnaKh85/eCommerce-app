@@ -86,7 +86,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({ customer, onCustomerUpdate })
       try {
         const updatedData = await changeCustomerPassword(requestBody);
         onCustomerUpdate(updatedData);
-        setEditMode(false);
+        setPasswordChangeMode(false);
       } catch (error) {
         alert('Failed to save changes.Please try again.');
       }
@@ -125,7 +125,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({ customer, onCustomerUpdate })
           <ChangePasswordModal
             onClose={handlePasswordChangeToggle}
             onSave={handlePasswordSave}
-            // onRegistrationSuccess={handleRegistrationSuccess}
+            onRegistrationSuccess={handleRegistrationSuccess}
           />
         )}
       </div>

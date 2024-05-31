@@ -7,10 +7,10 @@ import { changePasswordModalSchema } from './changePasswordModalSchema';
 interface ChangePasswordModalProps {
   onClose: () => void;
   onSave: (values: ChangedPassword) => void;
-  // onRegistrationSuccess: () => void;
+  onRegistrationSuccess: () => void;
 }
 
-const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ onClose, onSave }) => {
+const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ onClose, onSave, onRegistrationSuccess }) => {
   return (
     <div>
       <h2>Change password</h2>
@@ -20,7 +20,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ onClose, onSa
         onSubmit={(values, { setSubmitting }) => {
           onSave(values);
           setSubmitting(false);
-          // onRegistrationSuccess();
+          onRegistrationSuccess();
         }}
       >
         {({ touched, errors }) => (
