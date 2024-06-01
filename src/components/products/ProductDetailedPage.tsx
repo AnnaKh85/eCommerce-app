@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 
 import { CATALOG_ROUTE } from '../../services/constants.ts';
-import ModalWindow from './ModalWindow.tsx';
+import ModalWindow from './ModalWindow';
 import { useProduct } from './useProduct.ts';
 
 interface ProductDetailsProps {
@@ -21,8 +21,10 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
   const { isLoading, product, error } = useProduct(selectedProductId || '');
 
   const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
-  const openModal = () => {
+  const openModal = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
     setShowModal(true);
   };
 
@@ -52,21 +54,26 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
               src={product.masterVariant.images[0].url}
               alt={product.name['en-GB']}
               style={{ width: '80%' }}
-              onClick={openModal}
+              onClick={() => openModal(product.masterVariant.images[0].url)}
             />
           ) : (
             <Slider {...settings} className="dots-container">
               {product.masterVariant.images.map((image) => (
                 <div key={image.url} className="slider-image-container">
                   <div className="image-wrapper">
-                    <img src={image.url} alt={product.name['en-GB']} style={{ width: '80%' }} onClick={openModal} />
+                    <img
+                      src={image.url}
+                      alt={product.name['en-GB']}
+                      style={{ width: '80%' }}
+                      onClick={() => openModal(image.url)}
+                    />
                   </div>
                 </div>
               ))}
             </Slider>
           )}
 
-          {showModal && <ModalWindow closeModal={closeModal} />}
+          {showModal && <ModalWindow imageUrl={selectedImage} closeModal={closeModal} />}
         </Grid>
         <Grid item xs={6}>
           <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
