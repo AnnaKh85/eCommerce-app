@@ -35,7 +35,7 @@ const ModalContent = ({
     <>
       {showModal && (
         <Dialog open={true} onClose={closeModal}>
-          <DialogTitle>
+          <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h5" style={{ textAlign: 'left' }}>
               {product.name['en-GB']}
             </Typography>
