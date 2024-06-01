@@ -3,7 +3,7 @@
   width: 30vw;
   border-radius: 10px;
   border: 2px solid rgb(13, 13, 70);
-  padding: 0.3rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,15 +11,31 @@
   margin-bottom: 0.5rem;
 }
 
+.general-info-row {
+  font-size: 18px;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.general-info-edit-btn-block {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
 .general-info-edit-btn {
+  text-align: center;
   border: 0;
   cursor: pointer;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.7rem;
   line-height: 1.75;
   letter-spacing: 0.02857em;
   text-transform: uppercase;
-  padding: 6px 16px;
+  padding: 0.3rem;
   border-radius: 4px;
   color: #fff;
   background-color: #2a254b;
@@ -34,5 +50,14 @@
 @media (min-width: 250px) and (max-width: 900px) {
   .general-info-block {
     width: 60vw;
+  }
+
+  .general-info-row {
+    font-size: 16px;
+  }
+
+  .general-info-edit-btn {
+    width: 100px;
+    font-size: 0.6rem;
   }
 }
