@@ -1,6 +1,5 @@
 import './DetailedPageSlider.css';
 
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { CardActionArea } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -10,6 +9,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
+import { CART_ROUTE } from '../../services/constants.ts';
 import type { IProduct } from '../../services/interfaces.ts';
 
 interface ProductCardProps {
@@ -130,8 +130,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Button size="small" variant="outlined" component={Link} to={`/catalog/${product.id}`}>
             Show more
           </Button>
-          <Button size="small" variant={'outlined'}>
-            <AddShoppingCartIcon />
+          <Button size="small" variant="contained" component={Link} to={CART_ROUTE}>
+            Add to cart
           </Button>
         </CardActions>
       </CardActionArea>
