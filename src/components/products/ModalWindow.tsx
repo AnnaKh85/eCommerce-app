@@ -1,25 +1,5 @@
-// import React from 'react';
-
-// interface ModalProps {
-//   closeModal: () => void;
-// }
-
-// const ModalWindow: React.FC<ModalProps> = ({ closeModal }) => {
-//   return (
-//     <div className="modal">
-//       <div className="modal-content">
-//         <span className="close" onClick={closeModal}>
-//           &times;
-//         </span>
-//         <p>Modal window is here</p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ModalWindow;
-
-import React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
+import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 
 interface ModalProps {
   imageUrl: string;
@@ -28,15 +8,17 @@ interface ModalProps {
 
 const ModalWindow: React.FC<ModalProps> = ({ imageUrl, closeModal }) => {
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={closeModal}>
-          &times;
-        </span>
-        <p>Modal window is here</p>
-        <img src={imageUrl} alt="IMAGE WAS HERE" style={{ width: '100%' }} />
-      </div>
-    </div>
+    <Dialog open={true} onClose={closeModal}>
+      <DialogTitle>
+        Modal Window
+        <IconButton aria-label="close" onClick={closeModal}>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        <img src={imageUrl} alt="Image" style={{ width: '100%' }} />
+      </DialogContent>
+    </Dialog>
   );
 };
 
