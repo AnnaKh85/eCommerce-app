@@ -5,10 +5,12 @@ import './DetailedPageSlider.css';
 import { CardContent, CircularProgress, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 
 import { CATALOG_ROUTE } from '../../services/constants.ts';
+import ModalWindow from './ModalWindow.tsx';
 import { useProduct } from './useProduct.ts';
 
 interface ProductDetailsProps {
@@ -17,6 +19,16 @@ interface ProductDetailsProps {
 
 function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
   const { isLoading, product, error } = useProduct(selectedProductId || '');
+
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   if (isLoading) return <CircularProgress />;
   if (error) return <div>An error occurred: {error.message}</div>;
@@ -40,24 +52,21 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
               src={product.masterVariant.images[0].url}
               alt={product.name['en-GB']}
               style={{ width: '80%' }}
-              onClick={() => console.log('matrix has you')}
+              onClick={openModal}
             />
           ) : (
             <Slider {...settings} className="dots-container">
               {product.masterVariant.images.map((image) => (
                 <div key={image.url} className="slider-image-container">
                   <div className="image-wrapper">
-                    <img
-                      src={image.url}
-                      alt={product.name['en-GB']}
-                      style={{ width: '80%' }}
-                      onClick={() => console.log('matrix has you')}
-                    />
+                    <img src={image.url} alt={product.name['en-GB']} style={{ width: '80%' }} onClick={openModal} />
                   </div>
                 </div>
               ))}
             </Slider>
           )}
+
+          {showModal && <ModalWindow closeModal={closeModal} />}
         </Grid>
         <Grid item xs={6}>
           <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
