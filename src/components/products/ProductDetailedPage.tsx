@@ -36,13 +36,23 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
       <Grid container>
         <Grid item xs={6}>
           {product.masterVariant.images.length === 1 ? (
-            <img src={product.masterVariant.images[0].url} alt={product.name['en-GB']} style={{ width: '80%' }} />
+            <img
+              src={product.masterVariant.images[0].url}
+              alt={product.name['en-GB']}
+              style={{ width: '80%' }}
+              onClick={() => console.log('matrix has you')}
+            />
           ) : (
             <Slider {...settings} className="dots-container">
               {product.masterVariant.images.map((image) => (
                 <div key={image.url} className="slider-image-container">
                   <div className="image-wrapper">
-                    <img src={image.url} alt={product.name['en-GB']} style={{ width: '80%' }} />
+                    <img
+                      src={image.url}
+                      alt={product.name['en-GB']}
+                      style={{ width: '80%' }}
+                      onClick={() => console.log('matrix has you')}
+                    />
                   </div>
                 </div>
               ))}
