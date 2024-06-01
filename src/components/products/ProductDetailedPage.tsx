@@ -2,15 +2,22 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './DetailedPageSlider.css';
 
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import CloseIcon from '@mui/icons-material/Close';
 import { CardContent, CircularProgress, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 
 import { CATALOG_ROUTE } from '../../services/constants.ts';
-import ModalWindow from './ModalWindow';
+// import ModalWindow from './ModalWindow';
 import { useProduct } from './useProduct.ts';
 
 interface ProductDetailsProps {
@@ -23,9 +30,31 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const goToNextImage = () => {
+    if (product) {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.masterVariant.images.length);
+    }
+  };
+
+  const goToPrevImage = () => {
+    if (product) {
+      setCurrentImageIndex(
+        (prevIndex) => (prevIndex - 1 + product.masterVariant.images.length) % product.masterVariant.images.length,
+      );
+    }
+  };
+
   const openModal = (imageUrl: string) => {
-    setSelectedImage(imageUrl);
-    setShowModal(true);
+    if (product) {
+      const imageIndex = product.masterVariant.images.findIndex((image) => image.url === imageUrl);
+      if (imageIndex !== -1) {
+        setSelectedImage(imageUrl);
+        setCurrentImageIndex(imageIndex);
+        setShowModal(true);
+      }
+    }
   };
 
   const closeModal = () => {
@@ -73,7 +102,38 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
             </Slider>
           )}
 
-          {showModal && <ModalWindow imageUrl={selectedImage} closeModal={closeModal} />}
+          {/* {showModal && <ModalWindow imageUrl={selectedImage} closeModal={closeModal} />} */}
+          {showModal && (
+            <Dialog open={true} onClose={closeModal}>
+              <DialogTitle>
+                <Typography variant="h5" style={{ textAlign: 'left' }}>
+                  {product.name['en-GB']}
+                </Typography>
+                <IconButton aria-label="close" onClick={closeModal}>
+                  <CloseIcon />
+                </IconButton>
+              </DialogTitle>
+              <DialogContent>
+                {product.masterVariant.images.length === 1 ? (
+                  <img src={selectedImage} alt={product.name['en-GB']} style={{ width: '100%' }} />
+                ) : (
+                  <>
+                    <IconButton onClick={goToPrevImage}>
+                      <ChevronLeftIcon />
+                    </IconButton>
+                    <img
+                      src={product.masterVariant.images[currentImageIndex].url}
+                      alt={product.name['en-GB']}
+                      style={{ width: '100%' }}
+                    />
+                    <IconButton onClick={goToNextImage}>
+                      <ChevronRightIcon />
+                    </IconButton>
+                  </>
+                )}
+              </DialogContent>
+            </Dialog>
+          )}
         </Grid>
         <Grid item xs={6}>
           <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
