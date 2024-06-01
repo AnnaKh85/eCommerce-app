@@ -48,6 +48,19 @@ export type ChangeEmail = CustomerUpdateAction & {
   email: string;
 };
 
+export interface CustomerPasswordChange {
+  id: string;
+  version: number;
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface ChangedPassword {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
 // Based on https://docs.commercetools.com/api/projects/customers#ctp:api:type:CustomerDraft
 export interface CustomerDraft {
   email: string;

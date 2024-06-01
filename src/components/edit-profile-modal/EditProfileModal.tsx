@@ -1,3 +1,5 @@
+import './EditProfileModal.css';
+
 import { Button, TextField } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 
@@ -69,24 +71,11 @@ const EditProfileModal: React.FC<EditModalProps> = ({ customer, onClose, onSave,
             fullWidth
             variant="standard"
           />
-          <div>
-            <Button
-              sx={{ marginTop: '30px', marginBottom: '30px' }}
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-            >
+          <div className="edit-modal-profile-btn-block">
+            <Button type="submit" variant="contained" color="primary">
               Save changes
             </Button>
-            <Button
-              sx={{ marginTop: '30px', marginBottom: '30px' }}
-              type="button"
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={onClose}
-            >
+            <Button type="button" variant="contained" color="primary" onClick={onClose}>
               Cancel
             </Button>
           </div>
