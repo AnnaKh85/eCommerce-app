@@ -1,5 +1,4 @@
 .dots-container {
-    /* position: relative; */
     margin-bottom: 50px;
 }
 
@@ -13,4 +12,9 @@
     display:flex;
     justify-content: center;
     align-items: center;
+}
+
+.slick-dots li button {
+    width: 16px;
+    height: 16px;
 }
