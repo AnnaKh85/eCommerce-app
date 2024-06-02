@@ -14,7 +14,7 @@ export const loginFormSchema = Yup.object().shape({
     ),
 });
 
-const addressSchema = Yup.object().shape({
+export const addressSchema = Yup.object().shape({
   street: Yup.string().required('Street is required'),
   city: Yup.string()
     .required('City is required')
