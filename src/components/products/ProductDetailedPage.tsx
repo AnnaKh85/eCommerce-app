@@ -68,7 +68,9 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
   };
 
   return (
-    <Card>
+    <Card
+      sx={{ display: 'flex', justifyContent: 'center', maxWidth: '1000px', marginLeft: 'auto', marginRight: 'auto' }}
+    >
       <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Grid item xs={12} sm={6} md={4}>
           {product.masterVariant.images.length === 1 ? (
