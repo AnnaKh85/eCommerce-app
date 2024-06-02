@@ -75,7 +75,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
             <img
               src={product.masterVariant.images[0].url}
               alt={product.name['en-GB']}
-              style={{ width: '80%' }}
+              style={{ width: '70%' }}
               onClick={() => openModal(product.masterVariant.images[0].url)}
             />
           ) : (
@@ -86,7 +86,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
                     <img
                       src={image.url}
                       alt={product.name['en-GB']}
-                      style={{ width: '80%' }}
+                      style={{ width: '70%' }}
                       onClick={() => openModal(image.url)}
                     />
                   </div>
