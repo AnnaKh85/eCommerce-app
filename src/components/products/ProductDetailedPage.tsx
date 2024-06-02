@@ -77,7 +77,8 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
             <img
               src={product.masterVariant.images[0].url}
               alt={product.name['en-GB']}
-              style={{ width: '70%', cursor: 'pointer' }}
+              style={{ cursor: 'pointer' }}
+              className="product-image"
               onClick={() => openModal(product.masterVariant.images[0].url)}
             />
           ) : (
@@ -88,7 +89,9 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
                     <img
                       src={image.url}
                       alt={product.name['en-GB']}
-                      style={{ width: '70%', cursor: 'pointer' }}
+                      style={{ cursor: 'pointer' }}
+                      className="product-image"
+                      // style={{ width: '70%', cursor: 'pointer' }}
                       onClick={() => openModal(image.url)}
                     />
                   </div>
