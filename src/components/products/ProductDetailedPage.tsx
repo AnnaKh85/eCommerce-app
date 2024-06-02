@@ -69,8 +69,9 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
 
   return (
     <Card>
+      {/* <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}> */}
       <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           {product.masterVariant.images.length === 1 ? (
             <img
               src={product.masterVariant.images[0].url}
@@ -105,13 +106,13 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
             goToNextImage={goToNextImage}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
-            <Typography variant="h5" style={{ textAlign: 'left' }}>
+            <Typography variant="h5" sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
               {product.name['en-GB']}
             </Typography>
 
-            <Grid container justifyContent="left">
+            <Grid container sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'left' } }}>
               <Grid item style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                 <Typography variant="h6">
                   {product.masterVariant.prices[0].value.centAmount / 100}{' '}
@@ -147,7 +148,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
             <Typography variant="body1" style={{ textAlign: 'left' }}>
               {product.description['en-GB']}
             </Typography>
-            <Grid container justifyContent="flex-start">
+            <Grid container sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'left' } }}>
               <Grid item>
                 <Button variant="contained" component={Link} to={CATALOG_ROUTE}>
                   Back to catalog
