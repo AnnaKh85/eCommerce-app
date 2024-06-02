@@ -69,7 +69,6 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
 
   return (
     <Card>
-      {/* <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}> */}
       <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Grid item xs={12} sm={6} md={4}>
           {product.masterVariant.images.length === 1 ? (
@@ -145,7 +144,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
             </Grid>
             <div style={{ width: '100%', borderBottom: '1px solid rgba(169,169,169,0.6)', marginBottom: '10px' }}></div>
 
-            <Typography variant="body1" style={{ textAlign: 'left' }}>
+            <Typography variant="body1" style={{ textAlign: 'left' }} className="product-description">
               {product.description['en-GB']}
             </Typography>
             <Grid container sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'left' } }}>
