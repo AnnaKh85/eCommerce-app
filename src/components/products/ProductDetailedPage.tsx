@@ -71,7 +71,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
     <Card>
       {/* <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}> */}
       <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} md={4}>
           {product.masterVariant.images.length === 1 ? (
             <img
               src={product.masterVariant.images[0].url}
@@ -106,7 +106,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
             goToNextImage={goToNextImage}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} md={8}>
           <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
             <Typography variant="h5" sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
               {product.name['en-GB']}
