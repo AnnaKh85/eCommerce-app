@@ -39,7 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
       updateMyCart(id, version, actions),
     onSuccess: () => {
-      toast.success('The product was added to your cart');
+      toast.success(`The ${product.name['en-GB']} was added to your cart`);
       queryClient.invalidateQueries({ queryKey: ['activeCart'] });
     },
     onError: (err) => toast.error(err.message),
@@ -56,7 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   });
 
   function handleAddProductToCart(cartId: string, cartVersion: number) {
-    const actions = [
+    const actions: ICartActions[] = [
       {
         action: 'addLineItem',
         productId: product.id,
