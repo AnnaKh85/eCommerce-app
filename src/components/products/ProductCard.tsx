@@ -39,7 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
       updateMyCart(id, version, actions),
     onSuccess: () => {
-      toast.success(`The ${product.name['en-GB']} was added to your cart`);
+      toast.success(`The ${product.name['en-GB']} was added to your cart 🛒`);
       queryClient.invalidateQueries({ queryKey: ['activeCart'] });
     },
     onError: (err) => toast.error(err.message),
@@ -49,11 +49,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     isLoading,
     data: activeCart,
     error,
+    // status
   } = useQuery({
     queryKey: ['activeCart'],
     queryFn: getActiveCart,
     staleTime: Infinity,
   });
+
+  // if (status === 'error') {
+  //     return (err: Error) => toast.error(err.message)
+  // }
 
   function handleAddProductToCart(cartId: string, cartVersion: number) {
     const actions: ICartActions[] = [
