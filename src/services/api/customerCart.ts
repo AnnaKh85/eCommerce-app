@@ -36,28 +36,6 @@ export async function getActiveCart() {
   return cart;
 }
 
-export async function setCountry(cartId: string, cartVersion: string) {
-  const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
-  const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/me/${cartId}`, {
-    method: 'POST',
-    headers: {
-      Authorization: 'Bearer' + authorizationToken,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      version: cartVersion,
-      actions: [
-        {
-          action: 'setCountry',
-          country: 'RU',
-        },
-      ],
-    }),
-  });
-  const cart: ICart = await response.json();
-  return cart;
-}
-
 export async function updateMyCart(id: string, version: number, actions: ICartActions[]): Promise<ICart> {
   const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
   const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/me/carts/${id}`, {
@@ -68,8 +46,7 @@ export async function updateMyCart(id: string, version: number, actions: ICartAc
     },
     body: JSON.stringify({ version: version, actions: actions }),
   });
-  const cart: ICart = await response.json();
-  return cart;
+  return await response.json();
 }
 
 export async function clearCartById(id: string, version: number): Promise<ICart> {
@@ -80,8 +57,7 @@ export async function clearCartById(id: string, version: number): Promise<ICart>
       Authorization: 'Bearer ' + authorizationToken,
     },
   });
-  const cart: ICart = await response.json();
-  return cart;
+  return await response.json();
 }
 
 export async function createCart(): Promise<ICart> {
@@ -96,6 +72,5 @@ export async function createCart(): Promise<ICart> {
       country: 'RU',
     }),
   });
-  const cart: ICart = await response.json();
-  return cart;
+  return await response.json();
 }

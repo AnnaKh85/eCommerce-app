@@ -1,15 +1,19 @@
 import './DetailedPageSlider.css';
 
-import { CardActionArea } from '@mui/material';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { CardActionArea, CircularProgress } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import React from 'react';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-import { CART_ROUTE } from '../../services/constants.ts';
+import { createCart as createCartApi, getActiveCart } from '../../services/api/customerCart.ts';
 import type { IProduct } from '../../services/interfaces.ts';
 
 interface ProductCardProps {
@@ -17,7 +21,43 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const queryClient = useQueryClient();
   const isDiscounted = !!product.masterVariant.prices[0].discounted;
+
+  const { mutate: createCart } = useMutation({
+    mutationFn: createCartApi,
+    onSuccess: (data) => {
+      toast.success('New cart successfully created');
+      queryClient.setQueryData(['activeCart'], data);
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const {
+    isLoading,
+    data: activeCart,
+    error,
+  } = useQuery({
+    queryKey: ['activeCart'],
+    queryFn: getActiveCart,
+    staleTime: Infinity,
+  });
+
+  function handleAddToCart() {
+    if (!activeCart || activeCart.statusCode === 404) {
+      createCart(undefined, {
+        onSuccess: (newCart) => {
+          console.log(`Current cart id: ${newCart.id}, version: ${newCart.version}`);
+        },
+      });
+    } else {
+      const cartId = activeCart.id;
+      console.log(`Active card ID: ${cartId}, version: ${activeCart.version}`);
+    }
+  }
+
+  if (isLoading) return <CircularProgress />;
+  if (error) return <div>An error occurred: {error.message}</div>;
 
   return (
     <Card
@@ -130,9 +170,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Button size="small" variant="outlined" component={Link} to={`/catalog/${product.id}`}>
             Show more
           </Button>
-          <Button size="small" variant="contained" component={Link} to={CART_ROUTE}>
-            Add to cart
-          </Button>
+          <ShoppingCartIcon onClick={handleAddToCart} />
+          {/*<Button size="small" variant="contained">*/}
+          {/*  Add to cart*/}
+          {/*</Button>*/}
         </CardActions>
       </CardActionArea>
     </Card>

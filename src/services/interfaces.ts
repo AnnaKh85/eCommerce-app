@@ -245,9 +245,7 @@ export interface ICartPages {
 
 export interface ICartActions {
   action: 'changeLineItemQuantity' | 'removeLineItem' | 'addDiscountCode' | 'addLineItem';
-  lineItemId?: string;
   productId?: string;
   variantId?: number;
   quantity?: number;
-  code?: string;
 }
