@@ -48,6 +48,22 @@ export type ChangeEmail = CustomerUpdateAction & {
   email: string;
 };
 
+export type ChangeAddress = CustomerUpdateAction & {
+  action: 'changeAddress';
+  addressId: string;
+  address: BaseAddressDraft;
+};
+
+export type AddAddress = CustomerUpdateAction & {
+  action: 'addAddress';
+  address: BaseAddressDraft;
+};
+
+export type AddShippingAddress = CustomerUpdateAction & {
+  action: 'addShippingAddressId';
+  addressId: string;
+};
+
 export interface CustomerPasswordChange {
   id: string;
   version: number;

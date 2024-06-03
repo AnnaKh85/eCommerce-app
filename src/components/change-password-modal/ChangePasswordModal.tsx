@@ -2,7 +2,7 @@ import { Button, TextField } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 
 import type { ChangedPassword } from '../../services/interfaces';
-import { changePasswordModalSchema } from './changePasswordModalSchema';
+import { changePasswordModalSchema } from './validationSchema';
 
 interface ChangePasswordModalProps {
   onClose: () => void;
