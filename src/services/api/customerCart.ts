@@ -46,6 +46,12 @@ export async function updateMyCart(id: string, version: number, actions: ICartAc
     },
     body: JSON.stringify({ version: version, actions: actions }),
   });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to update the cart');
+  }
+
   return await response.json();
 }
 

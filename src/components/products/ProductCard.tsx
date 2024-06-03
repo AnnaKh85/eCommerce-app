@@ -13,8 +13,9 @@ import React from 'react';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-import { createCart as createCartApi, getActiveCart } from '../../services/api/customerCart.ts';
+import { createCart as createCartApi, getActiveCart, updateMyCart } from '../../services/api/customerCart.ts';
 import type { IProduct } from '../../services/interfaces.ts';
+import type { ICartActions } from '../../services/interfaces.ts';
 
 interface ProductCardProps {
   product: IProduct;
@@ -29,6 +30,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     onSuccess: (data) => {
       toast.success('New cart successfully created');
       queryClient.setQueryData(['activeCart'], data);
+      handleAddProductToCart(data.id, data.version);
+    },
+    onError: (err: Error) => toast.error(err.message),
+  });
+
+  const { mutate: addProductToCart } = useMutation({
+    mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
+      updateMyCart(id, version, actions),
+    onSuccess: () => {
+      toast.success('The product was added to your cart');
+      queryClient.invalidateQueries({ queryKey: ['activeCart'] });
     },
     onError: (err) => toast.error(err.message),
   });
@@ -43,16 +55,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     staleTime: Infinity,
   });
 
+  function handleAddProductToCart(cartId: string, cartVersion: number) {
+    const actions = [
+      {
+        action: 'addLineItem',
+        productId: product.id,
+        variantId: 1,
+        quantity: 1,
+      },
+    ];
+    addProductToCart({ id: cartId, version: cartVersion, actions });
+  }
+
   function handleAddToCart() {
     if (!activeCart || activeCart.statusCode === 404) {
-      createCart(undefined, {
-        onSuccess: (newCart) => {
-          console.log(`Current cart id: ${newCart.id}, version: ${newCart.version}`);
-        },
-      });
+      createCart();
     } else {
-      const cartId = activeCart.id;
-      console.log(`Active card ID: ${cartId}, version: ${activeCart.version}`);
+      handleAddProductToCart(activeCart.id, activeCart.version);
     }
   }
 
