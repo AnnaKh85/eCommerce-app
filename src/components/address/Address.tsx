@@ -161,6 +161,7 @@ const Address: React.FC<CustomerAddressProps> = ({
   const isDefaultShipping = customer.defaultShippingAddressId === address.id;
   const rowStyle = {
     backgroundColor: isDefaultBilling ? 'lightgreen' : isDefaultShipping ? 'lightblue' : 'inherit',
+    fontSize: '0.8rem',
   };
 
   return (
@@ -176,18 +177,42 @@ const Address: React.FC<CustomerAddressProps> = ({
             <MenuItem value="billing">Billing</MenuItem>
           </Select>
         </TableCell>
-        <TableCell>
-          <Button onClick={handleAddressEditToggle} variant="contained" color="primary" size="small">
+        <TableCell sx={{ textAlign: 'center' }}>
+          <Button
+            onClick={handleAddressEditToggle}
+            variant="contained"
+            color="primary"
+            size="small"
+            sx={{ display: 'block', fontSize: '0.6rem', marginBottom: '4px' }}
+          >
             Edit
           </Button>
-          <Button onClick={handleDeleteAddress} variant="contained" color="secondary" size="small">
+          <Button
+            onClick={handleDeleteAddress}
+            variant="contained"
+            color="secondary"
+            size="small"
+            sx={{ display: 'block', fontSize: '0.6rem', marginBottom: '4px' }}
+          >
             Delete
           </Button>
-          <Button onClick={handleSetDefaultShipping} variant="contained" color="primary" size="small">
-            Set default shipping
+          <Button
+            onClick={handleSetDefaultShipping}
+            variant="contained"
+            color="primary"
+            size="small"
+            sx={{ display: 'block', fontSize: '0.6rem', marginBottom: '4px' }}
+          >
+            Default shipping
           </Button>
-          <Button onClick={handleSetDefaultBilling} variant="contained" color="primary" size="small">
-            Set default billing
+          <Button
+            onClick={handleSetDefaultBilling}
+            variant="contained"
+            color="primary"
+            size="small"
+            sx={{ display: 'block', fontSize: '0.6rem', marginBottom: '4px' }}
+          >
+            Default billing
           </Button>
         </TableCell>
       </TableRow>
