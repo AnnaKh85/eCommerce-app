@@ -23,6 +23,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const queryClient = useQueryClient();
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
+  const [isInCart, setIsInCart] = useState<boolean>(false);
   const isDiscounted = !!product.masterVariant.prices[0].discounted;
 
   const { mutate: addProductToCart } = useMutation({
@@ -32,6 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       toast.success(`The ${product.name['en-GB']} was added to your cart 🛒`);
       queryClient.invalidateQueries({ queryKey: ['activeCart'] });
       setIsAddingToCart(false);
+      setIsInCart(true);
     },
     onError: (err) => {
       toast.error(err.message);
@@ -190,10 +192,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Button size="small" variant="outlined" component={Link} to={`/catalog/${product.id}`}>
             Show more
           </Button>
-          <ShoppingCartIcon onClick={handleAddToCart} />
-          {/*<Button size="small" variant="contained">*/}
-          {/*  Add to cart*/}
-          {/*</Button>*/}
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+            <ShoppingCartIcon
+              onClick={handleAddToCart}
+              style={{ color: isInCart ? 'grey' : 'inherit', cursor: 'pointer' }}
+            />
+            {isInCart && (
+              <Typography variant="caption" color="text.secondary" sx={{ marginLeft: '5px' }}>
+                In the cart
+              </Typography>
+            )}
+          </div>
         </CardActions>
       </CardActionArea>
     </Card>
