@@ -48,6 +48,22 @@ export type ChangeEmail = CustomerUpdateAction & {
   email: string;
 };
 
+export type ChangeAddress = CustomerUpdateAction & {
+  action: 'changeAddress';
+  addressId: string;
+  address: BaseAddressDraft;
+};
+
+export type AddAddress = CustomerUpdateAction & {
+  action: 'addAddress';
+  address: BaseAddressDraft;
+};
+
+export type AddShippingAddress = CustomerUpdateAction & {
+  action: 'addShippingAddressId';
+  addressId: string;
+};
+
 export interface CustomerPasswordChange {
   id: string;
   version: number;
@@ -192,60 +208,32 @@ export interface IProduct {
   lastModifiedAt: string;
 }
 
-export interface ICart {
-  type: string;
-  id: string;
-  version: number;
-  createdAt: string;
-  lastModifiedAt: string;
-  lastModifiedBy: {
-    isPlatformClient: false;
-  };
-  createdBy: {
-    isPlatformClient: false;
-  };
-  lineItems: IProduct[];
-  cartState: string;
-  totalPrice: {
-    type: string;
-    currencyCode: string;
-    centAmount: number;
-    fractionDigits: number;
-  };
-  shippingMode: string;
-  shipping: [];
-  customLineItems: [];
-  discountCodes: DiscountCode[];
-  directDiscounts: [];
-  inventoryMode: string;
-  taxMode: string;
-  taxRoundingMode: string;
-  taxCalculationMode: string;
-  refusedGifts: [];
-  origin: string;
-  itemShippingAddresses: string[];
-  statusCode?: string | number;
-  message?: string;
+// export interface CustomerUpdateAction {
+//   action: string;
+//   addressId?: string;
+// }
+
+export interface AddShippingAddressIdAction extends CustomerUpdateAction {
+  action: 'addShippingAddressId';
+  addressId: string;
 }
 
-interface DiscountCode {
-  discountCode: { typeId: string; id: string };
-  state: string;
+export interface AddBillingAddressIdAction extends CustomerUpdateAction {
+  action: 'addBillingAddressId';
+  addressId: string;
 }
 
-export interface ICartPages {
-  limit: number;
-  offset: number;
-  count: number;
-  total: number;
-  results: ICart[];
-  statusCode?: string | number;
-  message?: string;
+export interface SetDefaultShippingAddressAction extends CustomerUpdateAction {
+  action: 'setDefaultShippingAddress';
+  addressId: string;
 }
 
-export interface ICartActions {
-  action: 'changeLineItemQuantity' | 'removeLineItem' | 'addDiscountCode' | 'addLineItem';
-  productId?: string;
-  variantId?: number;
-  quantity?: number;
+export interface SetDefaultBillingAddressAction extends CustomerUpdateAction {
+  action: 'setDefaultBillingAddress';
+  addressId: string;
+}
+
+export interface RemoveAddressAction extends CustomerUpdateAction {
+  action: 'removeAddress';
+  addressId: string;
 }
