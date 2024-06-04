@@ -1,7 +1,7 @@
 import './DetailedPageSlider.css';
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { CardActionArea, CircularProgress } from '@mui/material';
+import { CardActionArea } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -41,7 +41,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const {
     mutate: fetchActiveCart,
-    isLoading: isFetchingCart,
+    // isLoading: isFetchingCart,
+    isPending: isFetchingCart,
     error: fetchCartError,
   } = useMutation({
     mutationFn: getActiveCart,
@@ -75,7 +76,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     fetchActiveCart();
   }
 
-  if (isAddingToCart || isFetchingCart) return <CircularProgress />;
+  if (isAddingToCart || isFetchingCart) return <>{console.debug('Loading...')}</>;
   if (fetchCartError) return <div>An error occurred: {fetchCartError.message}</div>;
 
   return (

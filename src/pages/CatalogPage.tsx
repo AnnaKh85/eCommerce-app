@@ -28,7 +28,7 @@ function CatalogPage() {
   const { mutate: createCart } = useMutation({
     mutationFn: createCartApi,
     onSuccess: (data: ICart) => {
-      toast.success('New cart successfully created');
+      // toast.success('New cart successfully created');
       queryClient.setQueryData(['activeCart'], data);
     },
     onError: (err: Error) => toast.error(err.message),
