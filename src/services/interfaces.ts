@@ -207,3 +207,33 @@ export interface IProduct {
   createdAt: string;
   lastModifiedAt: string;
 }
+
+// export interface CustomerUpdateAction {
+//   action: string;
+//   addressId?: string;
+// }
+
+export interface AddShippingAddressIdAction extends CustomerUpdateAction {
+  action: 'addShippingAddressId';
+  addressId: string;
+}
+
+export interface AddBillingAddressIdAction extends CustomerUpdateAction {
+  action: 'addBillingAddressId';
+  addressId: string;
+}
+
+export interface SetDefaultShippingAddressAction extends CustomerUpdateAction {
+  action: 'setDefaultShippingAddress';
+  addressId: string;
+}
+
+export interface SetDefaultBillingAddressAction extends CustomerUpdateAction {
+  action: 'setDefaultBillingAddress';
+  addressId: string;
+}
+
+export interface RemoveAddressAction extends CustomerUpdateAction {
+  action: 'removeAddress';
+  addressId: string;
+}

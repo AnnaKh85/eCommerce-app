@@ -50,7 +50,7 @@ function ProfilePage() {
       {customer && (
         <>
           <GeneralInfo customer={customer} onCustomerUpdate={handleCustomerUpdate} />
-          <Addresses customer={customer} onCustomerUpdate={handleCustomerUpdate} />
+          <Addresses customerId={customer.id} onCustomerUpdate={handleCustomerUpdate} />
         </>
       )}
     </>
