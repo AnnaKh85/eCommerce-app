@@ -7,11 +7,15 @@ import changeCustomerAddress from '../../services/api/changeCustomerAddress';
 import deleteCustomerAddress from '../../services/api/deleteCustomerAddress';
 import setDefaultAddressAction from '../../services/api/setDefaultAddressAction'; // New function to handle setting default address
 import type {
+  AddBillingAddressIdAction,
+  AddShippingAddressIdAction,
   BaseAddress,
   ChangeAddress,
   Customer,
   CustomerUpdate,
-  CustomerUpdateAction,
+  RemoveAddressAction,
+  SetDefaultBillingAddressAction,
+  SetDefaultShippingAddressAction,
 } from '../../services/interfaces';
 import ChangeAddressModal from '../change-address-modal/ChangeAddressModal';
 import UpdateResponse from '../generalInfo/UpdateResponse';
@@ -75,7 +79,7 @@ const Address: React.FC<CustomerAddressProps> = ({
     const newType = event.target.value;
     const customerId = localStorage.getItem('customerId');
     if (customerId !== null) {
-      const action: CustomerUpdateAction = {
+      const action: AddShippingAddressIdAction | AddBillingAddressIdAction = {
         action: newType === 'shipping' ? 'addShippingAddressId' : 'addBillingAddressId',
         addressId: address.id,
       };
@@ -103,7 +107,7 @@ const Address: React.FC<CustomerAddressProps> = ({
           {
             action: 'removeAddress',
             addressId: address.id,
-          },
+          } as RemoveAddressAction,
         ],
       };
       try {
@@ -124,7 +128,7 @@ const Address: React.FC<CustomerAddressProps> = ({
           {
             action: 'setDefaultShippingAddress',
             addressId: address.id,
-          },
+          } as SetDefaultShippingAddressAction,
         ],
       };
       try {
@@ -145,7 +149,7 @@ const Address: React.FC<CustomerAddressProps> = ({
           {
             action: 'setDefaultBillingAddress',
             addressId: address.id,
-          },
+          } as SetDefaultBillingAddressAction,
         ],
       };
       try {
