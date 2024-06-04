@@ -237,3 +237,61 @@ export interface RemoveAddressAction extends CustomerUpdateAction {
   action: 'removeAddress';
   addressId: string;
 }
+
+export interface ICartActions {
+  action: 'changeLineItemQuantity' | 'removeLineItem' | 'addDiscountCode' | 'addLineItem';
+  productId?: string;
+  variantId?: number;
+  quantity?: number;
+}
+
+export interface ICart {
+  type: string;
+  id: string;
+  version: number;
+  createdAt: string;
+  lastModifiedAt: string;
+  lastModifiedBy: {
+    isPlatformClient: false;
+  };
+  createdBy: {
+    isPlatformClient: false;
+  };
+  lineItems: IProduct[];
+  cartState: string;
+  totalPrice: {
+    type: string;
+    currencyCode: string;
+    centAmount: number;
+    fractionDigits: number;
+  };
+  shippingMode: string;
+  shipping: [];
+  customLineItems: [];
+  discountCodes: DiscountCode[];
+  directDiscounts: [];
+  inventoryMode: string;
+  taxMode: string;
+  taxRoundingMode: string;
+  taxCalculationMode: string;
+  refusedGifts: [];
+  origin: string;
+  itemShippingAddresses: string[];
+  statusCode?: string | number;
+  message?: string;
+}
+
+interface DiscountCode {
+  discountCode: { typeId: string; id: string };
+  state: string;
+}
+
+export interface ICartPages {
+  limit: number;
+  offset: number;
+  count: number;
+  total: number;
+  results: ICart[];
+  statusCode?: string | number;
+  message?: string;
+}

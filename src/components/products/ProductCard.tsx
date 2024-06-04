@@ -8,14 +8,13 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-import { createCart as createCartApi, getActiveCart, updateMyCart } from '../../services/api/customerCart.ts';
-import type { IProduct } from '../../services/interfaces.ts';
-import type { ICartActions } from '../../services/interfaces.ts';
+import { getActiveCart, updateMyCart } from '../../services/api/customerCart.ts';
+import type { ICart, ICartActions, IProduct } from '../../services/interfaces.ts';
 
 interface ProductCardProps {
   product: IProduct;
@@ -23,17 +22,8 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const queryClient = useQueryClient();
+  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
   const isDiscounted = !!product.masterVariant.prices[0].discounted;
-
-  const { mutate: createCart } = useMutation({
-    mutationFn: createCartApi,
-    onSuccess: (data) => {
-      toast.success('New cart successfully created');
-      queryClient.setQueryData(['activeCart'], data);
-      handleAddProductToCart(data.id, data.version);
-    },
-    onError: (err: Error) => toast.error(err.message),
-  });
 
   const { mutate: addProductToCart } = useMutation({
     mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
@@ -41,24 +31,32 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     onSuccess: () => {
       toast.success(`The ${product.name['en-GB']} was added to your cart 🛒`);
       queryClient.invalidateQueries({ queryKey: ['activeCart'] });
+      setIsAddingToCart(false);
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => {
+      toast.error(err.message);
+      setIsAddingToCart(false);
+    },
   });
 
   const {
-    isLoading,
-    data: activeCart,
-    error,
-    // status
-  } = useQuery({
-    queryKey: ['activeCart'],
-    queryFn: getActiveCart,
-    staleTime: Infinity,
+    mutate: fetchActiveCart,
+    isLoading: isFetchingCart,
+    error: fetchCartError,
+  } = useMutation({
+    mutationFn: getActiveCart,
+    onSuccess: (data: ICart) => {
+      if (!data || data.statusCode === 404) {
+        setIsAddingToCart(false);
+      } else {
+        handleAddProductToCart(data.id, data.version);
+      }
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+      setIsAddingToCart(false);
+    },
   });
-
-  // if (status === 'error') {
-  //     return (err: Error) => toast.error(err.message)
-  // }
 
   function handleAddProductToCart(cartId: string, cartVersion: number) {
     const actions: ICartActions[] = [
@@ -73,15 +71,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   }
 
   function handleAddToCart() {
-    if (!activeCart || activeCart.statusCode === 404) {
-      createCart();
-    } else {
-      handleAddProductToCart(activeCart.id, activeCart.version);
-    }
+    setIsAddingToCart(true);
+    fetchActiveCart();
   }
 
-  if (isLoading) return <CircularProgress />;
-  if (error) return <div>An error occurred: {error.message}</div>;
+  if (isAddingToCart || isFetchingCart) return <CircularProgress />;
+  if (fetchCartError) return <div>An error occurred: {fetchCartError.message}</div>;
 
   return (
     <Card
