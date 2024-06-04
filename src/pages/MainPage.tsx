@@ -28,8 +28,6 @@ const styles = {
 function MainPage() {
   return (
     <>
-      {/*<h2>MainPage</h2>*/}
-      {/*<Card />*/}
       <Container style={styles.banner}>
         <Typography variant="h3" gutterBottom sx={{ fontSize: { xs: '1.5rem', sm: '2.25rem' } }}>
           Welcome to Mammagamma – Your Ultimate Destination for Biking Enthusiasts!

@@ -1,8 +1,9 @@
 import './App.css';
 
 import { useEffect, useState } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, useParams } from 'react-router-dom';
 
+import ProductDetailedPage from './components/products/ProductDetailedPage.tsx';
 import Error from './pages/404/Error.tsx';
 import NotFoundPage from './pages/404/NotFoundPage.tsx';
 import AboutUsPage from './pages/AboutUsPage.tsx';
@@ -22,7 +23,12 @@ import {
   PROFILE_ROUTE,
   REGISTRATION_ROUTE,
 } from './services/constants.ts';
-import { getAdminBearerToken } from './utils/getAdminToken.ts';
+import { generateAnonymousToken, getAdminBearerToken } from './utils/getAdminToken.ts';
+
+const ProductDetailedPageWrapper = () => {
+  const { productId } = useParams<{ productId: string }>();
+  return <ProductDetailedPage selectedProductId={productId!} />;
+};
 
 const router = createBrowserRouter([
   {
@@ -48,6 +54,11 @@ const router = createBrowserRouter([
       {
         path: CATALOG_ROUTE,
         element: <CatalogPage />,
+        errorElement: <Error />,
+      },
+      {
+        path: `${CATALOG_ROUTE}/:productId`,
+        element: <ProductDetailedPageWrapper />,
         errorElement: <Error />,
       },
       {
@@ -79,6 +90,13 @@ function App() {
       setIsToken(true);
     };
     fetchAndStoreToken();
+
+    const setAnonymousToken = async () => {
+      const response = await generateAnonymousToken();
+      sessionStorage.setItem('anonymousToken', response);
+      return response;
+    };
+    setAnonymousToken();
   }, []);
 
   return <>{isToken && <RouterProvider router={router} />}</>;

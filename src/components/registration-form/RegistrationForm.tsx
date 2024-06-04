@@ -19,7 +19,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ApiError } from '../../services/api/apiError';
 import createCustomer from '../../services/api/createCustomer.ts';
 import { HOME_ROUTE, LOGIN_ROUTE } from '../../services/constants.ts';
-import type { BaseAddress, CustomerDraft } from '../../services/interfaces';
+import type { BaseAddressDraft, CustomerDraft } from '../../services/interfaces';
 import { countries } from '../../utils/country';
 import { AuthContext } from '../login/AuthContext.tsx';
 import CustomSnackbar from '../registration-response/Snackbar.tsx';
@@ -82,14 +82,14 @@ const RegistrationForm = () => {
   }, []);
 
   const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
-    const shippingAddress: BaseAddress = {
+    const shippingAddress: BaseAddressDraft = {
       country: values.shippingAddress.country,
       streetName: values.shippingAddress.street,
       postalCode: values.shippingAddress.postalCode,
       city: values.shippingAddress.city,
     };
 
-    let billingAddress: BaseAddress;
+    let billingAddress: BaseAddressDraft;
 
     if (values.sameAddress === false) {
       billingAddress = {
@@ -173,7 +173,7 @@ const RegistrationForm = () => {
     >
       <Formik initialValues={initialValues} validationSchema={registrationFormSchema} onSubmit={handleSubmit}>
         {({ isSubmitting, touched, errors, values }) => (
-          <Form className="registration-form">
+          <Form>
             <Typography variant="h4" component="h1" gutterBottom>
               Registration
             </Typography>

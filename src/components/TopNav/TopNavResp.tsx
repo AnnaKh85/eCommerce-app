@@ -52,14 +52,12 @@ function ResponsiveAppBar() {
     if (isAuthenticated) {
       navigate(HOME_ROUTE);
     }
-    //  else {
-    //   console.debug(`isAuthenticated: ${isAuthenticated}`);
-    // }
   }, [isAuthenticated]);
 
   const handleLogout = () => {
     logout();
     setSnackbarOpen(true);
+    navigate(HOME_ROUTE);
     setTimeout(() => setSnackbarOpen(false), 3000);
   };
 
@@ -79,7 +77,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <DirectionsBikeIcon sx={{ display: { xs: 'none', sm: 'flex' }, mr: 1 }} />
@@ -152,8 +150,30 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+            {settings.map((setting) =>
+              (setting.name !== 'Profile' || isAuthenticated) &&
+              (setting.name !== 'Logout' || isAuthenticated) &&
+              (setting.name !== 'Login' || !isAuthenticated) &&
+              (setting.name !== 'Signup' || !isAuthenticated) ? (
+                <Button
+                  key={setting.name}
+                  onClick={() => {
+                    if (setting.action === 'logout') {
+                      handleLogout();
+                    } else if (setting.path) {
+                      navigate(setting.path);
+                    }
+                  }}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {setting.name}
+                </Button>
+              ) : null,
+            )}
+          </Box>
+          <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
+            <Tooltip title="Main menu">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar sx={{ bgcolor: '#ddb9d5' }}>
                   <DirectionsBikeIcon sx={{ color: '#2A254B' }} />
@@ -177,7 +197,10 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) =>
-                setting.name !== 'Profile' || isAuthenticated ? (
+                (setting.name !== 'Profile' || isAuthenticated) &&
+                (setting.name !== 'Logout' || isAuthenticated) &&
+                (setting.name !== 'Login' || !isAuthenticated) &&
+                (setting.name !== 'Signup' || !isAuthenticated) ? (
                   <MenuItem
                     key={setting.name}
                     onClick={() => {
