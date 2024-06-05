@@ -173,7 +173,7 @@ const RegistrationForm = () => {
     >
       <Formik initialValues={initialValues} validationSchema={registrationFormSchema} onSubmit={handleSubmit}>
         {({ isSubmitting, touched, errors, values }) => (
-          <Form className="registration-form">
+          <Form>
             <Typography variant="h4" component="h1" gutterBottom>
               Registration
             </Typography>

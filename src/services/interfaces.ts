@@ -61,6 +61,22 @@ export interface ChangedPassword {
   confirmNewPassword: string;
 }
 
+export type ChangeAddress = CustomerUpdateAction & {
+  action: 'changeAddress';
+  addressId: string;
+  address: BaseAddressDraft;
+};
+
+export type AddAddress = CustomerUpdateAction & {
+  action: 'addAddress';
+  address: BaseAddressDraft;
+};
+
+export type AddShippingAddress = CustomerUpdateAction & {
+  action: 'addShippingAddressId';
+  addressId: string;
+};
+
 // Based on https://docs.commercetools.com/api/projects/customers#ctp:api:type:CustomerDraft
 export interface CustomerDraft {
   email: string;
@@ -190,4 +206,34 @@ export interface IProduct {
   priceMode: string;
   createdAt: string;
   lastModifiedAt: string;
+}
+
+// export interface CustomerUpdateAction {
+//   action: string;
+//   addressId?: string;
+// }
+
+export interface AddShippingAddressIdAction extends CustomerUpdateAction {
+  action: 'addShippingAddressId';
+  addressId: string;
+}
+
+export interface AddBillingAddressIdAction extends CustomerUpdateAction {
+  action: 'addBillingAddressId';
+  addressId: string;
+}
+
+export interface SetDefaultShippingAddressAction extends CustomerUpdateAction {
+  action: 'setDefaultShippingAddress';
+  addressId: string;
+}
+
+export interface SetDefaultBillingAddressAction extends CustomerUpdateAction {
+  action: 'setDefaultBillingAddress';
+  addressId: string;
+}
+
+export interface RemoveAddressAction extends CustomerUpdateAction {
+  action: 'removeAddress';
+  addressId: string;
 }
