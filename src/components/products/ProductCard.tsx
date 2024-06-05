@@ -55,7 +55,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     mutationFn: getCartQuery,
     onSuccess: (data: ICart) => {
       if (!data || data.statusCode === 404) {
-        toast.error("You don't have a cart. Please create one.");
+        toast.error("You don't have a cart");
       } else {
         handleAddProductToCart(data.id, data.version);
       }
