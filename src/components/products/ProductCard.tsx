@@ -27,12 +27,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [isInCart, setIsInCart] = useState<boolean>(false);
   const isDiscounted = !!product.masterVariant.prices[0].discounted;
 
-  //TODO: when the product is in the cart, the button should be disabled
-
   useEffect(() => {
     if (cart) {
       cart.lineItems.forEach((item) => {
-        console.log(item.id);
         if (item.productId === product.id) {
           setIsInCart(true);
         }
