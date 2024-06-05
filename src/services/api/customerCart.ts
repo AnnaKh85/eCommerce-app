@@ -1,6 +1,18 @@
 import { BASE_URL, PRODUCT_KEY } from '../constants.ts';
 import type { ICart, ICartActions, ICartPages } from '../interfaces.ts';
 
+export async function getActiveCart() {
+  const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
+  const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/me/active-cart`, {
+    headers: {
+      Authorization: 'Bearer ' + authorizationToken,
+    },
+  });
+
+  const cart: ICart = await response.json();
+  return cart;
+}
+
 export async function getAllCarts() {
   const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
   const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/me/carts`, {
@@ -20,18 +32,6 @@ export async function getMyCart(id: string) {
       Authorization: 'Bearer ' + authorizationToken,
     },
   });
-  const cart: ICart = await response.json();
-  return cart;
-}
-
-export async function getActiveCart() {
-  const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
-  const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/me/active-cart`, {
-    headers: {
-      Authorization: 'Bearer ' + authorizationToken,
-    },
-  });
-
   const cart: ICart = await response.json();
   return cart;
 }
@@ -61,6 +61,19 @@ export async function clearCartById(id: string, version: number): Promise<ICart>
     method: 'DELETE',
     headers: {
       Authorization: 'Bearer ' + authorizationToken,
+    },
+  });
+  return await response.json();
+}
+
+export default async function getCartQuery(): Promise<ICart> {
+  const anonymousToken: string = sessionStorage.getItem('anonymousToken') as string;
+  const cartId: string = sessionStorage.getItem('cartId') as string;
+
+  const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/me/carts/${cartId}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${anonymousToken}`,
     },
   });
   return await response.json();

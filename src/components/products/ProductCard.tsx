@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 
 import { getActiveCart, updateMyCart } from '../../services/api/customerCart.ts';
 import type { ICart, ICartActions, IProduct } from '../../services/interfaces.ts';
+import { useCart } from '../cart/useCarts.ts';
 
 interface ProductCardProps {
   product: IProduct;
@@ -22,9 +23,19 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const queryClient = useQueryClient();
-  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
+  const { cart } = useCart();
   const [isInCart, setIsInCart] = useState<boolean>(false);
   const isDiscounted = !!product.masterVariant.prices[0].discounted;
+
+  //TODO: when the product is in the cart, the button should be disabled
+
+  // useEffect(() => {
+  //     if (cart && cart.lineItems.some(item => item.id === product.id)) {
+  //         console.log(cart);
+  //         console.log(product.name['en-GB'] +'is in your cart');
+  //         setIsInCart(true);
+  //     }
+  // }, [product.id]);
 
   const { mutate: addProductToCart } = useMutation({
     mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
@@ -32,32 +43,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     onSuccess: () => {
       toast.success(`The ${product.name['en-GB']} was added to your cart 🛒`);
       queryClient.invalidateQueries({ queryKey: ['activeCart'] });
-      setIsAddingToCart(false);
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
       setIsInCart(true);
+      console.log(cart);
     },
     onError: (err) => {
       toast.error(err.message);
-      setIsAddingToCart(false);
     },
   });
 
-  const {
-    mutate: fetchActiveCart,
-    // isLoading: isFetchingCart,
-    isPending: isFetchingCart,
-    error: fetchCartError,
-  } = useMutation({
+  const { mutate: fetchActiveCart, error: fetchCartError } = useMutation({
     mutationFn: getActiveCart,
     onSuccess: (data: ICart) => {
       if (!data || data.statusCode === 404) {
-        setIsAddingToCart(false);
+        toast.error("You don't have a cart. Please create one.");
       } else {
         handleAddProductToCart(data.id, data.version);
       }
     },
     onError: (err: Error) => {
       toast.error(err.message);
-      setIsAddingToCart(false);
     },
   });
 
@@ -74,11 +79,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   }
 
   function handleAddToCart() {
-    setIsAddingToCart(true);
     fetchActiveCart();
   }
 
-  if (isAddingToCart || isFetchingCart) return <>{console.debug('Loading...')}</>;
   if (fetchCartError) return <div>An error occurred: {fetchCartError.message}</div>;
 
   return (

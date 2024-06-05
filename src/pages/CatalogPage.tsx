@@ -28,15 +28,20 @@ function CatalogPage() {
   const { mutate: createCart } = useMutation({
     mutationFn: createCartApi,
     onSuccess: (data: ICart) => {
-      // toast.success('New cart successfully created');
+      sessionStorage.setItem('cartId', data.id);
       queryClient.setQueryData(['activeCart'], data);
     },
     onError: (err: Error) => toast.error(err.message),
   });
 
   useEffect(() => {
-    createCart();
-  }, [createCart]);
+    const cartId = sessionStorage.getItem('cartId');
+    if (!cartId) {
+      createCart();
+    } else {
+      queryClient.setQueryData(['activeCart'], { id: cartId });
+    }
+  }, [createCart, queryClient]);
 
   const handleDeletePriceRange = () => {
     setSelectedPriceRange(null);

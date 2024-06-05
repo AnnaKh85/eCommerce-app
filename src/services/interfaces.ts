@@ -240,6 +240,7 @@ export interface RemoveAddressAction extends CustomerUpdateAction {
 
 export interface ICartActions {
   action: 'changeLineItemQuantity' | 'removeLineItem' | 'addDiscountCode' | 'addLineItem';
+  lineItemId?: string;
   productId?: string;
   variantId?: number;
   quantity?: number;
