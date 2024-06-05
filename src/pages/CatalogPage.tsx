@@ -23,6 +23,7 @@ function CatalogPage() {
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [sort, setSort] = useState<string | null>('');
   const [queryString, setQueryString] = useState<string | null>(null);
+  const [activeCartId, setActiveCartId] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
   const { mutate: createCart } = useMutation({
@@ -30,16 +31,17 @@ function CatalogPage() {
     onSuccess: (data: ICart) => {
       sessionStorage.setItem('cartId', data.id);
       queryClient.setQueryData(['activeCart'], data);
+
+      setActiveCartId(data.id);
     },
     onError: (err: Error) => toast.error(err.message),
   });
 
   useEffect(() => {
-    const cartId = sessionStorage.getItem('cartId');
-    if (!cartId) {
+    if (!activeCartId) {
       createCart();
     } else {
-      queryClient.setQueryData(['activeCart'], { id: cartId });
+      queryClient.setQueryData(['activeCart'], { id: activeCartId });
     }
   }, [createCart, queryClient]);
 
