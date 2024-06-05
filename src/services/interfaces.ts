@@ -258,7 +258,7 @@ export interface ICart {
   createdBy: {
     isPlatformClient: false;
   };
-  lineItems: IProduct[];
+  lineItems: ILineItem[];
   cartState: string;
   totalPrice: {
     type: string;
@@ -280,6 +280,36 @@ export interface ICart {
   itemShippingAddresses: string[];
   statusCode?: string | number;
   message?: string;
+}
+
+export interface ILineItem {
+  id: string;
+  productId: string;
+  productKey: string;
+  name: ILocalizedString;
+  productType: IReference;
+  productSlug: ILocalizedString;
+  variant: IVariant;
+  price: IPrice;
+  quantity: number;
+  addedAt: string;
+  lastModifiedAt: string;
+  state: IState[];
+  priceMode: string;
+  lineItemMode: string;
+  totalPrice: ITotalPrice;
+}
+
+export interface IState {
+  quantity: number;
+  state: IReference;
+}
+
+export interface ITotalPrice {
+  type: string;
+  currencyCode: string;
+  centAmount: number;
+  fractionDigits: number;
 }
 
 interface DiscountCode {

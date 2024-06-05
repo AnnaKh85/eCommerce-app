@@ -9,11 +9,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-import { getActiveCart, updateMyCart } from '../../services/api/customerCart.ts';
+import getCartQuery, { updateMyCart } from '../../services/api/customerCart.ts';
 import type { ICart, ICartActions, IProduct } from '../../services/interfaces.ts';
 import { useCart } from '../cart/useCarts.ts';
 
@@ -29,13 +29,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   //TODO: when the product is in the cart, the button should be disabled
 
-  // useEffect(() => {
-  //     if (cart && cart.lineItems.some(item => item.id === product.id)) {
-  //         console.log(cart);
-  //         console.log(product.name['en-GB'] +'is in your cart');
-  //         setIsInCart(true);
-  //     }
-  // }, [product.id]);
+  useEffect(() => {
+    if (cart) {
+      cart.lineItems.forEach((item) => {
+        console.log(item.id);
+        if (item.productId === product.id) {
+          setIsInCart(true);
+        }
+      });
+    }
+  }, []);
 
   const { mutate: addProductToCart } = useMutation({
     mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
@@ -45,7 +48,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       queryClient.invalidateQueries({ queryKey: ['activeCart'] });
       queryClient.invalidateQueries({ queryKey: ['cart'] });
       setIsInCart(true);
-      console.log(cart);
     },
     onError: (err) => {
       toast.error(err.message);
@@ -53,7 +55,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   });
 
   const { mutate: fetchActiveCart, error: fetchCartError } = useMutation({
-    mutationFn: getActiveCart,
+    mutationFn: getCartQuery,
     onSuccess: (data: ICart) => {
       if (!data || data.statusCode === 404) {
         toast.error("You don't have a cart. Please create one.");
