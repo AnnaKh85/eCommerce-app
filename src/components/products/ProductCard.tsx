@@ -7,6 +7,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { CART_ROUTE } from '../../services/constants.ts';
@@ -17,7 +18,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const isDiscounted = !!product.masterVariant.prices[0].discounted;
+  const isDiscounted = product.masterVariant.prices[0] && !!product.masterVariant.prices[0].discounted;
 
   return (
     <Card
@@ -91,10 +92,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               sm: '16px',
             }}
           >
-            {product.masterVariant.prices[0].value.centAmount / 100}{' '}
-            {product.masterVariant.prices[0].value.currencyCode}
+            {product.masterVariant.prices[0] && product.masterVariant.prices[0].value.centAmount / 100}{' '}
+            {product.masterVariant.prices[0] && product.masterVariant.prices[0].value.currencyCode}
           </Typography>
-          {product.masterVariant.prices[0].discounted?.value.centAmount && (
+          {product.masterVariant.prices[0] && product.masterVariant.prices[0].discounted?.value.centAmount && (
             <div
               style={{
                 color: 'var(--color-text-secondary-main)',
