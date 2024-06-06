@@ -44,7 +44,7 @@ function AppLayout() {
           },
           style: {
             fontSize: '16px',
-            maxWidth: '200px',
+            maxWidth: '350px',
             padding: '16px 24px',
             background: 'var(--color-white)',
             color: 'var(--color-dark-primary)',

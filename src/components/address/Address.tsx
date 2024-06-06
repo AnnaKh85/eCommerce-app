@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import addCustomerAddressAction from '../../services/api/addCustomerAddressAction';
 import changeCustomerAddress from '../../services/api/changeCustomerAddress';
 import deleteCustomerAddress from '../../services/api/deleteCustomerAddress';
-import setDefaultAddressAction from '../../services/api/setDefaultAddressAction'; // New function to handle setting default address
+import setDefaultAddressAction from '../../services/api/setDefaultAddressAction';
 import type {
   AddBillingAddressIdAction,
   AddShippingAddressIdAction,

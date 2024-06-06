@@ -1,5 +1,7 @@
 import { Box, Chip, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 import CategoryBreadcrumbs from '../components/caterories/CategoryBreadcrumbs.tsx';
 import CategoryList from '../components/caterories/CategoryList.tsx';
@@ -11,6 +13,8 @@ import ProductList from '../components/products/ProductList.tsx';
 import SearchField from '../components/search/Search.tsx';
 import SortByName from '../components/sortOptions/SortByName.tsx';
 import SortByPrice from '../components/sortOptions/SortByPrice.tsx';
+import { createCart as createCartApi } from '../services/api/customerCart.ts';
+import type { ICart } from '../services/interfaces.ts';
 
 function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -19,7 +23,27 @@ function CatalogPage() {
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [sort, setSort] = useState<string | null>('');
   const [queryString, setQueryString] = useState<string | null>(null);
-  // const { categories } = useCategories();
+  const [activeCartId, setActiveCartId] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+
+  const { mutate: createCart } = useMutation({
+    mutationFn: createCartApi,
+    onSuccess: (data: ICart) => {
+      sessionStorage.setItem('cartId', data.id);
+      queryClient.setQueryData(['activeCart'], data);
+
+      setActiveCartId(data.id);
+    },
+    onError: (err: Error) => toast.error(err.message),
+  });
+
+  useEffect(() => {
+    if (!activeCartId) {
+      createCart();
+    } else {
+      queryClient.setQueryData(['activeCart'], { id: activeCartId });
+    }
+  }, [createCart, queryClient]);
 
   const handleDeletePriceRange = () => {
     setSelectedPriceRange(null);

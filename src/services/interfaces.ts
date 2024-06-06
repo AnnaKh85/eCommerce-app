@@ -237,3 +237,92 @@ export interface RemoveAddressAction extends CustomerUpdateAction {
   action: 'removeAddress';
   addressId: string;
 }
+
+export interface ICartActions {
+  action: 'changeLineItemQuantity' | 'removeLineItem' | 'addDiscountCode' | 'addLineItem';
+  lineItemId?: string;
+  productId?: string;
+  variantId?: number;
+  quantity?: number;
+}
+
+export interface ICart {
+  type: string;
+  id: string;
+  version: number;
+  createdAt: string;
+  lastModifiedAt: string;
+  lastModifiedBy: {
+    isPlatformClient: false;
+  };
+  createdBy: {
+    isPlatformClient: false;
+  };
+  lineItems: ILineItem[];
+  cartState: string;
+  totalPrice: {
+    type: string;
+    currencyCode: string;
+    centAmount: number;
+    fractionDigits: number;
+  };
+  shippingMode: string;
+  shipping: [];
+  customLineItems: [];
+  discountCodes: DiscountCode[];
+  directDiscounts: [];
+  inventoryMode: string;
+  taxMode: string;
+  taxRoundingMode: string;
+  taxCalculationMode: string;
+  refusedGifts: [];
+  origin: string;
+  itemShippingAddresses: string[];
+  statusCode?: string | number;
+  message?: string;
+}
+
+export interface ILineItem {
+  id: string;
+  productId: string;
+  productKey: string;
+  name: ILocalizedString;
+  productType: IReference;
+  productSlug: ILocalizedString;
+  variant: IVariant;
+  price: IPrice;
+  quantity: number;
+  addedAt: string;
+  lastModifiedAt: string;
+  state: IState[];
+  priceMode: string;
+  lineItemMode: string;
+  totalPrice: ITotalPrice;
+}
+
+export interface IState {
+  quantity: number;
+  state: IReference;
+}
+
+export interface ITotalPrice {
+  type: string;
+  currencyCode: string;
+  centAmount: number;
+  fractionDigits: number;
+}
+
+interface DiscountCode {
+  discountCode: { typeId: string; id: string };
+  state: string;
+}
+
+export interface ICartPages {
+  limit: number;
+  offset: number;
+  count: number;
+  total: number;
+  results: ICart[];
+  statusCode?: string | number;
+  message?: string;
+}
