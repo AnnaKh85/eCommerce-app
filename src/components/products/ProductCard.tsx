@@ -155,10 +155,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               sm: '16px',
             }}
           >
-            {product.masterVariant.prices[0].value.centAmount / 100}{' '}
-            {product.masterVariant.prices[0].value.currencyCode}
+            {product.masterVariant.prices[0] && product.masterVariant.prices[0].value.centAmount / 100}{' '}
+            {product.masterVariant.prices[0] && product.masterVariant.prices[0].value.currencyCode}
           </Typography>
-          {product.masterVariant.prices[0].discounted?.value.centAmount && (
+          {product.masterVariant.prices[0] && product.masterVariant.prices[0].discounted?.value.centAmount && (
             <div
               style={{
                 color: 'var(--color-text-secondary-main)',
