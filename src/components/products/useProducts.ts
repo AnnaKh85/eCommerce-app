@@ -1,6 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { getFilteredProducts } from '../../services/api/product.ts';
+import type { IProduct } from '../../services/interfaces.ts';
+
+interface ProductPage {
+  results: IProduct[];
+}
 
 export function useProducts(
   selectedCategory: string,
@@ -18,13 +23,9 @@ export function useProducts(
     priceTo = to === '+' ? '*' : to;
   }
 
-  const {
-    isLoading,
-    data: products,
-    error,
-  } = useQuery({
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery<ProductPage, Error>({
     queryKey: ['products', selectedCategory, priceFrom, priceTo, country, material, sort],
-    queryFn: () =>
+    queryFn: ({ pageParam = 0 }) =>
       getFilteredProducts(
         selectedCategory || '',
         priceFrom || '',
@@ -32,9 +33,25 @@ export function useProducts(
         country || '',
         material || '',
         sort || '',
-        0,
+        pageParam as number,
+        6,
       ),
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage?.results?.length === 6) {
+        return pages.length * 6;
+      } else {
+        return undefined;
+      }
+    },
+    initialPageParam: 0,
   });
 
-  return { isLoading, error, products };
+  return {
+    isLoading: status === 'pending',
+    error,
+    products: data?.pages.flatMap((page) => page.results) || [],
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  };
 }
