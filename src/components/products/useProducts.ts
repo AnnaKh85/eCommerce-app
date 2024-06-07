@@ -33,7 +33,7 @@ export function useProducts(
         country || '',
         material || '',
         sort || '',
-        pageParam,
+        pageParam as number,
         6,
       ),
     getNextPageParam: (lastPage, pages) => {
