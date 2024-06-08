@@ -38,10 +38,15 @@ function CatalogPage() {
   });
 
   useEffect(() => {
-    if (!activeCartId) {
+    const storedCartId = sessionStorage.getItem('cartId');
+    if (storedCartId) {
+      setActiveCartId(storedCartId);
+      queryClient.setQueryData(['activeCart'], { id: storedCartId });
+    } else if (sessionStorage.getItem('cartId') === undefined) {
       createCart();
+      console.debug(activeCartId);
     } else {
-      queryClient.setQueryData(['activeCart'], { id: activeCartId });
+      createCart();
     }
   }, [createCart, queryClient]);
 
