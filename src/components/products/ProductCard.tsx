@@ -28,14 +28,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const isDiscounted = product.masterVariant.prices[0] && !!product.masterVariant.prices[0].discounted;
 
   useEffect(() => {
-    if (cart) {
+    if (cart && cart.lineItems) {
       cart.lineItems.forEach((item) => {
         if (item.productId === product.id) {
           setIsInCart(true);
         }
       });
     }
-  }, []);
+  }, [cart, product.id]);
 
   const { mutate: addProductToCart } = useMutation({
     mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
@@ -55,7 +55,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     mutationFn: getCartQuery,
     onSuccess: (data: ICart) => {
       if (!data || data.statusCode === 404) {
-        toast.error("You don't have a cart");
+        toast.error('Something went wrong, please, reload the page or try again later');
       } else {
         handleAddProductToCart(data.id, data.version);
       }
