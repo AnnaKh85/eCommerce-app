@@ -20,6 +20,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
+import { theme } from '../../main.tsx';
 import { updateMyCart } from '../../services/api/customerCart.ts';
 import { CATALOG_ROUTE } from '../../services/constants.ts';
 import type { ILineItem } from '../../services/interfaces.ts';
@@ -29,6 +30,7 @@ import { useCart } from './useCarts.ts';
 export default function Cart() {
   const { isLoading, cart, error } = useCart();
   const queryClient = useQueryClient();
+  // const theme = useTheme();
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -121,10 +123,24 @@ export default function Cart() {
                     <TableCell sx={{ textAlign: 'left' }}>
                       <AddCircleIcon style={{ cursor: 'pointer' }} onClick={() => {}} />
                     </TableCell>
-                    <TableCell sx={{ textAlign: 'center', fontWeight: '700', fontSize: '1rem' }}>
+                    <TableCell
+                      sx={{
+                        textAlign: 'center',
+                        fontWeight: '700',
+                        fontSize: '1rem',
+                        color: item.price.discounted ? theme.palette.secondary.main : 'inherit',
+                      }}
+                    >
                       {item.price.discounted
-                        ? item.price.discounted.value.centAmount / 100
-                        : item.variant.prices[0].value.centAmount / 100}
+                        ? ccyFormat(item.price.discounted.value.centAmount / 100) +
+                          ' (' +
+                          Math.round(
+                            ((item.variant.prices[0].value.centAmount - item.price.discounted.value.centAmount) /
+                              item.variant.prices[0].value.centAmount) *
+                              100,
+                          ) +
+                          '% off)'
+                        : ccyFormat(item.variant.prices[0].value.centAmount / 100)}
                     </TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>
                       <DeleteForeverIcon
