@@ -122,7 +122,9 @@ export default function Cart() {
                       <AddCircleIcon style={{ cursor: 'pointer' }} onClick={() => {}} />
                     </TableCell>
                     <TableCell sx={{ textAlign: 'center', fontWeight: '700', fontSize: '1rem' }}>
-                      {item.variant.prices[0].value.centAmount / 100}
+                      {item.price.discounted
+                        ? item.price.discounted.value.centAmount / 100
+                        : item.variant.prices[0].value.centAmount / 100}
                     </TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>
                       <DeleteForeverIcon
