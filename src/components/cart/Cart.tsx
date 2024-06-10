@@ -16,14 +16,21 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
+import { theme } from '../../main.tsx';
+import { updateMyCart } from '../../services/api/customerCart.ts';
 import { CATALOG_ROUTE } from '../../services/constants.ts';
 import type { ILineItem } from '../../services/interfaces.ts';
+import type { ICartActions } from '../../services/interfaces.ts';
 import { useCart } from './useCarts.ts';
 
 export default function Cart() {
   const { isLoading, cart, error } = useCart();
+  const queryClient = useQueryClient();
+  // const theme = useTheme();
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -39,6 +46,29 @@ export default function Cart() {
 
   function ccyFormat(num: number) {
     return `${num.toFixed(2)}`;
+  }
+
+  const { mutate: removeProductFromCart } = useMutation({
+    mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
+      updateMyCart(id, version, actions),
+    onSuccess: () => {
+      toast.success(`The product has been removed 🧹 from your cart 🛒!`);
+      queryClient.invalidateQueries({ queryKey: ['activeCart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
+  function handleRemoveProductFromCart(cartId: string, cartVersion: number, product: ILineItem) {
+    const actions: ICartActions[] = [
+      {
+        action: 'removeLineItem',
+        lineItemId: product.id,
+      },
+    ];
+    removeProductFromCart({ id: cartId, version: cartVersion, actions });
   }
 
   return (
@@ -74,11 +104,7 @@ export default function Cart() {
                 {cart.lineItems.map((item: ILineItem) => (
                   <TableRow key={item.productId}>
                     <TableCell sx={{ textAlign: 'center' }}>
-                      <img
-                        src={item.variant.images[0].url}
-                        alt={item.name['en-GB']}
-                        style={{ width: '50px', height: '50px' }}
-                      />
+                      <img src={item.variant.images[0].url} alt={item.name['en-GB']} style={{ height: '50px' }} />
                     </TableCell>
                     <TableCell>{item.name['en-GB']}</TableCell>
 
@@ -97,11 +123,30 @@ export default function Cart() {
                     <TableCell sx={{ textAlign: 'left' }}>
                       <AddCircleIcon style={{ cursor: 'pointer' }} onClick={() => {}} />
                     </TableCell>
-                    <TableCell sx={{ textAlign: 'center', fontWeight: '700', fontSize: '1rem' }}>
-                      {item.variant.prices[0].value.centAmount / 100}
+                    <TableCell
+                      sx={{
+                        textAlign: 'center',
+                        fontWeight: '700',
+                        fontSize: '1rem',
+                        color: item.price.discounted ? theme.palette.secondary.main : 'inherit',
+                      }}
+                    >
+                      {item.price.discounted
+                        ? ccyFormat(item.price.discounted.value.centAmount / 100) +
+                          ' (' +
+                          Math.round(
+                            ((item.variant.prices[0].value.centAmount - item.price.discounted.value.centAmount) /
+                              item.variant.prices[0].value.centAmount) *
+                              100,
+                          ) +
+                          '% off)'
+                        : ccyFormat(item.variant.prices[0].value.centAmount / 100)}
                     </TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>
-                      <DeleteForeverIcon style={{ cursor: 'pointer' }} onClick={() => {}} />
+                      <DeleteForeverIcon
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => handleRemoveProductFromCart(cart.id, cart.version, item)}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
