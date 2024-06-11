@@ -1,4 +1,3 @@
-// import { Box, Card, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
 import { Container, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -12,7 +11,6 @@ interface PromoResults {
 }
 
 function CardPromoCodes() {
-  //   const [promoData, setPromoData] = useState<{ results: { code: string }[] } | null>(null);
   const [promoData, setPromoData] = useState<{ results: PromoResults[] } | null>(null);
 
   useEffect(() => {
@@ -51,9 +49,6 @@ function CardPromoCodes() {
             ) : (
               <p>No description</p>
             )}
-            {/* <p>{promo.description['en-GB'] ? promo.description['en-GB'] : 'No description'}</p> */}
-            {/* if (promo.description['en-GB']) {<p>{promo.description['en-GB'] || 'No description'}</p>} */}
-            {/* <p>{promo.description['en-GB'] || 'No description'}</p> */}
           </div>
         ))}
     </Container>

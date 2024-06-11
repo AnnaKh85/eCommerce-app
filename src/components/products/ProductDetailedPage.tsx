@@ -93,7 +93,6 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
                       alt={product.name['en-GB']}
                       style={{ cursor: 'pointer' }}
                       className="product-image"
-                      // style={{ width: '70%', cursor: 'pointer' }}
                       onClick={() => openModal(image.url)}
                     />
                   </div>
