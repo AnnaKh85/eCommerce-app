@@ -29,9 +29,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
   const goToNextImage = () => {
     if (product) {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.masterVariant.images.length);
-      // console.log('getPromoList');
       getPromoList();
-      // console.log(result.results.code);
     }
   };
 
