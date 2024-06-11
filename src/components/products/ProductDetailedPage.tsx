@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 
 import { CATALOG_ROUTE } from '../../services/constants.ts';
+import getPromoList from '../promo-codes/promoList.ts';
 import ModalContent from './ModalContent';
 import { useProduct } from './useProduct.ts';
 
@@ -28,6 +29,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
   const goToNextImage = () => {
     if (product) {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.masterVariant.images.length);
+      getPromoList();
     }
   };
 
@@ -91,7 +93,6 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
                       alt={product.name['en-GB']}
                       style={{ cursor: 'pointer' }}
                       className="product-image"
-                      // style={{ width: '70%', cursor: 'pointer' }}
                       onClick={() => openModal(image.url)}
                     />
                   </div>

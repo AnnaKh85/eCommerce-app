@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 import CardCollection from '../components/card/CardCollection.tsx';
+import CardPromoCodes from '../components/card/CardPromoCodes.tsx';
 import CardWhyUs from '../components/card/CardWhyUs.tsx';
 import { ABOUT_US } from '../services/constants.ts';
 
@@ -70,6 +71,9 @@ function MainPage() {
           </Box>
         </Container>
       </Container>
+
+      <CardPromoCodes />
+
       <CardWhyUs />
       <Container
         sx={{
