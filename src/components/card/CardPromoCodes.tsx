@@ -46,7 +46,14 @@ function CardPromoCodes() {
         promoData.results.map((promo, index: number) => (
           <div key={index}>
             <p>{promo.code}</p>
-            <p>{promo.description['en-GB'] || 'No description'}</p>
+            {promo.description && promo.description['en-GB'] ? (
+              <p>{promo.description['en-GB']}</p>
+            ) : (
+              <p>No description</p>
+            )}
+            {/* <p>{promo.description['en-GB'] ? promo.description['en-GB'] : 'No description'}</p> */}
+            {/* if (promo.description['en-GB']) {<p>{promo.description['en-GB'] || 'No description'}</p>} */}
+            {/* <p>{promo.description['en-GB'] || 'No description'}</p> */}
           </div>
         ))}
     </Container>
