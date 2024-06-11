@@ -1,9 +1,7 @@
+import AboutUs from '../components/about-us/AboutUs';
+
 function AboutUsPage() {
-  return (
-    <>
-      <h2>About Us Page</h2>
-    </>
-  );
+  return <AboutUs></AboutUs>;
 }
 
 export default AboutUsPage;

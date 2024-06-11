@@ -1,0 +1,120 @@
+h1,
+h2 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.about-us-wrapper {
+  width: 90vw;
+  margin: 0 auto 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.about-us-collaboration {
+  text-align: justify;
+}
+
+.about-us-school-logo {
+  width: 20vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.5s ease;
+}
+
+.about-us-school-link {
+  width: 100%;
+}
+
+.about-us-contribution {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-us-title,
+.about-us-contribution-title {
+  align-self: flex-start;
+}
+
+.about-us-link-github {
+  color: rgb(253, 160, 11);
+  cursor: pointer;
+  transition: 0.3s linear;
+}
+
+.about-us-block {
+  padding: 5px;
+  margin-bottom: 0.3rem;
+  text-align: justify;
+}
+
+.about-us-employee {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-us-position,
+.about-us-name {
+  color: rgb(253, 160, 11);
+}
+
+.about-us-photo {
+  width: 320px;
+  height: 320px;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+@media (hover: hover) {
+  .about-us-link-github:hover {
+    color: black;
+    font-weight: 600;
+  }
+  .about-us-school-logo:hover img {
+    transform: scale(1.2);
+  }
+}
+
+@media (min-width: 380px) and (max-width: 500px) {
+  .about-us-wrapper {
+    padding: 15px;
+  }
+
+  .about-us-school-logo {
+    width: 30vw;
+  }
+
+  .about-us-photo {
+    width: 75vw;
+    height: 45vh;
+  }
+}
+
+@media (min-width: 1000px) {
+  .about-us-photo {
+    width: 400px;
+    height: 400px;
+  }
+
+  .about-us-school-logo {
+    width: 15vw;
+  }
+}
