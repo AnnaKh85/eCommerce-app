@@ -196,8 +196,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </Button>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
             <ShoppingCartIcon
-              onClick={handleAddToCart}
-              style={{ color: isInCart ? 'grey' : 'inherit', cursor: 'pointer' }}
+              onClick={() => {
+                if (!isInCart) {
+                  handleAddToCart();
+                }
+              }}
+              style={{ color: isInCart ? 'grey' : 'inherit', cursor: isInCart ? 'not-allowed' : 'pointer' }}
             />
             {isInCart && (
               <Typography variant="caption" color="text.secondary" sx={{ marginLeft: '5px' }}>
