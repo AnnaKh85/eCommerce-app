@@ -52,7 +52,6 @@ export default function Cart() {
     mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
       updateMyCart(id, version, actions),
     onSuccess: () => {
-      toast.success(`The product has been removed 🧹 from your cart 🛒!`);
       queryClient.invalidateQueries({ queryKey: ['activeCart'] });
       queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
