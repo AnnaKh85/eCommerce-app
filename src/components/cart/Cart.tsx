@@ -71,18 +71,6 @@ export default function Cart() {
     updateCart({ id: cartId, version: cartVersion, actions });
   }
 
-  // function addProduct(cartId: string, cartVersion: number, product: ILineItem) {
-  //   const actions: ICartActions[] = [
-  //     {
-  //       action: 'addLineItem',
-  //       productId: product.productId,
-  //       variantId: 1,
-  //       quantity: 1,
-  //     },
-  //   ];
-  //   updateCart({ id: cartId, version: cartVersion, actions });
-  // }
-
   function changeQuantity(cartId: string, cartVersion: number, product: ILineItem, quantity: number) {
     const actions: ICartActions[] = [
       {
