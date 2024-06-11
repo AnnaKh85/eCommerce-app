@@ -1,11 +1,19 @@
 // import { Box, Card, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
 import { Container, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import getPromoList from '../promo-codes/promoList';
 
+interface PromoResults {
+  code: string;
+  description?: {
+    'en-GB': string;
+  };
+}
+
 function CardPromoCodes() {
-  const [promoData, setPromoData] = useState(null);
+  //   const [promoData, setPromoData] = useState<{ results: { code: string }[] } | null>(null);
+  const [promoData, setPromoData] = useState<{ results: PromoResults[] } | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -35,10 +43,10 @@ function CardPromoCodes() {
       </Typography>
 
       {promoData &&
-        promoData.results.map((promo, index) => (
+        promoData.results.map((promo, index: number) => (
           <div key={index}>
             <p>{promo.code}</p>
-            {/* <p>{promo.description[en-GB] || 'No description'}</p> */}
+            <p>{promo.description['en-GB'] || 'No description'}</p>
           </div>
         ))}
     </Container>
