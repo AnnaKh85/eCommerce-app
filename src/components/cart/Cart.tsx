@@ -48,7 +48,7 @@ export default function Cart() {
     return `${num.toFixed(2)}`;
   }
 
-  const { mutate: removeProductFromCart } = useMutation({
+  const { mutate: updateCart } = useMutation({
     mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
       updateMyCart(id, version, actions),
     onSuccess: () => {
@@ -68,7 +68,18 @@ export default function Cart() {
         lineItemId: product.id,
       },
     ];
-    removeProductFromCart({ id: cartId, version: cartVersion, actions });
+    updateCart({ id: cartId, version: cartVersion, actions });
+  }
+
+  function changeQuantity(cartId: string, cartVersion: number, product: ILineItem, quantity: number) {
+    const actions: ICartActions[] = [
+      {
+        action: 'changeLineItemQuantity',
+        lineItemId: product.id,
+        quantity: quantity,
+      },
+    ];
+    updateCart({ id: cartId, version: cartVersion, actions });
   }
 
   return (
@@ -114,14 +125,17 @@ export default function Cart() {
                           cursor: item.quantity > 1 ? 'pointer' : 'not-allowed',
                           color: item.quantity > 1 ? 'inherit' : 'grey',
                         }}
-                        onClick={() => {}}
+                        onClick={() => changeQuantity(cart.id, cart.version, item, item.quantity - 1)}
                       />
                     </TableCell>
                     <TableCell sx={{ textAlign: 'center', fontWeight: '700', fontSize: '1rem' }}>
                       {item.quantity}
                     </TableCell>
                     <TableCell sx={{ textAlign: 'left' }}>
-                      <AddCircleIcon style={{ cursor: 'pointer' }} onClick={() => {}} />
+                      <AddCircleIcon
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => changeQuantity(cart.id, cart.version, item, item.quantity + 1)}
+                      />
                     </TableCell>
                     <TableCell
                       sx={{
@@ -132,7 +146,7 @@ export default function Cart() {
                       }}
                     >
                       {item.price.discounted
-                        ? ccyFormat(item.price.discounted.value.centAmount / 100) +
+                        ? ccyFormat((item.price.discounted.value.centAmount / 100) * item.quantity) +
                           ' (' +
                           Math.round(
                             ((item.variant.prices[0].value.centAmount - item.price.discounted.value.centAmount) /
@@ -140,7 +154,7 @@ export default function Cart() {
                               100,
                           ) +
                           '% off)'
-                        : ccyFormat(item.variant.prices[0].value.centAmount / 100)}
+                        : ccyFormat((item.variant.prices[0].value.centAmount / 100) * item.quantity)}
                     </TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>
                       <DeleteForeverIcon
