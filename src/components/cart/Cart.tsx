@@ -3,6 +3,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {
   Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Paper,
   Table,
   TableBody,
@@ -17,6 +22,7 @@ import {
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import * as React from 'react';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
@@ -28,9 +34,9 @@ import type { ICartActions } from '../../services/interfaces.ts';
 import { useCart } from './useCarts.ts';
 
 export default function Cart() {
-  const { isLoading, cart, error } = useCart();
+  const { cart } = useCart();
   const queryClient = useQueryClient();
-  // const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -81,14 +87,59 @@ export default function Cart() {
     updateCart({ id: cartId, version: cartVersion, actions });
   }
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleClearCart = () => {
+    if (cart?.lineItems) {
+      const actions: ICartActions[] = cart.lineItems.map((item) => ({
+        action: 'changeLineItemQuantity',
+        lineItemId: item.id,
+        quantity: 0,
+      }));
+      updateCart({ id: cart.id, version: cart.version, actions });
+    }
+    handleClose();
+  };
+
   return (
     <Box>
       <Typography variant={'h3'} sx={{ margin: '14px' }}>
         My Cart
       </Typography>
+      <Button
+        variant="outlined"
+        disabled={!cart?.lineItems || cart.lineItems.length === 0}
+        onClick={handleClickOpen}
+        sx={{ margin: '16px' }}
+      >
+        Clear Shopping Cart
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Clear my Cart?'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">All items from the cart will be removed.</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} variant="outlined">
+            Disagree
+          </Button>
+          <Button onClick={handleClearCart} autoFocus variant="contained">
+            Clear my cart! 🧹
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Box>
-        {isLoading && <Typography>Loading...</Typography>}
-        {error && <Typography>{error.message}</Typography>}
         {(!cart?.lineItems || cart.lineItems.length === 0) && (
           <div>
             <Typography>Your cart is empty</Typography>
