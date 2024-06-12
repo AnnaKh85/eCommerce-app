@@ -27,13 +27,14 @@ interface ProductDetailsProps {
 
 function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
   const { isLoading, product, error } = useProduct(selectedProductId || '');
-  const queryClient = useQueryClient();
-  const { cart } = useCart();
-  const [isInCart, setIsInCart] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const queryClient = useQueryClient();
+  const { cart } = useCart();
+  const [isInCart, setIsInCart] = useState<boolean>(false);
 
   const goToNextImage = () => {
     if (product) {
