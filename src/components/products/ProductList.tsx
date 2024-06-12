@@ -1,4 +1,3 @@
-// ProductList.tsx
 import { Box, Button, CircularProgress } from '@mui/material';
 
 import type { IProduct } from '../../services/interfaces.ts';
