@@ -23,7 +23,7 @@ import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
@@ -32,7 +32,15 @@ import { updateMyCart } from '../../services/api/customerCart.ts';
 import { CATALOG_ROUTE } from '../../services/constants.ts';
 import type { ILineItem } from '../../services/interfaces.ts';
 import type { ICartActions } from '../../services/interfaces.ts';
+import getPromoList from '../promo-codes/promoList';
 import { useCart } from './useCarts.ts';
+
+interface PromoResults {
+  code: string;
+  description?: {
+    'en-GB': string;
+  };
+}
 
 export default function Cart() {
   const { cart } = useCart();
@@ -83,9 +91,34 @@ export default function Cart() {
     setPromoCode(event.target.value);
   };
 
+  const [promoData, setPromoData] = useState<{ results: PromoResults[] } | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getPromoList();
+        setPromoData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   function handleApplyPromo() {
-    console.log('handleApplyPromoCODE');
     console.log(promoCode);
+    console.log(promoData);
+    if (promoData) {
+      for (let i = 0; i < promoData.results.length; i++) {
+        console.log(`promoData.results[${i}]: ${promoData.results[i].code}`);
+        if (promoData.results[i].code === promoCode) {
+          console.log('BINGO');
+        } else {
+          console.log('Enter relevant PromoCode');
+        }
+      }
+    }
   }
 
   function changeQuantity(cartId: string, cartVersion: number, product: ILineItem, quantity: number) {
