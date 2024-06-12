@@ -112,7 +112,12 @@ export default function Cart() {
       <Typography variant={'h3'} sx={{ margin: '14px' }}>
         My Cart
       </Typography>
-      <Button disabled={!cart?.lineItems || cart.lineItems.length === 0} onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        disabled={!cart?.lineItems || cart.lineItems.length === 0}
+        onClick={handleClickOpen}
+        sx={{ margin: '16px' }}
+      >
         Clear Shopping Cart
       </Button>
       <Dialog
