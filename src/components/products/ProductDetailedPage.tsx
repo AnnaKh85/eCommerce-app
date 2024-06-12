@@ -26,15 +26,25 @@ interface ProductDetailsProps {
 }
 
 function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
+  const queryClient = useQueryClient();
+  const { cart } = useCart();
+  const [isInCart, setIsInCart] = useState<boolean>(false);
   const { isLoading, product, error } = useProduct(selectedProductId || '');
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const queryClient = useQueryClient();
-  const { cart } = useCart();
-  const [isInCart, setIsInCart] = useState<boolean>(false);
+  useEffect(() => {
+    if (cart && cart.lineItems) {
+      const isProductInCart = cart.lineItems.some((item) => item.productId === selectedProductId);
+      if (isProductInCart) {
+        setIsInCart(true);
+      } else {
+        setIsInCart(false);
+      }
+    }
+  }, [cart, selectedProductId]);
 
   const goToNextImage = () => {
     if (product) {
@@ -66,10 +76,6 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
     setShowModal(false);
   };
 
-  if (isLoading) return <CircularProgress />;
-  if (error) return <div>An error occurred: {error.message}</div>;
-  if (!product) return <div>No product found</div>;
-
   const settings = {
     dots: true,
     infinite: true,
@@ -78,17 +84,6 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
     slidesToScroll: 1,
     arrows: false,
   };
-
-  useEffect(() => {
-    if (cart && cart.lineItems) {
-      const isProductInCart = cart.lineItems.some((item) => item.productId === selectedProductId);
-      if (isProductInCart) {
-        setIsInCart(true);
-      } else {
-        setIsInCart(false);
-      }
-    }
-  }, [cart, selectedProductId]);
 
   const { mutate: addProductToCart } = useMutation({
     mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
@@ -167,6 +162,9 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
     }
   }
 
+  if (isLoading) return <CircularProgress />;
+  if (error) return <div>An error occurred: {error.message}</div>;
+  if (!product) return <div>No product found</div>;
   if (fetchCartError) return <div>An error occurred: {fetchCartError.message}</div>;
 
   return (
