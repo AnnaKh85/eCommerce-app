@@ -1,6 +1,5 @@
 import './DetailedPageSlider.css';
 
-import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { CardActionArea } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -52,19 +51,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     },
   });
 
-  const { mutate: removeProductFromCart } = useMutation({
-    mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
-      updateMyCart(id, version, actions),
-    onSuccess: () => {
-      toast.success(`The product has been removed 🧹 from your cart 🛒!`);
-      queryClient.invalidateQueries({ queryKey: ['activeCart'] });
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
-    },
-    onError: (err) => {
-      toast.error(err.message);
-    },
-  });
-
   const { mutate: fetchActiveCart, error: fetchCartError } = useMutation({
     mutationFn: getCartQuery,
     onSuccess: (data: ICart) => {
@@ -91,27 +77,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     addProductToCart({ id: cartId, version: cartVersion, actions });
   }
 
-  function handleRemoveProductFromCart(cartId: string, cartVersion: number) {
-    const itemToRemove = cart?.lineItems.find((item) => item.productId === product.id);
-    if (itemToRemove) {
-      const actions: ICartActions[] = [
-        {
-          action: 'removeLineItem',
-          lineItemId: itemToRemove.id,
-        },
-      ];
-      removeProductFromCart({ id: cartId, version: cartVersion, actions });
-    }
-  }
-
   function handleAddToCart() {
     fetchActiveCart();
-  }
-
-  function handleRemoveFromCart() {
-    if (cart) {
-      handleRemoveProductFromCart(cart.id, cart.version);
-    }
   }
 
   if (fetchCartError) return <div>An error occurred: {fetchCartError.message}</div>;
@@ -239,17 +206,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {isInCart && (
               <Typography variant="caption" color="text.secondary" sx={{ marginLeft: '5px' }}>
                 In the cart
-              </Typography>
-            )}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <RemoveShoppingCartIcon
-              onClick={handleRemoveFromCart}
-              style={{ color: isInCart ? 'inherit' : 'grey', cursor: 'pointer' }}
-            />
-            {isInCart && (
-              <Typography variant="caption" color="text.secondary" sx={{ marginLeft: '5px' }}>
-                Remove from cart
               </Typography>
             )}
           </div>

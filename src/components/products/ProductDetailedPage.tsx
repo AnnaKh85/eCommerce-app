@@ -2,14 +2,21 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './DetailedPageSlider.css';
 
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { CardContent, CircularProgress, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 
+import getCartQuery, { updateMyCart } from '../../services/api/customerCart.ts';
 import { CATALOG_ROUTE } from '../../services/constants.ts';
+import type { ICart, ICartActions } from '../../services/interfaces.ts';
+import { useCart } from '../cart/useCarts.ts';
 import getPromoList from '../promo-codes/promoList.ts';
 import ModalContent from './ModalContent';
 import { useProduct } from './useProduct.ts';
@@ -20,7 +27,9 @@ interface ProductDetailsProps {
 
 function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
   const { isLoading, product, error } = useProduct(selectedProductId || '');
-
+  const queryClient = useQueryClient();
+  const { cart } = useCart();
+  const [isInCart, setIsInCart] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 
@@ -68,6 +77,96 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
     slidesToScroll: 1,
     arrows: false,
   };
+
+  useEffect(() => {
+    if (cart && cart.lineItems) {
+      const isProductInCart = cart.lineItems.some((item) => item.productId === selectedProductId);
+      if (isProductInCart) {
+        setIsInCart(true);
+      } else {
+        setIsInCart(false);
+      }
+    }
+  }, [cart, selectedProductId]);
+
+  const { mutate: addProductToCart } = useMutation({
+    mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
+      updateMyCart(id, version, actions),
+    onSuccess: () => {
+      toast.success(`The  was added to your cart 🛒`);
+      queryClient.invalidateQueries({ queryKey: ['activeCart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
+  const { mutate: removeProductFromCart } = useMutation({
+    mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
+      updateMyCart(id, version, actions),
+    onSuccess: () => {
+      toast.success(`The product has been removed 🧹 from your cart 🛒!`);
+      queryClient.invalidateQueries({ queryKey: ['activeCart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
+  const { mutate: fetchActiveCart, error: fetchCartError } = useMutation({
+    mutationFn: getCartQuery,
+    onSuccess: (data: ICart) => {
+      if (!data || data.statusCode === 404) {
+        toast.error('Something went wrong, please, reload the page or try again later');
+      } else {
+        handleAddProductToCart(data.id, data.version);
+      }
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
+
+  function handleAddProductToCart(cartId: string, cartVersion: number) {
+    if (selectedProductId) {
+      const actions: ICartActions[] = [
+        {
+          action: 'addLineItem',
+          productId: selectedProductId,
+          variantId: 1,
+          quantity: 1,
+        },
+      ];
+      addProductToCart({ id: cartId, version: cartVersion, actions });
+    }
+  }
+
+  function handleRemoveProductFromCart(cartId: string, cartVersion: number) {
+    const itemToRemove = cart?.lineItems.find((item) => item.productId === selectedProductId);
+    if (itemToRemove) {
+      const actions: ICartActions[] = [
+        {
+          action: 'removeLineItem',
+          lineItemId: itemToRemove.id,
+        },
+      ];
+      removeProductFromCart({ id: cartId, version: cartVersion, actions });
+    }
+  }
+
+  function handleAddToCart() {
+    fetchActiveCart();
+  }
+
+  function handleRemoveFromCart() {
+    if (cart) {
+      handleRemoveProductFromCart(cart.id, cart.version);
+    }
+  }
+
+  if (fetchCartError) return <div>An error occurred: {fetchCartError.message}</div>;
 
   return (
     <Card
@@ -153,12 +252,38 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
             <Typography variant="body1" style={{ textAlign: 'left' }} className="product-description">
               {product.description['en-GB']}
             </Typography>
-            <Grid container sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'left' } }}>
+            <Grid container style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
               <Grid item>
                 <Button variant="contained" component={Link} to={CATALOG_ROUTE}>
                   Back to catalog
                 </Button>
               </Grid>
+              <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                <AddShoppingCartIcon
+                  onClick={() => {
+                    if (!isInCart) {
+                      handleAddToCart();
+                    }
+                  }}
+                  style={{ color: isInCart ? 'grey' : 'inherit', cursor: isInCart ? 'not-allowed' : 'pointer' }}
+                />
+                {isInCart && (
+                  <Typography variant="caption" color="text.secondary" sx={{ marginLeft: '5px' }}>
+                    In the cart
+                  </Typography>
+                )}
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                <RemoveShoppingCartIcon
+                  onClick={handleRemoveFromCart}
+                  style={{ color: isInCart ? 'inherit' : 'grey', cursor: 'pointer' }}
+                />
+                {isInCart && (
+                  <Typography variant="caption" color="text.secondary" sx={{ marginLeft: '5px' }}>
+                    Remove from cart
+                  </Typography>
+                )}
+              </div>
             </Grid>
           </CardContent>
         </Grid>
