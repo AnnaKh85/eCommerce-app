@@ -23,6 +23,7 @@ import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as React from 'react';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
@@ -74,6 +75,17 @@ export default function Cart() {
       },
     ];
     updateCart({ id: cartId, version: cartVersion, actions });
+  }
+
+  const [promoCode, setPromoCode] = useState('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPromoCode(event.target.value);
+  };
+
+  function handleApplyPromo() {
+    console.log('handleApplyPromoCODE');
+    console.log(promoCode);
   }
 
   function changeQuantity(cartId: string, cartVersion: number, product: ILineItem, quantity: number) {
@@ -237,8 +249,10 @@ export default function Cart() {
                 margin: '20px',
               }}
             >
-              <TextField label="Enter your promo-code" variant="outlined" />
-              <Button variant="contained">Apply</Button>
+              <TextField label="Enter your promo-code" variant="outlined" value={promoCode} onChange={handleChange} />
+              <Button onClick={handleApplyPromo} autoFocus variant="contained">
+                Apply
+              </Button>
             </Box>
             <Box sx={{ textAlign: 'right', margin: '24px' }}>
               <Typography variant={'h5'} sx={{ margin: '14px', fontWeight: '700' }}>
