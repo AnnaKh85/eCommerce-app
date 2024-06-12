@@ -86,7 +86,7 @@ const Addresses: React.FC<AddressesProps> = ({ customerId, onCustomerUpdate }) =
   const allAddresses = customer.addresses;
 
   return (
-    <div>
+    <div className="block">
       <Typography variant="h4">Addresses</Typography>
 
       <TableContainer component={Paper}>
