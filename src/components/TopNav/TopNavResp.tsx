@@ -135,7 +135,6 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          {/*<DirectionsBikeIcon sx={{display: {xs: 'flex', sm: 'none'}, mr: 1}}/>*/}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
             {pages.map((page) => (
               <Button

@@ -5,7 +5,6 @@ import { toast } from 'react-hot-toast';
 
 import CategoryBreadcrumbs from '../components/caterories/CategoryBreadcrumbs.tsx';
 import CategoryList from '../components/caterories/CategoryList.tsx';
-// import { useCategories } from '../components/caterories/useCategories.ts';
 import CountryOptions from '../components/filters/CountryOptions.tsx';
 import MaterialOptions from '../components/filters/MaterialOptions.tsx';
 import PriceOptions from '../components/filters/PriceOptions.tsx';
@@ -219,7 +218,6 @@ function CatalogPage() {
           >
             <SortByName setSort={handleSortNameChange} />
             <SortByPrice setSort={handleSortPriceChange} />
-            {/*<SortByCreatedAt setSort={handleSortCreatedAtChange} />*/}
           </Box>
           <ProductList
             selectedCategory={selectedCategory}

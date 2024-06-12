@@ -1,5 +1,3 @@
-import './ChangeAddressModal.css';
-
 import { Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 
@@ -17,7 +15,7 @@ interface AddressModalProps {
 const ChangeAddressModal: React.FC<AddressModalProps> = ({ address, onClose, onSave, onRegistrationSuccess }) => {
   return (
     <div>
-      <h3 className="modal-title">Change address</h3>
+      <h3 style={{ margin: '0' }}>Change address</h3>
       <Formik
         initialValues={address}
         validationSchema={validationAddressSchema}
