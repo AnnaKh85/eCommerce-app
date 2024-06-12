@@ -28,9 +28,8 @@ import type { ICartActions } from '../../services/interfaces.ts';
 import { useCart } from './useCarts.ts';
 
 export default function Cart() {
-  const { isLoading, cart, error } = useCart();
+  const { cart } = useCart();
   const queryClient = useQueryClient();
-  // const theme = useTheme();
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -87,9 +86,24 @@ export default function Cart() {
       <Typography variant={'h3'} sx={{ margin: '14px' }}>
         My Cart
       </Typography>
+      <Button
+        disabled={!cart?.lineItems || cart.lineItems.length === 0}
+        onClick={() => {
+          if (cart?.lineItems) {
+            const actions: ICartActions[] = cart.lineItems.map((item) => ({
+              action: 'changeLineItemQuantity',
+              lineItemId: item.id,
+              quantity: 0,
+            }));
+            updateCart({ id: cart.id, version: cart.version, actions });
+          }
+        }}
+      >
+        Clear Shopping Cart
+      </Button>
       <Box>
-        {isLoading && <Typography>Loading...</Typography>}
-        {error && <Typography>{error.message}</Typography>}
+        {/*{isLoading && <Typography>Loading...</Typography>}*/}
+        {/*{error && <Typography>{error.message}</Typography>}*/}
         {(!cart?.lineItems || cart.lineItems.length === 0) && (
           <div>
             <Typography>Your cart is empty</Typography>
