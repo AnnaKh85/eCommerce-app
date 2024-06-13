@@ -106,14 +106,34 @@ export default function Cart() {
     fetchData();
   }, []);
 
+  // function handleApplyPromocodeToCart(cartId: string, cartVersion: number, product: ILineItem) {
+  //   const actions: ICartActions[] = [
+  //     {
+  //       action: 'addDiscountCode',
+  //       lineItemId: product.id,
+  //     },
+  //   ];
+  //   updateCart({ id: cartId, version: cartVersion, actions });
+  // }
+
   function handleApplyPromo() {
     console.log(promoCode);
     console.log(promoData);
+    const addDiscountCodeActions: ICartActions[] = [
+      {
+        action: 'addDiscountCode',
+        code: promoCode,
+      },
+    ];
     if (promoData) {
       for (let i = 0; i < promoData.results.length; i++) {
         console.log(`promoData.results[${i}]: ${promoData.results[i].code}`);
         if (promoData.results[i].code === promoCode) {
           console.log('BINGO');
+          if (cart && cart.id && cart.version) {
+            console.log('updateMyCart!!!');
+            console.log(updateMyCart(cart?.id, cart?.version, addDiscountCodeActions));
+          }
         } else {
           console.log('Enter relevant PromoCode');
         }

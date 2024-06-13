@@ -244,6 +244,7 @@ export interface ICartActions {
   productId?: string;
   variantId?: number;
   quantity?: number;
+  code?: string;
 }
 
 export interface ICart {
