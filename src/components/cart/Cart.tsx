@@ -106,16 +106,6 @@ export default function Cart() {
     fetchData();
   }, []);
 
-  // function handleApplyPromocodeToCart(cartId: string, cartVersion: number, product: ILineItem) {
-  //   const actions: ICartActions[] = [
-  //     {
-  //       action: 'addDiscountCode',
-  //       lineItemId: product.id,
-  //     },
-  //   ];
-  //   updateCart({ id: cartId, version: cartVersion, actions });
-  // }
-
   function handleApplyPromo() {
     console.log(promoCode);
     console.log(promoData);
@@ -288,7 +278,13 @@ export default function Cart() {
               }}
             >
               <Typography variant={'h6'} sx={{ margin: '14px' }}>
-                Total (without discount): {ccyFormat(cart.totalPrice.centAmount / 100)}
+                Total (without discount):
+                {ccyFormat(
+                  (cart.discountOnTotalPrice &&
+                    cart.discountOnTotalPrice.discountedAmount &&
+                    cart.discountOnTotalPrice.discountedAmount.centAmount / 10) ??
+                    cart.totalPrice.centAmount / 100,
+                )}
               </Typography>
             </Box>
             <Box

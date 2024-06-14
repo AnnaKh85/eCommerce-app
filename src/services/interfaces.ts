@@ -267,6 +267,14 @@ export interface ICart {
     centAmount: number;
     fractionDigits: number;
   };
+  discountOnTotalPrice: {
+    discountedAmount?: {
+      type: string;
+      currencyCode: string;
+      centAmount: number;
+      fractionDigits: number;
+    };
+  };
   shippingMode: string;
   shipping: [];
   customLineItems: [];
