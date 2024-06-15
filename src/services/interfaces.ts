@@ -335,3 +335,18 @@ export interface ICartPages {
   statusCode?: string | number;
   message?: string;
 }
+
+export interface PromoResults {
+  code: string;
+  description?: {
+    'en-GB': string;
+  };
+}
+
+export interface DisplayPriceProps {
+  cart: ICart;
+  isPromoApplied: boolean;
+  promoCode: string;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleApplyPromo: (cart: ICart) => void;
+}

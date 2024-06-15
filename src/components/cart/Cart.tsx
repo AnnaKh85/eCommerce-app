@@ -16,7 +16,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -31,21 +30,21 @@ import { theme } from '../../main.tsx';
 import { updateMyCart } from '../../services/api/customerCart.ts';
 import { CATALOG_ROUTE } from '../../services/constants.ts';
 import type { ILineItem } from '../../services/interfaces.ts';
+import type { ICart } from '../../services/interfaces.ts';
 import type { ICartActions } from '../../services/interfaces.ts';
+import type { PromoResults } from '../../services/interfaces.ts';
 import getPromoList from '../promo-codes/promoList';
+import { ccyFormat } from './DisplayPrice.tsx';
+import DisplayPrice from './DisplayPrice.tsx';
 import { useCart } from './useCarts.ts';
-
-interface PromoResults {
-  code: string;
-  description?: {
-    'en-GB': string;
-  };
-}
 
 export default function Cart() {
   const { cart } = useCart();
   const queryClient = useQueryClient();
   const [open, setOpen] = React.useState(false);
+  const [isPromoApplied, setPromoApplied] = useState(
+    sessionStorage.getItem('isPromoApplied') === 'true' ? true : false,
+  );
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -58,10 +57,6 @@ export default function Cart() {
       fontSize: 14,
     },
   }));
-
-  function ccyFormat(num: number) {
-    return `${num.toFixed(2)}`;
-  }
 
   const { mutate: updateCart } = useMutation({
     mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
@@ -85,7 +80,7 @@ export default function Cart() {
     updateCart({ id: cartId, version: cartVersion, actions });
   }
 
-  const [promoCode, setPromoCode] = useState('');
+  const [promoCode, setPromoCode] = useState(sessionStorage.getItem('promoCode') || '');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPromoCode(event.target.value);
@@ -106,10 +101,10 @@ export default function Cart() {
     fetchData();
   }, []);
 
-  function handleApplyPromo() {
-    console.log(promoCode);
-    console.log(promoData);
-    const addDiscountCodeActions: ICartActions[] = [
+  function handleApplyPromo(cart: ICart) {
+    const cartId = cart.id;
+    const cartVersion = cart.version;
+    const actions: ICartActions[] = [
       {
         action: 'addDiscountCode',
         code: promoCode,
@@ -117,12 +112,17 @@ export default function Cart() {
     ];
     if (promoData) {
       for (let i = 0; i < promoData.results.length; i++) {
-        console.log(`promoData.results[${i}]: ${promoData.results[i].code}`);
+        console.log('PROMO CODE from loop: ', promoData.results);
         if (promoData.results[i].code === promoCode) {
           console.log('BINGO');
           if (cart && cart.id && cart.version) {
             console.log('updateMyCart!!!');
-            console.log(updateMyCart(cart?.id, cart?.version, addDiscountCodeActions));
+            updateCart({ id: cartId, version: cartVersion, actions });
+            setPromoApplied(true);
+            sessionStorage.setItem('promoCode', promoCode);
+            console.log('sessionStorage promoCode:', promoCode);
+            sessionStorage.setItem('isPromoApplied', 'true');
+            return;
           }
         } else {
           console.log('Enter relevant PromoCode');
@@ -130,6 +130,13 @@ export default function Cart() {
       }
     }
   }
+
+  useEffect(() => {
+    const storedIsPromoApplied = sessionStorage.getItem('isPromoApplied');
+    if (storedIsPromoApplied === 'true') {
+      setPromoApplied(true);
+    }
+  }, []);
 
   function changeQuantity(cartId: string, cartVersion: number, product: ILineItem, quantity: number) {
     const actions: ICartActions[] = [
@@ -271,43 +278,13 @@ export default function Cart() {
                 ))}
               </TableBody>
             </Table>
-            <Box
-              sx={{
-                textAlign: 'right',
-                margin: '20px',
-              }}
-            >
-              <Typography variant={'h6'} sx={{ margin: '14px' }}>
-                Total (without discount):
-                {ccyFormat(
-                  (cart.discountOnTotalPrice &&
-                    cart.discountOnTotalPrice.discountedAmount &&
-                    cart.discountOnTotalPrice.discountedAmount.centAmount / 10) ??
-                    cart.totalPrice.centAmount / 100,
-                )}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                textAlign: 'right',
-                display: 'flex',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                gap: '20px',
-                fontWeight: '700',
-                margin: '20px',
-              }}
-            >
-              <TextField label="Enter your promo-code" variant="outlined" value={promoCode} onChange={handleChange} />
-              <Button onClick={handleApplyPromo} autoFocus variant="contained">
-                Apply
-              </Button>
-            </Box>
-            <Box sx={{ textAlign: 'right', margin: '24px' }}>
-              <Typography variant={'h5'} sx={{ margin: '14px', fontWeight: '700' }}>
-                Total: {ccyFormat(cart.totalPrice.centAmount / 100)}
-              </Typography>
-            </Box>
+            <DisplayPrice
+              cart={cart}
+              isPromoApplied={isPromoApplied}
+              promoCode={promoCode}
+              handleChange={handleChange}
+              handleApplyPromo={handleApplyPromo}
+            />
           </TableContainer>
         )}
       </Box>

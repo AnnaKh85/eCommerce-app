@@ -1,14 +1,8 @@
 import { Container, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
+import type { PromoResults } from '../../services/interfaces';
 import getPromoList from '../promo-codes/promoList';
-
-interface PromoResults {
-  code: string;
-  description?: {
-    'en-GB': string;
-  };
-}
 
 function CardPromoCodes() {
   const [promoData, setPromoData] = useState<{ results: PromoResults[] } | null>(null);
@@ -29,23 +23,24 @@ function CardPromoCodes() {
     <Container
       sx={{
         display: 'flex',
-        margin: '0 auto',
-        width: '100%',
-        justifyContent: 'center',
+        flexDirection: 'column',
         alignItems: 'center',
+        margin: '40px auto',
+        width: '100%',
         gap: '20px',
+        backgroundColor: 'grey',
       }}
     >
       <Typography variant="h4" gutterBottom sx={{ fontSize: { xs: '1.5rem', sm: '2.25rem' } }}>
-        Promo Codes
+        PROMO Codes
       </Typography>
 
       {promoData &&
         promoData.results.map((promo, index: number) => (
-          <div key={index}>
-            <p>{promo.code}</p>
+          <div key={index} style={{ display: 'flex', alignItems: 'center', paddingLeft: '24px' }}>
+            <p style={{ marginRight: '10px' }}>{promo.code}</p>
             {promo.description && promo.description['en-GB'] ? (
-              <p>{promo.description['en-GB']}</p>
+              <p style={{ marginLeft: '0' }}>{promo.description['en-GB']}</p>
             ) : (
               <p>No description</p>
             )}
