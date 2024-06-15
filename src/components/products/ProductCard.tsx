@@ -29,11 +29,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   useEffect(() => {
     if (cart && cart.lineItems) {
-      cart.lineItems.forEach((item) => {
-        if (item.productId === product.id) {
-          setIsInCart(true);
-        }
-      });
+      const isProductInCart = cart.lineItems.some((item) => item.productId === product.id);
+      if (isProductInCart) {
+        setIsInCart(true);
+      } else {
+        setIsInCart(false);
+      }
     }
   }, [cart, product.id]);
 
@@ -44,7 +45,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       toast.success(`The ${product.name['en-GB']} was added to your cart 🛒`);
       queryClient.invalidateQueries({ queryKey: ['activeCart'] });
       queryClient.invalidateQueries({ queryKey: ['cart'] });
-      setIsInCart(true);
     },
     onError: (err) => {
       toast.error(err.message);
