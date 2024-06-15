@@ -112,20 +112,14 @@ export default function Cart() {
     ];
     if (promoData) {
       for (let i = 0; i < promoData.results.length; i++) {
-        console.log('PROMO CODE from loop: ', promoData.results);
         if (promoData.results[i].code === promoCode) {
-          console.log('BINGO');
           if (cart && cart.id && cart.version) {
-            console.log('updateMyCart!!!');
             updateCart({ id: cartId, version: cartVersion, actions });
             setPromoApplied(true);
             sessionStorage.setItem('promoCode', promoCode);
-            console.log('sessionStorage promoCode:', promoCode);
             sessionStorage.setItem('isPromoApplied', 'true');
             return;
           }
-        } else {
-          console.log('Enter relevant PromoCode');
         }
       }
     }
