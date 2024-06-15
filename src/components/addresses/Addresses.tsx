@@ -86,11 +86,8 @@ const Addresses: React.FC<AddressesProps> = ({ customerId, onCustomerUpdate }) =
   const allAddresses = customer.addresses;
 
   return (
-    <div>
-      <Typography variant="h4" className="addresses-block-title">
-        Addresses
-      </Typography>
-
+    <>
+      <Typography variant="h4">Addresses</Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -118,9 +115,11 @@ const Addresses: React.FC<AddressesProps> = ({ customerId, onCustomerUpdate }) =
         </Table>
       </TableContainer>
 
-      <Button variant="contained" color="primary" onClick={handleAddressAddToggle} style={{ marginTop: '20px' }}>
-        Add Address
-      </Button>
+      {!addAddressMode && (
+        <Button variant="contained" color="primary" onClick={handleAddressAddToggle}>
+          Add Address
+        </Button>
+      )}
 
       {addAddressMode && (
         <AddAddressModal
@@ -129,7 +128,7 @@ const Addresses: React.FC<AddressesProps> = ({ customerId, onCustomerUpdate }) =
           onRegistrationSuccess={() => setIsSuccess(true)}
         />
       )}
-    </div>
+    </>
   );
 };
 

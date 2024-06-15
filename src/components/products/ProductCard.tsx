@@ -159,17 +159,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {product.masterVariant.prices[0] && product.masterVariant.prices[0].value.currencyCode}
           </Typography>
           {product.masterVariant.prices[0] && product.masterVariant.prices[0].discounted?.value.centAmount && (
-            <div
-              style={{
-                color: 'var(--color-text-secondary-main)',
-                backgroundColor: 'var(--color-text-secondary-light)',
-                borderRadius: '5px',
-                padding: '5px',
-                fontSize: '1rem',
-                fontWeight: '700',
-                margin: '8px',
-              }}
-            >
+            <div className="product-card-price">
               {Math.round(
                 ((product.masterVariant.prices[0].value.centAmount -
                   product.masterVariant.prices[0].discounted.value.centAmount) /
@@ -194,7 +184,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Button size="small" variant="outlined" component={Link} to={`/catalog/${product.id}`}>
             Show more
           </Button>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+          <div className="product-card-cart-icon-box">
             <ShoppingCartIcon
               onClick={() => {
                 if (!isInCart) {

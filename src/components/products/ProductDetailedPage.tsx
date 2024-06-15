@@ -1,3 +1,4 @@
+import './productDetailedPage.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './DetailedPageSlider.css';
@@ -171,13 +172,12 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
     <Card
       sx={{ display: 'flex', justifyContent: 'center', maxWidth: '1000px', marginLeft: 'auto', marginRight: 'auto' }}
     >
-      <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Grid container className="product-page-container">
         <Grid item xs={12} sm={6} md={4}>
           {product.masterVariant.images.length === 1 ? (
             <img
               src={product.masterVariant.images[0].url}
               alt={product.name['en-GB']}
-              style={{ cursor: 'pointer' }}
               className="product-image"
               onClick={() => openModal(product.masterVariant.images[0].url)}
             />
@@ -189,7 +189,6 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
                     <img
                       src={image.url}
                       alt={product.name['en-GB']}
-                      style={{ cursor: 'pointer' }}
                       className="product-image"
                       onClick={() => openModal(image.url)}
                     />
@@ -210,29 +209,20 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
           />
         </Grid>
         <Grid item xs={12} sm={6} md={8}>
-          <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+          <CardContent className="card-content-box">
             <Typography variant="h5" sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
               {product.name['en-GB']}
             </Typography>
 
             <Grid container sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'left' } }}>
-              <Grid item style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <Grid item className="grid-item">
                 <Typography variant="h6">
                   {product.masterVariant.prices[0].value.centAmount / 100}{' '}
                   {product.masterVariant.prices[0].value.currencyCode}
                 </Typography>
                 {product.masterVariant.prices[0].discounted?.value.centAmount && (
                   <div>
-                    <div
-                      style={{
-                        color: 'var(--color-text-secondary-main)',
-                        backgroundColor: 'var(--color-text-secondary-light)',
-                        borderRadius: '5px',
-                        padding: '5px',
-                        fontSize: '1rem',
-                        fontWeight: '700',
-                      }}
-                    >
+                    <div className="product-page-info-box">
                       {Math.round(
                         ((product.masterVariant.prices[0].value.centAmount -
                           product.masterVariant.prices[0].discounted.value.centAmount) /
@@ -246,18 +236,16 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
                 )}
               </Grid>
             </Grid>
-            <div style={{ width: '100%', borderBottom: '1px solid rgba(169,169,169,0.6)', marginBottom: '10px' }}></div>
-
-            <Typography variant="body1" style={{ textAlign: 'left' }} className="product-description">
+            <Typography variant="body1" className="product-description">
               {product.description['en-GB']}
             </Typography>
-            <Grid container style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+            <Grid container className="buttons-container">
               <Grid item>
                 <Button variant="contained" component={Link} to={CATALOG_ROUTE}>
                   Back to catalog
                 </Button>
               </Grid>
-              <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+              <div className="shopping-cart-icon-box">
                 <AddShoppingCartIcon
                   onClick={() => {
                     if (!isInCart) {
@@ -272,7 +260,7 @@ function ProductDetailsPage({ selectedProductId }: ProductDetailsProps) {
                   </Typography>
                 )}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+              <div className="shopping-cart-icon-box">
                 <RemoveShoppingCartIcon
                   onClick={handleRemoveFromCart}
                   style={{ color: isInCart ? 'inherit' : 'grey', cursor: 'pointer' }}
