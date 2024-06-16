@@ -47,6 +47,7 @@ function CardPromoCodes() {
               sx={{
                 fontSize: { xs: '1rem', sm: '1.5rem' },
                 fontWeight: '500',
+                letterSpacing: '2px',
                 position: 'absolute',
                 top: 0,
                 left: 0,
@@ -83,6 +84,7 @@ function CardPromoCodes() {
               gutterBottom
               sx={{
                 fontSize: { xs: '1rem', sm: '1rem' },
+                letterSpacing: '1px',
                 position: 'absolute',
                 bottom: 0,
                 right: 0,
