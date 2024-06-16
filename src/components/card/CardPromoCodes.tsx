@@ -37,10 +37,31 @@ function CardPromoCodes() {
         <CardContent sx={{ position: 'relative' }}>
           <Card variant="outlined" style={{ border: '0' }}>
             <CardMedia
-              sx={{ height: 500, width: '100%', backgroundSize: 'cover', backgroundPosition: 'center' }}
+              sx={{
+                height: 500,
+                width: '100%',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                transition: 'transform 0.3s ease-in-out',
+                '&:hover': {
+                  transform: 'scale(1.1)',
+                },
+              }}
               image={bicycle9}
               title="bicycle2"
             />
+            {/* <CardMedia
+          component="img"
+          alt={product.name['en-GB']}
+          height="100"
+          image={product.masterVariant.images[0].url}
+          sx={{
+            objectFit: 'contain',
+            transition: 'transform 0.3s ease-in-out',
+            '&:hover': {
+              transform: 'scale(1.1)',
+            },
+          }} */}
             <Typography
               variant="h4"
               gutterBottom
