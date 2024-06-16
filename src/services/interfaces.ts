@@ -237,6 +237,7 @@ export interface ICartActions {
   productId?: string;
   variantId?: number;
   quantity?: number;
+  code?: string;
 }
 
 export interface ICart {
@@ -258,6 +259,14 @@ export interface ICart {
     currencyCode: string;
     centAmount: number;
     fractionDigits: number;
+  };
+  discountOnTotalPrice: {
+    discountedAmount?: {
+      type: string;
+      currencyCode: string;
+      centAmount: number;
+      fractionDigits: number;
+    };
   };
   shippingMode: string;
   shipping: [];
@@ -318,4 +327,19 @@ export interface ICartPages {
   results: ICart[];
   statusCode?: string | number;
   message?: string;
+}
+
+export interface PromoResults {
+  code: string;
+  description?: {
+    'en-GB': string;
+  };
+}
+
+export interface DisplayPriceProps {
+  cart: ICart;
+  isPromoApplied: boolean;
+  promoCode: string;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleApplyPromo: (cart: ICart) => void;
 }
