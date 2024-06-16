@@ -1,40 +1,5 @@
 import { BASE_URL, PRODUCT_KEY } from '../constants.ts';
-import type { ICart, ICartActions, ICartPages } from '../interfaces.ts';
-
-export async function getActiveCart() {
-  const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
-  const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/me/active-cart`, {
-    headers: {
-      Authorization: 'Bearer ' + authorizationToken,
-    },
-  });
-
-  const cart: ICart = await response.json();
-  return cart;
-}
-
-export async function getAllCarts() {
-  const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
-  const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/me/carts`, {
-    method: 'GET',
-    headers: {
-      Authorization: 'Bearer ' + authorizationToken,
-    },
-  });
-  const carts: ICartPages = await response.json();
-  return carts;
-}
-
-export async function getMyCart(id: string) {
-  const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
-  const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/me/carts/${id}`, {
-    headers: {
-      Authorization: 'Bearer ' + authorizationToken,
-    },
-  });
-  const cart: ICart = await response.json();
-  return cart;
-}
+import type { ICart, ICartActions } from '../interfaces.ts';
 
 export async function updateMyCart(id: string, version: number, actions: ICartActions[]): Promise<ICart> {
   const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
@@ -52,17 +17,6 @@ export async function updateMyCart(id: string, version: number, actions: ICartAc
     throw new Error(errorData.message || 'Failed to update the cart');
   }
 
-  return await response.json();
-}
-
-export async function clearCartById(id: string, version: number): Promise<ICart> {
-  const authorizationToken: string = sessionStorage.getItem('anonymousToken')!;
-  const response = await fetch(`${BASE_URL}/${PRODUCT_KEY}/me/carts/${id}?version=${version}`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: 'Bearer ' + authorizationToken,
-    },
-  });
   return await response.json();
 }
 

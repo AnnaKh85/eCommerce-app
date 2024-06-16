@@ -1,3 +1,5 @@
+import './cart.css';
+
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
@@ -221,7 +223,7 @@ export default function Cart() {
                 {cart.lineItems.map((item: ILineItem) => (
                   <TableRow key={item.productId}>
                     <TableCell sx={{ textAlign: 'center' }}>
-                      <img src={item.variant.images[0].url} alt={item.name['en-GB']} style={{ height: '50px' }} />
+                      <img src={item.variant.images[0].url} alt={item.name['en-GB']} className="cart-img" />
                     </TableCell>
                     <TableCell>{item.name['en-GB']}</TableCell>
 
@@ -239,7 +241,7 @@ export default function Cart() {
                     </TableCell>
                     <TableCell sx={{ textAlign: 'left' }}>
                       <AddCircleIcon
-                        style={{ cursor: 'pointer' }}
+                        className="cart-icon"
                         onClick={() => changeQuantity(cart.id, cart.version, item, item.quantity + 1)}
                       />
                     </TableCell>
@@ -264,7 +266,7 @@ export default function Cart() {
                     </TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>
                       <DeleteForeverIcon
-                        style={{ cursor: 'pointer' }}
+                        className="cart-icon"
                         onClick={() => handleRemoveProductFromCart(cart.id, cart.version, item)}
                       />
                     </TableCell>

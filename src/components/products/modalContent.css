@@ -1,0 +1,31 @@
+.modal-content-container {
+  padding: 20px;
+}
+
+.modal-content-product-name {
+  text-align: left;
+}
+
+.modal-content-img {
+  width: 100%;
+}
+
+.modal-content-icon-button-left {
+  margin-left: 10px;
+  position: absolute;
+  right: 0;
+}
+
+.modal-content-icon-button-right {
+  margin-right: 10px;
+  position: absolute;
+  left: 0;
+}
+
+.modal-content-dialog-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: auto;
+}

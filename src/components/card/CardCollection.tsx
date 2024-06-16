@@ -1,3 +1,5 @@
+import './card.css';
+
 import bicycle4 from '@assets/normal_images/bicycle4.jpg';
 import bicycle9 from '@assets/normal_images/bicycle9.jpg';
 import bicycle14 from '@assets/small_images/bicycle14.jpg';
@@ -11,7 +13,7 @@ export default function CardCollection() {
       <Grid container spacing={1}>
         <Grid item xs={6}>
           <CardContent>
-            <Card variant="outlined" style={{ border: '0' }}>
+            <Card variant="outlined" className="card">
               <CardMedia sx={{ height: 220, backgroundSize: 'cover' }} image={bicycle19} title="bicycle2" />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div" sx={{ fontSize: { xs: '1.1rem', sm: '2rem' } }}>
@@ -47,7 +49,7 @@ export default function CardCollection() {
         </Grid>
         <Grid item xs={6}>
           <CardContent>
-            <Card variant="outlined" style={{ border: '0' }}>
+            <Card variant="outlined" className="card">
               <CardMedia sx={{ height: 220, backgroundSize: 'cover' }} image={bicycle9} title="bicycle2" />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div" sx={{ fontSize: { xs: '1.1rem', sm: '2rem' } }}>
@@ -84,7 +86,7 @@ export default function CardCollection() {
 
         <Grid item xs={6}>
           <CardContent>
-            <Card variant="outlined" style={{ border: '0' }}>
+            <Card variant="outlined" className="card">
               <CardMedia sx={{ height: 220, backgroundSize: 'cover' }} image={bicycle4} title="bicycle2" />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div" sx={{ fontSize: { xs: '1.1rem', sm: '2rem' } }}>
@@ -120,7 +122,7 @@ export default function CardCollection() {
         </Grid>
         <Grid item xs={6}>
           <CardContent>
-            <Card variant="outlined" style={{ border: '0' }}>
+            <Card variant="outlined" className="card">
               <CardMedia sx={{ height: 220, backgroundSize: 'cover' }} image={bicycle14} title="bicycle2" />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div" sx={{ fontSize: { xs: '1.1rem', sm: '2rem' } }}>

@@ -72,12 +72,11 @@ export type AddAddress = CustomerUpdateAction & {
   address: BaseAddressDraft;
 };
 
-export type AddShippingAddress = CustomerUpdateAction & {
-  action: 'addShippingAddressId';
-  addressId: string;
-};
+// export type AddShippingAddress = CustomerUpdateAction & {
+//   action: 'addShippingAddressId';
+//   addressId: string;
+// };
 
-// Based on https://docs.commercetools.com/api/projects/customers#ctp:api:type:CustomerDraft
 export interface CustomerDraft {
   email: string;
   password: string;
@@ -92,7 +91,6 @@ export interface CustomerDraft {
 }
 
 export type BaseAddressDraft = Omit<BaseAddress, 'id'>;
-// Based on https://docs.commercetools.com/api/types#ctp:api:type:BaseAddress
 
 export interface BaseAddress {
   country: string;
@@ -207,11 +205,6 @@ export interface IProduct {
   createdAt: string;
   lastModifiedAt: string;
 }
-
-// export interface CustomerUpdateAction {
-//   action: string;
-//   addressId?: string;
-// }
 
 export interface AddShippingAddressIdAction extends CustomerUpdateAction {
   action: 'addShippingAddressId';
