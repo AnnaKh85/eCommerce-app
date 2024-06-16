@@ -50,7 +50,6 @@ interface QueryStringProps {
 
 export default function SearchField({ setQueryString }: QueryStringProps) {
   const [valueSearch, setValueSearch] = useState<string>('');
-  // const [inputMode, setInputMode] = useState<boolean>(false);
 
   return (
     <Search
@@ -58,7 +57,6 @@ export default function SearchField({ setQueryString }: QueryStringProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        // minWidth: '300px',
       }}
     >
       <SearchIconWrapper>
@@ -70,11 +68,9 @@ export default function SearchField({ setQueryString }: QueryStringProps) {
         value={valueSearch}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setValueSearch(event.target.value);
-          // setInputMode(true);
           setQueryString(event.target.value);
         }}
       />
-      {/*{inputMode && <CloseIcon onClick={() => setValueSearch('')} />}*/}
     </Search>
   );
 }

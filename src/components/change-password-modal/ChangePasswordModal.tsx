@@ -1,3 +1,5 @@
+import '../edit-profile-modal/EditProfileModal.css';
+
 import { Button, TextField } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 

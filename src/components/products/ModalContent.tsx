@@ -1,3 +1,5 @@
+import './modalContent.css';
+
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import CloseIcon from '@mui/icons-material/Close';
@@ -34,37 +36,29 @@ const ModalContent = ({
   return (
     <>
       {showModal && (
-        <Dialog open={true} onClose={closeModal} style={{ padding: '20px' }}>
+        <Dialog open={true} onClose={closeModal} className="modal-content-container">
           <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography variant="h5" style={{ textAlign: 'left' }}>
+            <Typography variant="h5" className="modal-content-product-name">
               {product.name['en-GB']}
             </Typography>
             <IconButton aria-label="close" onClick={closeModal}>
               <CloseIcon />
             </IconButton>
           </DialogTitle>
-          <DialogContent
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '20px',
-              overflow: 'auto',
-            }}
-          >
+          <DialogContent className="modal-content-dialog-content">
             {product.masterVariant.images.length === 1 ? (
-              <img src={selectedImage} alt={product.name['en-GB']} style={{ maxWidth: '100%' }} />
+              <img src={selectedImage} alt={product.name['en-GB']} className="modal-content-img" />
             ) : (
               <>
-                <IconButton onClick={goToPrevImage} style={{ marginRight: '10px', position: 'absolute', left: 0 }}>
+                <IconButton onClick={goToPrevImage} className="modal-content-icon-button-right">
                   <ChevronLeftIcon />
                 </IconButton>
                 <img
                   src={product.masterVariant.images[currentImageIndex].url}
                   alt={product.name['en-GB']}
-                  style={{ width: '100%' }}
+                  className="modal-content-img"
                 />
-                <IconButton onClick={goToNextImage} style={{ marginLeft: '10px', position: 'absolute', right: 0 }}>
+                <IconButton onClick={goToNextImage} className="modal-content-icon-button-left">
                   <ChevronRightIcon />
                 </IconButton>
               </>
