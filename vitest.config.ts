@@ -18,6 +18,6 @@ export default defineVitestConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/setupTests.ts', // If you have setup files (e.g., to configure testing-library)
+    setupFiles: './src/setupTests.ts',
   },
 });

@@ -21,7 +21,8 @@ export async function getFilteredProducts(
   countryKey?: string,
   materialKey?: string,
   sort?: string,
-  offset?: number,
+  offset: number = 0,
+  limit: number = 6,
 ) {
   const authorizationToken = sessionStorage.getItem('anonymousToken');
 
@@ -30,8 +31,7 @@ export async function getFilteredProducts(
     let priceFromFinal: string | number = Number(priceFrom) * 100;
     let priceToFinal: string | number = Number(priceTo) * 100;
 
-    params.append('limit', '100');
-
+    params.append('limit', `${limit}`);
     params.append('offset', `${offset}`);
 
     if (currentCategoryId) {

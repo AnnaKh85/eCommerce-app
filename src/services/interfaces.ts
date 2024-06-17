@@ -48,22 +48,6 @@ export type ChangeEmail = CustomerUpdateAction & {
   email: string;
 };
 
-export type ChangeAddress = CustomerUpdateAction & {
-  action: 'changeAddress';
-  addressId: string;
-  address: BaseAddressDraft;
-};
-
-export type AddAddress = CustomerUpdateAction & {
-  action: 'addAddress';
-  address: BaseAddressDraft;
-};
-
-export type AddShippingAddress = CustomerUpdateAction & {
-  action: 'addShippingAddressId';
-  addressId: string;
-};
-
 export interface CustomerPasswordChange {
   id: string;
   version: number;
@@ -77,7 +61,22 @@ export interface ChangedPassword {
   confirmNewPassword: string;
 }
 
-// Based on https://docs.commercetools.com/api/projects/customers#ctp:api:type:CustomerDraft
+export type ChangeAddress = CustomerUpdateAction & {
+  action: 'changeAddress';
+  addressId: string;
+  address: BaseAddressDraft;
+};
+
+export type AddAddress = CustomerUpdateAction & {
+  action: 'addAddress';
+  address: BaseAddressDraft;
+};
+
+// export type AddShippingAddress = CustomerUpdateAction & {
+//   action: 'addShippingAddressId';
+//   addressId: string;
+// };
+
 export interface CustomerDraft {
   email: string;
   password: string;
@@ -92,7 +91,6 @@ export interface CustomerDraft {
 }
 
 export type BaseAddressDraft = Omit<BaseAddress, 'id'>;
-// Based on https://docs.commercetools.com/api/types#ctp:api:type:BaseAddress
 
 export interface BaseAddress {
   country: string;
@@ -208,11 +206,6 @@ export interface IProduct {
   lastModifiedAt: string;
 }
 
-// export interface CustomerUpdateAction {
-//   action: string;
-//   addressId?: string;
-// }
-
 export interface AddShippingAddressIdAction extends CustomerUpdateAction {
   action: 'addShippingAddressId';
   addressId: string;
@@ -236,4 +229,117 @@ export interface SetDefaultBillingAddressAction extends CustomerUpdateAction {
 export interface RemoveAddressAction extends CustomerUpdateAction {
   action: 'removeAddress';
   addressId: string;
+}
+
+export interface ICartActions {
+  action: 'changeLineItemQuantity' | 'removeLineItem' | 'addDiscountCode' | 'addLineItem';
+  lineItemId?: string;
+  productId?: string;
+  variantId?: number;
+  quantity?: number;
+  code?: string;
+}
+
+export interface ICart {
+  type: string;
+  id: string;
+  version: number;
+  createdAt: string;
+  lastModifiedAt: string;
+  lastModifiedBy: {
+    isPlatformClient: false;
+  };
+  createdBy: {
+    isPlatformClient: false;
+  };
+  lineItems: ILineItem[];
+  cartState: string;
+  totalPrice: {
+    type: string;
+    currencyCode: string;
+    centAmount: number;
+    fractionDigits: number;
+  };
+  discountOnTotalPrice: {
+    discountedAmount?: {
+      type: string;
+      currencyCode: string;
+      centAmount: number;
+      fractionDigits: number;
+    };
+  };
+  shippingMode: string;
+  shipping: [];
+  customLineItems: [];
+  discountCodes: DiscountCode[];
+  directDiscounts: [];
+  inventoryMode: string;
+  taxMode: string;
+  taxRoundingMode: string;
+  taxCalculationMode: string;
+  refusedGifts: [];
+  origin: string;
+  itemShippingAddresses: string[];
+  statusCode?: string | number;
+  message?: string;
+}
+
+export interface ILineItem {
+  id: string;
+  productId: string;
+  productKey: string;
+  name: ILocalizedString;
+  productType: IReference;
+  productSlug: ILocalizedString;
+  variant: IVariant;
+  price: IPrice;
+  quantity: number;
+  addedAt: string;
+  lastModifiedAt: string;
+  state: IState[];
+  priceMode: string;
+  lineItemMode: string;
+  totalPrice: ITotalPrice;
+}
+
+export interface IState {
+  quantity: number;
+  state: IReference;
+}
+
+export interface ITotalPrice {
+  type: string;
+  currencyCode: string;
+  centAmount: number;
+  fractionDigits: number;
+}
+
+interface DiscountCode {
+  discountCode: { typeId: string; id: string };
+  state: string;
+}
+
+export interface ICartPages {
+  limit: number;
+  offset: number;
+  count: number;
+  total: number;
+  results: ICart[];
+  statusCode?: string | number;
+  message?: string;
+}
+
+export interface PromoResults {
+  code: string;
+  description?: {
+    'en-GB': string;
+  };
+}
+
+export interface DisplayPriceProps {
+  cart: ICart;
+  isPromoApplied: boolean;
+  promoCode: string;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleApplyPromo: (cart: ICart) => void;
 }

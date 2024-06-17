@@ -1,3 +1,5 @@
+import '../edit-profile-modal/EditProfileModal.css';
+
 import { Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 
@@ -14,7 +16,7 @@ interface AddressModalProps {
 const AddAddressModal: React.FC<AddressModalProps> = ({ onClose, onSave, onRegistrationSuccess }) => {
   return (
     <div>
-      <h3 className="modal-title">Change address</h3>
+      <h3>Add address</h3>
       <Formik
         initialValues={{ streetName: '', city: '', postalCode: '', country: '' }}
         validationSchema={validationAddressSchema}

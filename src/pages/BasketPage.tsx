@@ -1,14 +1,7 @@
-import { Link } from 'react-router-dom';
-
-import { CATALOG_ROUTE } from '../services/constants.ts';
+import Cart from '../components/cart/Cart.tsx';
 
 function BasketPage() {
-  return (
-    <>
-      <h2>Your shopping cart is empty</h2>
-      <Link to={CATALOG_ROUTE}>Start to shopping</Link>
-    </>
-  );
+  return <Cart />;
 }
 
 export default BasketPage;

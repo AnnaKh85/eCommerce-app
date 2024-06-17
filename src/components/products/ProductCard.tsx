@@ -1,5 +1,6 @@
 import './DetailedPageSlider.css';
 
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { CardActionArea } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -7,17 +8,80 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-import { CART_ROUTE } from '../../services/constants.ts';
-import type { IProduct } from '../../services/interfaces.ts';
+import getCartQuery, { updateMyCart } from '../../services/api/customerCart.ts';
+import type { ICart, ICartActions, IProduct } from '../../services/interfaces.ts';
+import { useCart } from '../cart/useCarts.ts';
 
 interface ProductCardProps {
   product: IProduct;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const isDiscounted = !!product.masterVariant.prices[0].discounted;
+  const queryClient = useQueryClient();
+  const { cart } = useCart();
+  const [isInCart, setIsInCart] = useState<boolean>(false);
+  const isDiscounted = product.masterVariant.prices[0] && !!product.masterVariant.prices[0].discounted;
+
+  useEffect(() => {
+    if (cart && cart.lineItems) {
+      const isProductInCart = cart.lineItems.some((item) => item.productId === product.id);
+      if (isProductInCart) {
+        setIsInCart(true);
+      } else {
+        setIsInCart(false);
+      }
+    }
+  }, [cart, product.id]);
+
+  const { mutate: addProductToCart } = useMutation({
+    mutationFn: ({ id, version, actions }: { id: string; version: number; actions: ICartActions[] }) =>
+      updateMyCart(id, version, actions),
+    onSuccess: () => {
+      toast.success(`The ${product.name['en-GB']} was added to your cart 🛒`);
+      queryClient.invalidateQueries({ queryKey: ['activeCart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
+  const { mutate: fetchActiveCart, error: fetchCartError } = useMutation({
+    mutationFn: getCartQuery,
+    onSuccess: (data: ICart) => {
+      if (!data || data.statusCode === 404) {
+        toast.error('Something went wrong, please, reload the page or try again later');
+      } else {
+        handleAddProductToCart(data.id, data.version);
+      }
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
+
+  function handleAddProductToCart(cartId: string, cartVersion: number) {
+    const actions: ICartActions[] = [
+      {
+        action: 'addLineItem',
+        productId: product.id,
+        variantId: 1,
+        quantity: 1,
+      },
+    ];
+    addProductToCart({ id: cartId, version: cartVersion, actions });
+  }
+
+  function handleAddToCart() {
+    fetchActiveCart();
+  }
+
+  if (fetchCartError) return <div>An error occurred: {fetchCartError.message}</div>;
 
   return (
     <Card
@@ -91,21 +155,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               sm: '16px',
             }}
           >
-            {product.masterVariant.prices[0].value.centAmount / 100}{' '}
-            {product.masterVariant.prices[0].value.currencyCode}
+            {product.masterVariant.prices[0] && product.masterVariant.prices[0].value.centAmount / 100}{' '}
+            {product.masterVariant.prices[0] && product.masterVariant.prices[0].value.currencyCode}
           </Typography>
-          {product.masterVariant.prices[0].discounted?.value.centAmount && (
-            <div
-              style={{
-                color: 'var(--color-text-secondary-main)',
-                backgroundColor: 'var(--color-text-secondary-light)',
-                borderRadius: '5px',
-                padding: '5px',
-                fontSize: '1rem',
-                fontWeight: '700',
-                margin: '8px',
-              }}
-            >
+          {product.masterVariant.prices[0] && product.masterVariant.prices[0].discounted?.value.centAmount && (
+            <div className="product-card-price">
               {Math.round(
                 ((product.masterVariant.prices[0].value.centAmount -
                   product.masterVariant.prices[0].discounted.value.centAmount) /
@@ -130,9 +184,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Button size="small" variant="outlined" component={Link} to={`/catalog/${product.id}`}>
             Show more
           </Button>
-          <Button size="small" variant="contained" component={Link} to={CART_ROUTE}>
-            Add to cart
-          </Button>
+          <div className="product-card-cart-icon-box">
+            <ShoppingCartIcon
+              onClick={() => {
+                if (!isInCart) {
+                  handleAddToCart();
+                }
+              }}
+              style={{ color: isInCart ? 'grey' : 'inherit', cursor: isInCart ? 'not-allowed' : 'pointer' }}
+            />
+            {isInCart && (
+              <Typography variant="caption" color="text.secondary" sx={{ marginLeft: '5px' }}>
+                In the cart
+              </Typography>
+            )}
+          </div>
         </CardActions>
       </CardActionArea>
     </Card>

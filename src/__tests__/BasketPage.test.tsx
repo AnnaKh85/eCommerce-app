@@ -1,57 +1,84 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { toast } from 'react-hot-toast';
 import { BrowserRouter } from 'react-router-dom';
 
-import BasketPage from '../pages/BasketPage.tsx';
-import { CATALOG_ROUTE } from '../services/constants';
+import Cart from '../components/cart/Cart.tsx';
+import { useCart } from '../components/cart/useCarts.ts';
 
-describe('BasketPage', () => {
-  test('renders without crashing', () => {
-    render(
-      <BrowserRouter>
-        <BasketPage />
-      </BrowserRouter>,
-    );
-    expect(screen.getByText('Your shopping cart is empty')).toBeInTheDocument();
+vi.mock('../components/cart/useCarts');
+vi.mock('react-hot-toast');
+
+const queryClient = new QueryClient();
+
+const mockCart = {
+  id: 'cart1',
+  version: 1,
+  lineItems: [
+    {
+      id: 'item1',
+      productId: 'product1',
+      name: { 'en-GB': 'Product 1' },
+      quantity: 2,
+      variant: {
+        images: [{ url: 'image1.jpg' }],
+        prices: [{ value: { centAmount: 1000 } }],
+      },
+      price: {
+        discounted: null,
+      },
+    },
+  ],
+  totalPrice: { centAmount: 2000 },
+};
+
+describe('Cart Component', () => {
+  beforeEach(() => {
+    (useCart as jest.Mock).mockReturnValue({ cart: mockCart });
   });
 
-  test('displays the empty cart message', () => {
+  it('renders the cart with items', () => {
     render(
-      <BrowserRouter>
-        <BasketPage />
-      </BrowserRouter>,
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Cart />
+        </BrowserRouter>
+      </QueryClientProvider>,
     );
-    expect(screen.getByText('Your shopping cart is empty')).toBeInTheDocument();
+
+    expect(screen.getByText('My Cart')).toBeInTheDocument();
+    expect(screen.getByText('Product 1')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText('20.00')).toBeInTheDocument();
   });
 
-  test('contains a link to the catalog page', () => {
+  it('handles clearing the cart', () => {
     render(
-      <BrowserRouter>
-        <BasketPage />
-      </BrowserRouter>,
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Cart />
+        </BrowserRouter>
+      </QueryClientProvider>,
     );
-    const linkElement = screen.getByRole('link');
-    expect(linkElement).toHaveAttribute('href', CATALOG_ROUTE);
+
+    fireEvent.click(screen.getByText('Clear Shopping Cart'));
+    fireEvent.click(screen.getByText('Clear my cart! 🧹'));
+
+    expect(toast.error).not.toHaveBeenCalled();
   });
 
-  test('link has correct text', () => {
+  it('displays empty cart message when there are no items', () => {
+    (useCart as jest.Mock).mockReturnValue({ cart: { ...mockCart, lineItems: [] } });
+
     render(
-      <BrowserRouter>
-        <BasketPage />
-      </BrowserRouter>,
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Cart />
+        </BrowserRouter>
+      </QueryClientProvider>,
     );
+
+    expect(screen.getByText('Your cart is empty')).toBeInTheDocument();
     expect(screen.getByText('Start to shopping')).toBeInTheDocument();
-  });
-
-  test('clicking the link navigates to the catalog page', async () => {
-    render(
-      <BrowserRouter>
-        <BasketPage />
-      </BrowserRouter>,
-    );
-    const user = userEvent.setup();
-    const linkElement = screen.getByRole('link');
-    await user.click(linkElement);
-    expect(window.location.pathname).toBe(CATALOG_ROUTE);
   });
 });
