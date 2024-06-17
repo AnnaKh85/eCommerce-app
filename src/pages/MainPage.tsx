@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 import CardCollection from '../components/card/CardCollection.tsx';
+import CardMammagamma from '../components/card/CardMammagamma.tsx';
 import CardPromoCodes from '../components/card/CardPromoCodes.tsx';
 import CardWhyUs from '../components/card/CardWhyUs.tsx';
 import { ABOUT_US } from '../services/constants.ts';
@@ -74,7 +75,10 @@ function MainPage() {
 
       <CardPromoCodes />
 
+      <CardMammagamma />
+
       <CardWhyUs />
+
       <Container
         sx={{
           display: 'flex',
