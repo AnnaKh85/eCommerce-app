@@ -19,9 +19,9 @@ function CardMammagamma() {
         gap: '20px',
       }}
     >
-      <Box position="relative">
-        <Grid container spacing={1}>
-          <Grid item xs={8} alignItems={'center'} justifyContent={'center'}>
+      <Box>
+        <Grid container spacing={1} flexDirection={{ xs: 'column', sm: 'row' }}>
+          <Grid item xs={12} sm={8} alignItems={'center'} justifyContent={'center'} position="relative">
             <Link to={ABOUT_US}>
               <img
                 alt="bicycle115"
@@ -31,8 +31,8 @@ function CardMammagamma() {
               <div
                 style={{
                   position: 'absolute',
-                  top: '50%',
-                  left: '50%',
+                  top: '20%',
+                  left: '25%',
                   transform: 'translate(-50%, -50%)',
                   color: 'white',
                   fontSize: '24px',
@@ -42,7 +42,14 @@ function CardMammagamma() {
               </div>
             </Link>
           </Grid>
-          <Grid item xs={4} alignItems={'center'} style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+          <Grid
+            item
+            xs={12}
+            sm={4}
+            alignItems={'center'}
+            style={{ display: 'flex', gap: '5px' }}
+            flexDirection={{ xs: 'column', sm: 'column' }}
+          >
             <Grid item xs={12}>
               <Link to={CATALOG_ROUTE}>
                 <img
