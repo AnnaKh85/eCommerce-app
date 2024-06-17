@@ -27,8 +27,6 @@ function CardPromoCodes() {
         alignItems: 'center',
         margin: '0 auto',
         width: '100%',
-        gap: '20px',
-        position: 'relative',
         overflow: 'hidden',
         flex: 1,
       }}
