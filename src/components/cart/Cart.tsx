@@ -207,11 +207,10 @@ export default function Cart() {
         {cart?.lineItems && cart.lineItems.length > 0 && (
           <TableContainer component={Paper}>
             <Table>
-              <TableHead>
+              <TableHead sx={{ display: { xs: 'none', sm: 'table-header-group' } }}>
                 <TableRow>
-                  <StyledTableCell></StyledTableCell>
+                  <StyledTableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}></StyledTableCell>
                   <StyledTableCell sx={{ textAlign: 'center' }}>Products</StyledTableCell>
-
                   <StyledTableCell sx={{ textAlign: 'right' }}></StyledTableCell>
                   <StyledTableCell sx={{ textAlign: 'center' }}>Quantity</StyledTableCell>
                   <StyledTableCell sx={{ textAlign: 'left' }}></StyledTableCell>
@@ -222,12 +221,29 @@ export default function Cart() {
               <TableBody>
                 {cart.lineItems.map((item: ILineItem) => (
                   <TableRow key={item.productId}>
-                    <TableCell sx={{ textAlign: 'center' }}>
+                    <TableCell
+                      sx={{
+                        textAlign: 'center',
+                        display: { xs: 'none', sm: 'table-cell' },
+                      }}
+                    >
                       <img src={item.variant.images[0].url} alt={item.name['en-GB']} className="cart-img" />
                     </TableCell>
-                    <TableCell>{item.name['en-GB']}</TableCell>
-
-                    <TableCell sx={{ textAlign: 'right' }}>
+                    <TableCell
+                      sx={{
+                        fontSize: { xs: '0.6rem', sm: '1rem' },
+                        padding: { xs: '8px', sm: '16px' },
+                      }}
+                    >
+                      {item.name['en-GB']}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        textAlign: 'right',
+                        fontSize: { xs: '0.6rem', sm: '1rem' },
+                        padding: { xs: '8px', sm: '16px' },
+                      }}
+                    >
                       <RemoveCircleIcon
                         style={{
                           cursor: item.quantity > 1 ? 'pointer' : 'not-allowed',
@@ -236,10 +252,23 @@ export default function Cart() {
                         onClick={() => changeQuantity(cart.id, cart.version, item, item.quantity - 1)}
                       />
                     </TableCell>
-                    <TableCell sx={{ textAlign: 'center', fontWeight: '700', fontSize: '1rem' }}>
+                    <TableCell
+                      sx={{
+                        textAlign: 'center',
+                        fontWeight: '700',
+                        fontSize: { xs: '0.6rem', sm: '1rem' },
+                        padding: { xs: '8px', sm: '16px' },
+                      }}
+                    >
                       {item.quantity}
                     </TableCell>
-                    <TableCell sx={{ textAlign: 'left' }}>
+                    <TableCell
+                      sx={{
+                        textAlign: 'left',
+                        fontSize: { xs: '0.6rem', sm: '1rem' },
+                        padding: { xs: '8px', sm: '16px' },
+                      }}
+                    >
                       <AddCircleIcon
                         className="cart-icon"
                         onClick={() => changeQuantity(cart.id, cart.version, item, item.quantity + 1)}
@@ -249,7 +278,8 @@ export default function Cart() {
                       sx={{
                         textAlign: 'center',
                         fontWeight: '700',
-                        fontSize: '1rem',
+                        fontSize: { xs: '0.6rem', sm: '1rem' },
+                        padding: { xs: '8px', sm: '16px' },
                         color: item.price.discounted ? theme.palette.secondary.main : 'inherit',
                       }}
                     >
@@ -264,7 +294,13 @@ export default function Cart() {
                           '% off)'
                         : ccyFormat((item.variant.prices[0].value.centAmount / 100) * item.quantity)}
                     </TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>
+                    <TableCell
+                      sx={{
+                        textAlign: 'center',
+                        fontSize: { xs: '0.6rem', sm: '1rem' },
+                        padding: { xs: '8px', sm: '16px' },
+                      }}
+                    >
                       <DeleteForeverIcon
                         className="cart-icon"
                         onClick={() => handleRemoveProductFromCart(cart.id, cart.version, item)}
